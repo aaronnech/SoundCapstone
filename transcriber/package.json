@@ -1,0 +1,11 @@
+{
+  "name": "Transcriber",
+  "version": "0.0.1",
+  "description": "A Audio transcriber",
+  "main": "transcriber.js",
+  "dependencies": {
+    "google-speech-api" : "latest"
+  },
+  "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
+  "license": "N/A"
+}
