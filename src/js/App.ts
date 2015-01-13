@@ -1,40 +1,35 @@
 ///<reference path="./def/phaser.d.ts"/>
 
+import SpeechProcesser = require('./speechprocessing/SpeechProcesser');
+
+// Boot state
+import BootState = require('./BootState');
+
+// Menu states
+import MainMenuState = require('./menu/MainMenuState');
+
+// Maze game states
+import MazeGameState = require('./mazegame/MazeGameState');
+
+// Balloon game states
+import BalloonGameState = require('./balloongame/BalloonGameState');
+
 /**
  * Main Application class
  */
-class App {
-
-    private static SERVER_ADDRESS : string = 'localhost';
-    private phaser : Phaser.Game;
+class App extends Phaser.Game {
 
     constructor() {
-        var state : any = {
-            preload : () => { this.onPreload(); },
-            create: () => { this.onCreate(); },
-            update : () => { this.onUpdate(); },
-            render : () => { this.onRender(); }
-        };
-        this.phaser = new Phaser.Game(800, 600, Phaser.AUTO, '', state);
-    }
+        super(800, 600, Phaser.AUTO, '', null);
 
-    private onPreload() {
-        // TODO: Load media, etc
-    }
+        // Setup states
+        this.state.add("BootState", BootState);
+        this.state.add("MainMenuState", MainMenuState);
+        this.state.add("BalloonGameState", BalloonGameState);
+        this.state.add("MazeGameState", MazeGameState);
 
-    private onCreate() {
-        // TODO: Called when application is first created,
-
-        // Cause the game to go fullscreen
-        (<any> this.phaser.scale).scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    }
-
-    private onUpdate() {
-        // TODO: CALLED ON UPDATE
-    }
-
-    private onRender() {
-        // TODO: CALLED ON RENDER
+        // Start application
+        this.state.start("BootState");
     }
 }
 
