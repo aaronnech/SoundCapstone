@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A speech therapy game for kids",
   "scripts": {
-    "make": "cd src/js; ../../node_modules/.bin/tsc ./main.ts --module AMD --sourceMap; cd ../../",
+    "make": "cd src/js; ../../node_modules/.bin/tsc ./main.ts --module AMD --sourceMap; cd ../../"
   },
   "dependencies": {
     "typescript": "latest"
