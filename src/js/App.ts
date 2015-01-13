@@ -10,14 +10,12 @@ class App {
 
     constructor() {
         var state : any = {
-            preload : this.onPreload,
-            create: this.onCreate,
-            update : this.onUpdate,
-            render : this.onRender
+            preload : () => { this.onPreload(); },
+            create: () => { this.onCreate(); },
+            update : () => { this.onUpdate(); },
+            render : () => { this.onRender(); }
         };
         this.phaser = new Phaser.Game(800, 600, Phaser.AUTO, '', state);
-        (<any> this.phaser.scale).scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        (<any> this.phaser.renderer).resize(window.innerWidth, window.innerHeight);
     }
 
     private onPreload() {
@@ -26,9 +24,9 @@ class App {
 
     private onCreate() {
         // TODO: Called when application is first created,
-        // Add hooks to input and such here
-        // E.g. :
-        // this.game.input['onDown'].add(this.onMouseDown, this);
+
+        // Cause the game to go fullscreen
+        (<any> this.phaser.scale).scaleMode = Phaser.ScaleManager.SHOW_ALL;
     }
 
     private onUpdate() {
