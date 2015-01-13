@@ -15,7 +15,9 @@ class App {
             update : this.onUpdate,
             render : this.onRender
         };
-        this.phaser = new Phaser.Game(800, 600, Phaser.AUTO, 'content', state);
+        this.phaser = new Phaser.Game(800, 600, Phaser.AUTO, '', state);
+        (<any> this.phaser.scale).scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        (<any> this.phaser.renderer).resize(window.innerWidth, window.innerHeight);
     }
 
     private onPreload() {
