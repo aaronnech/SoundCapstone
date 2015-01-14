@@ -1,0 +1,13 @@
+{
+  "name" : "Kimbee",
+  "version": "0.0.1",
+  "description": "A speech therapy game for kids",
+  "scripts": {
+    "make": "cd src/js; ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap; cd ../../"
+  },
+  "dependencies": {
+    "typescript": "latest"
+  },
+  "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
+  "license": "N/A"
+}
