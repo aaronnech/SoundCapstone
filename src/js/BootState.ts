@@ -10,6 +10,8 @@ class BootState extends Phaser.State {
         this.load.image('downButton', 'img/down-button.png');
         this.load.image('settingsButton', 'img/settings-button.png');
         this.load.image('combContainer', 'img/comb-container.png');
+        this.load.image('gameIconBalloons', 'img/game-icon-balloons.png')
+        this.load.image('gameIconMaze', 'img/game-icon-maze.png')
     }
 
     public create() {
