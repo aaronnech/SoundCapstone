@@ -4,7 +4,12 @@
  */
 class BootState extends Phaser.State {
     public preload() {
-
+        this.load.image('menuBackground', 'img/menu-background.png');
+        this.load.image('playButton', 'img/play-button.png');
+        this.load.image('upButton', 'img/up-button.png');
+        this.load.image('downButton', 'img/down-button.png');
+        this.load.image('settingsButton', 'img/settings-button.png');
+        this.load.image('combContainer', 'img/comb-container.png');
     }
 
     public create() {
