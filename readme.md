@@ -1,10 +1,11 @@
 Set Up
 ------
 Run the following:
-  npm install
+
+    npm install
   
 to install project dependencies
 
 And then:
 
-  npm run-script make
+    npm run-script make
