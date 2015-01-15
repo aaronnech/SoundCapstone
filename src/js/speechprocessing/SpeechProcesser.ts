@@ -1,9 +1,12 @@
+import SpeechSettings = require('./SpeechSettings');
+
 /**
  * The speech processor is a singleton that can be configured
- *
  */
 class SpeechProcesser {
     private static INSTANCE : SpeechProcesser = null;
+
+    private settings : SpeechSettings;
 
     /**
      * Should not be called directly. Use getInstance() instead.
@@ -12,6 +15,8 @@ class SpeechProcesser {
         if (SpeechProcesser.INSTANCE != null) {
             throw 'Singleton already constructed!';
         }
+
+        this.settings = new SpeechSettings();
     }
 
     /**
@@ -23,6 +28,7 @@ class SpeechProcesser {
         if (SpeechProcesser.INSTANCE == null) {
             return new SpeechProcesser();
         }
+
         return SpeechProcesser.INSTANCE;
     }
 }

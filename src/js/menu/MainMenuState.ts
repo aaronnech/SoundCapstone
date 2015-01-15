@@ -17,6 +17,8 @@ class MainMenuState extends Phaser.State {
 
     private gameIcon : Phaser.Sprite;
 
+    private bee : Phaser.Sprite;
+
     private currentSelected : number;
 
     public preload() {
@@ -26,6 +28,7 @@ class MainMenuState extends Phaser.State {
     public create() {
         this.currentSelected = 0;
         this.background = this.game.add.sprite(0, 0, 'menuBackground');
+        this.bee = this.game.add.sprite(520, 15, 'beeBig');
 
         this.combContainer = this.game.add.sprite(this.world.centerX - 230, 270, 'combContainer');
 
@@ -37,6 +40,12 @@ class MainMenuState extends Phaser.State {
         this.settings = this.add.button(
                             this.world.width - 50, this.world.height - 50,
                             'settingsButton', this.onClickSettings, this);
+        // Animate the bee
+        var anim = this.bee.animations.add('fly');
+        anim.play(10, true);
+        this.game.add.tween(this.bee).to({y:30}, 350, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+
         this.gameIcon = null;
 
         this.updateSelectedGame();
@@ -48,7 +57,7 @@ class MainMenuState extends Phaser.State {
             this.gameIcon.destroy();
             this.gameIcon = null;
         }
-        this.gameIcon = this.add.sprite(this.world.centerX - 220, 281, selectedMinigame.icon);
+        this.gameIcon = this.add.sprite(this.world.centerX - 219, 281, selectedMinigame.icon);
     }
 
     private onClickPlay(state) {

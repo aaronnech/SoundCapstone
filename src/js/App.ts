@@ -1,4 +1,4 @@
-///<reference path="./def/phaser.d.ts"/>
+///<reference path="./def/phaser.d.ts" />
 
 import SpeechProcesser = require('./speechprocessing/SpeechProcesser');
 
