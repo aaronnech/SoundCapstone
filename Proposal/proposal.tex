@@ -1,147 +1,65 @@
-\documentclass[dvips,12pt]{article}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
 
-% Any percent sign marks a comment to the end of the line
-
-% Every latex document starts with a documentclass declaration like this
-% The option dvips allows for graphics, 12pt is the font size, and article
-%   is the style
-
-\usepackage[pdftex]{graphicx}
-\usepackage{url}
-
-% These are additional packages for "pdflatex", graphics, and to include
-% hyperlinks inside a document.
-
-\setlength{\oddsidemargin}{0.25in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
 \setlength{\textwidth}{6.5in}
 \setlength{\topmargin}{0in}
 \setlength{\textheight}{8.5in}
-
-% These force using more of the margins that is the default style
+\hypersetup{colorlinks = true, urlcolor = blue}
 
 \begin{document}
 
-% Everything after this becomes content
-% Replace the text between curly brackets with your own
-
-\title{A Template for Your Project Proposal}
-\author{Ryan Drapeau, Nick Huynh, Aaron Nech}
-\date{\today}
-
-% You can leave out "date" and it will be added automatically for today
-% You can change the "\today" date to any text you like
-
+\title{Kimbee: A Speech Therapy Application For Children}
+\author{Ryan Drapeau \and Nick Huynh \and Aaron Nech}
+\date{\{drapeau, necha, huynick\}@cs.washington.edu}
 
 \maketitle
 
-% This command causes the title to be created in the document
+\section{Abstract}
 
-\section{Introduction}
+Many kids have difficulty pronouncing certain sounds and their parents are forced to pay for speech therapy for their children. We hope to create a web application that doubles as a game in order to help children who are undergoing speech therapy recognize and pronounce certain sounds. The game should keep children wanting to play more, making their speech therapy seem like less of a chore and help them learn by having the children try say the word then correct or reward them depending on their pronunciation.
 
-% An article style is separated into sections and subsections with
-%   markup such as this.  Use \section*{Principles} for unnumbered sections.
+\section{Scenarios and Goals}
 
-Each working group should prepare a brief proposal describing what they want
-to do.  Please make sure that everyone participates in the discussions and
-reviews the document.  The usual way to do this is to have a principle author,
-but to pass it around so that everyone can comment and add or edit.  Prepare the
-document using \LaTeX\/ because it is good practice and will help you learn the
-basics.  However, note that Google Docs (a.k.a. Google Drive) also allows
-\LaTeX\/ math symbols and is a reasonable alternative except for submissions
-to journals for professional use.  There is help for \LaTeX\/ on the
-class website.
+A scenario that highlights how the project will actually be used by an end-user. You might include a sketch of the UI, if there is one. Describe any special constraints (e.g., speed, size, storage, scale, robustness) your design needs to satisfy.\\\\
+A child has difficulty pronouncing and differentiating the ``l'' and ``r'' sounds. He goes to speech therapy but in order to reinforce his learning, he can use Kimbee. Before starting, his mother or father can pick the setting designed to help correct ``l'' and ``r'' sounds then let him play Kimbee. He will hear a word, say it back and depending on his pronunciation, advance in the game or have the word repeated back at him until he learns.
 
-Write a brief introduction in which you  outline the scope of your proposed
-work. Use this space to explain why you are interested in this topic and what
-you hope to learn. Connect your interest with what is currently known, and
-include at least two references to related articles in the astronomical
-literature.  You can use ADS  \url{http://adswww.harvard.edu/} and other links
-on the class website \url{http://prancer.physics.louisville.edu/classes/308/}
-to help you find out more. An example citation is this paper
-\cite{gonzalez2012}.
+\section{Design Strategy}
 
-One to two pages should suffice for this part, but use more if you want.
-Include figures or images if needed.  Figure~\ref{m42} is an example of  how to
-do it in \LaTeX.
+\href{http://syl22-00.github.io/pocketsphinx.js/}{PocketSphinx.js}
 
+An open source port of CMU pocketsphinx to javascript that will serve as our sound processing backend.\\\\
+Word Processor
 
-% \begin{figure}
-%     \begin{center}
-        % \resizebox{6in}{!}{\includegraphics*{image.png}}
-%     \end{center}
+A set of software built on top of (and interfaces with) the PocketSphinx.js library. This will be the set of software that our game(s) communicates with while playing. This will also track performance on certain words. This set of software will also serve words to the game upon request (i.e, getNextWord()).\\\\
+Game(s)
 
-%     \caption{Caption}
-% \end{figure}
+A series of mini games (one or more depending on how far we get), that utilize the Word Processor described above as a central part of gameplay for practicing speech.\\\\
+App
 
+The container where the games are launched from. This will also contain options for selecting certain key sounds (``L'' and ``R'' at first), selecting these options will interact with the Word Processor ultimately configuring it for the Game(s).
 
-\section{Targets}
+\section{Unkowns and Risks}
 
-Identify the targets you want to study.  Define their observable characteristics
-by giving their identifiers (e.g. common name if any, NGC or HD or other catalog
-entry you can find with AstroCC and Simbad), celestial coordinates, optical
-magnitudes, and angular size if the object is extended, that is, non-stellar.
-Please select targets that we have a good likelihood of observing:
-\begin{itemize}
-\item Not fainter than magnitude 19 (18 is better)
-\item Not larger than $0.5^\circ$, but see below
-\item Above the horizon at either observatory for several hours this fall
-\end{itemize}
+Recognizing the difference between a correct pronunciation and an incorrect one.\\\\
+Designing a game geared towards kids that they will enjoy.
 
-A single 100 second exposure with the 0.5 meter telescopes will reach magnitude
-18 on a clear night.  Accurate quantitative measurements require a little
-brighter, or longer total accumulated exposures.  The telescopes resolve 1
-arcsecond in two pixels and have a field of view of $0.6^\circ$.  Larger fields
-must be mosaics of several exposures. These factors will affect your
-choices.
+\section{Implementation Plan and Schedule}
 
-For planetary imaging the CDK20's can take exposures as short as 0.01 seconds.
-The longest practical single exposure is about 300 seconds, but typically we
-take 100 second exposures and add them in order to make small guiding
-corrections between exposures. Use AstroCC with Stellarium to assure that the
-targets are observable this season.
+\section{Evaluation}
 
-\section{Filters, exposures, and special requests}
+\section{Related Work}
 
-Assuming that the best telescope for your work is one of the two 0.5 meters
-(CDK20N at Moore Observatory, CDK20S at Mt. Kent), you will have a choice of
-filters:  Sloan filter set (g, r, i, or z),  Johnson-Cousins (U, B, V, R, or I),
-color imaging (B, G, R, or clear), and narrow band (S $[II]$, red continuum,
-H$\alpha$,  O$[III]$.  Identify which filters are of interest.
-
-A typical exposure time for a magnitude 12 star to about half saturation is 100
-seconds, but it depends on the filter choice.  Based on this, estimate how many
-exposures you will need, and what total time you require.  In some cases, for
-example studying an eclipsing or variable star, or an exoplanet transit, you
-would use only one filter and make many measurements over a night.  In others,
-you may make only a few exposures in each filter, and try many different
-filters.   Changing filter sets takes an operator and several minutes, but
-changing filters within one set (e.g. a different Sloan filter) takes only a few
-seconds.
-
-We have other telescopes that may be available at Moore Observatory this season.
-There is a wide field astrograph that has a field of view of $4^\circ$ and is a
-fast $f/4$,  especially good for large nebula, comets, or surveys.  A 14-inch
-(0.36 meter) Celestron  telescope can be equipped with a fast camera for
-planetary imaging.  A 27-inch (0.7 meter)  corrected Dall-Kirkham is scheduled
-to be be delivered to Australia this fall, although we are unsure of the actual
-date it could see light yet.
-
-
-
-\begin{thebibliography}{99}
-
-\bibitem{gonzalez2012} Jonay I. Gonz\'{a}lez Hern\'{a}ndez,
-Pilar Ruiz-Lapuente,
-Hugo M. Tabernero,
-David Montes,
-Ramon Canal,
-Javier M\'{e}ndez
-and Luigi R. Bedin,
-{No surviving evolved companions of the progenitor of SN1006},
-Nature, {\bf 489}, 533-536 (2012).
-
-\end{thebibliography}
-
-
+\href{https://itunes.apple.com/us/app/articulation-station-pro/id491998279}{Articulation Station Pro}\\
+``Learn how to pronounce and practice the consonantal sounds in the English language...''\\\\
+Although this application helps young children learn how to pronounce and dictate words, it was not made with children with speech disorders in mind. Our application will have a setting which will allow the user or speech therapist the ability to change the part of speech that is being addressed in the game. We might also explore the possibility of developing a model of each user’s speech to gain insight into every person that uses Kimbee. This will allow us to track the user’s performance over time as he or she continues to use the application.\\\\
+\href{http://dihana.cps.unizar.es/~alborada/docu/2006cvaquero.pdf}{Vocaliza}\\
+``The objective of this application is to help the daily work of the speech therapists that train the linguistic skills of Spanish speakers with different language pathologies.''\\\\
+Unfortunately, as mentioned at the end of this paper, this application failed to create a game that was intuitive for children to play. Although the authors designed an impressive system for modeling user speech, the “game” wasn’t anything of the sort. Vocaliza allowed users to select a word and then practice speaking it over and over. This did not include any game like mechanics. Kimbee will be a progressive move based game where the user can earn more moves by performing better in speech.\\\\
+\href{http://www.speech.kth.se/prod/publications/files/841.pdf}{OLP (Ortho-Logo-Paedia)}\\
+``This paper presents an overview of a newly started EU-funded research project and outlines the design of the speech therapy structure to be used within the project.''\\\\
+This paper addresses the fact that having a visual feedback system is important for children to be able to learn and improve their speech. However, it fails to provide a solution. Kimbee will be a tool to help children with speech impediments wrapped around a game that provides the user with feedback. For example, the user could attain a move to use every time they score high on a word or sentence. This would keep the child or user entertained and engaged while they used the application and it provides motivation to improve and do better.
 
 \end{document}
