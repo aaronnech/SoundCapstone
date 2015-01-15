@@ -1,3 +1,12 @@
+### Latex ###
+*.aux
+*.fdb_latexmk
+*.lof
+*.log
+*.lot
+*.gz
+
+*.toc
 .idea
 .idea/*
 *.log
@@ -77,3 +86,5 @@ tramp
 
 # AUCTeX auto folder
 /auto/
+
+*.out

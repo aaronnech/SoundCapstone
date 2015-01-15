@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+\hypersetup{colorlinks = true, urlcolor = blue}
+
+\begin{document}
+
+\title{Kimbee: A Speech Therapy Application For Children}
+\author{Ryan Drapeau \and Nick Huynh \and Aaron Nech}
+\date{\{drapeau, necha, huynick\}@cs.washington.edu}
+
+\maketitle
+
+\section{Abstract}
+
+Many kids have difficulty pronouncing certain sounds and their parents are forced to pay for speech therapy for their children. We hope to create a web application that doubles as a game in order to help children who are undergoing speech therapy recognize and pronounce certain sounds. The game should keep children wanting to play more, making their speech therapy seem like less of a chore and help them learn by having the children try say the word then correct or reward them depending on their pronunciation.
+
+\section{Scenarios and Goals}
+
+A scenario that highlights how the project will actually be used by an end-user. You might include a sketch of the UI, if there is one. Describe any special constraints (e.g., speed, size, storage, scale, robustness) your design needs to satisfy.\\\\
+A child has difficulty pronouncing and differentiating the ``l'' and ``r'' sounds. He goes to speech therapy but in order to reinforce his learning, he can use Kimbee. Before starting, his mother or father can pick the setting designed to help correct ``l'' and ``r'' sounds then let him play Kimbee. He will hear a word, say it back and depending on his pronunciation, advance in the game or have the word repeated back at him until he learns.
+
+\section{Design Strategy}
+
+\href{http://syl22-00.github.io/pocketsphinx.js/}{PocketSphinx.js}
+
+An open source port of CMU pocketsphinx to javascript that will serve as our sound processing backend.\\\\
+Word Processor
+
+A set of software built on top of (and interfaces with) the PocketSphinx.js library. This will be the set of software that our game(s) communicates with while playing. This will also track performance on certain words. This set of software will also serve words to the game upon request (i.e, getNextWord()).\\\\
+Game(s)
+
+A series of mini games (one or more depending on how far we get), that utilize the Word Processor described above as a central part of gameplay for practicing speech.\\\\
+App
+
+The container where the games are launched from. This will also contain options for selecting certain key sounds (``L'' and ``R'' at first), selecting these options will interact with the Word Processor ultimately configuring it for the Game(s).
+
+\section{Unkowns and Risks}
+
+Recognizing the difference between a correct pronunciation and an incorrect one.\\\\
+Designing a game geared towards kids that they will enjoy.
+
+\section{Implementation Plan and Schedule}
+
+\section{Evaluation}
+
+\section{Related Work}
+
+\href{https://itunes.apple.com/us/app/articulation-station-pro/id491998279}{Articulation Station Pro}\\
+``Learn how to pronounce and practice the consonantal sounds in the English language...''\\\\
+Although this application helps young children learn how to pronounce and dictate words, it was not made with children with speech disorders in mind. Our application will have a setting which will allow the user or speech therapist the ability to change the part of speech that is being addressed in the game. We might also explore the possibility of developing a model of each user’s speech to gain insight into every person that uses Kimbee. This will allow us to track the user’s performance over time as he or she continues to use the application.\\\\
+\href{http://dihana.cps.unizar.es/~alborada/docu/2006cvaquero.pdf}{Vocaliza}\\
+``The objective of this application is to help the daily work of the speech therapists that train the linguistic skills of Spanish speakers with different language pathologies.''\\\\
+Unfortunately, as mentioned at the end of this paper, this application failed to create a game that was intuitive for children to play. Although the authors designed an impressive system for modeling user speech, the “game” wasn’t anything of the sort. Vocaliza allowed users to select a word and then practice speaking it over and over. This did not include any game like mechanics. Kimbee will be a progressive move based game where the user can earn more moves by performing better in speech.\\\\
+\href{http://www.speech.kth.se/prod/publications/files/841.pdf}{OLP (Ortho-Logo-Paedia)}\\
+``This paper presents an overview of a newly started EU-funded research project and outlines the design of the speech therapy structure to be used within the project.''\\\\
+This paper addresses the fact that having a visual feedback system is important for children to be able to learn and improve their speech. However, it fails to provide a solution. Kimbee will be a tool to help children with speech impediments wrapped around a game that provides the user with feedback. For example, the user could attain a move to use every time they score high on a word or sentence. This would keep the child or user entertained and engaged while they used the application and it provides motivation to improve and do better.
+
+\end{document}
