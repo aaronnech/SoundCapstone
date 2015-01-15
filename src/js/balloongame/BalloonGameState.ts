@@ -1,3 +1,5 @@
+import MicrophoneButton = require('../common/MicrophoneButton');
+
 /**
  * The main balloon game state
  */
