@@ -1,12 +1,15 @@
 import SpeechSettings = require('./SpeechSettings');
+import Microphone = require('./Microphone');
 
 /**
- * The speech processor is a singleton that can be configured
+ * The speech processor singleton
+ * This acts as the central speech therapy API endpoint for the rest of the program
  */
 class SpeechProcessor {
     private static INSTANCE : SpeechProcessor = null;
 
     private settings : SpeechSettings;
+    private microphone : Microphone;
 
     /**
      * Should not be called directly. Use getInstance() instead.
@@ -17,6 +20,7 @@ class SpeechProcessor {
         }
 
         this.settings = new SpeechSettings();
+        this.microphone = new Microphone(() => {console.log('Microphone ready')});
     }
 
     /**
@@ -30,6 +34,30 @@ class SpeechProcessor {
         }
 
         return SpeechProcessor.INSTANCE;
+    }
+
+    /**
+     * Start recording sound. Does nothing if sound is already being recorded.
+     */
+    public startRecording() : void {
+        this.microphone.start();
+    }
+
+    /**
+     * Stop recording sound. Returns the sound recorded
+     * @returns {any} The sound samples recorded
+     */
+    public stopRecording() : any {
+        // TODO: find return type
+        return this.microphone.stop();
+    }
+
+    /**
+     * Whether or not sound is being recorded
+     * @returns {boolean} True if sound is being recorded, false otherwise
+     */
+    public isRecording() : boolean {
+        return this.microphone.isRecording();
     }
 }
 
