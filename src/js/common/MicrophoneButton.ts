@@ -60,6 +60,7 @@ class MicrophoneButton extends Phaser.Button {
         if (!this.isDisabled) {
             if (this.isActive) {
                 this.isActive = false;
+                this.frame = MicrophoneButton.NORMAL_FRAME;
                 this.clientResultCallback(this.speechProcessor.stopRecording());
             } else {
                 this.isActive = true;
