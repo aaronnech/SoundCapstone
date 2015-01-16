@@ -13,7 +13,8 @@ class AudioStorageConsumer {
      * @returns The samples stored.
      */
     public getSamples() {
-        return this.samples.slice(0);
+        // Flattened samples
+        return [].concat.apply([], this.samples);
     }
 
     /**

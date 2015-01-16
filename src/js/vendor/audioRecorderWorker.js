@@ -22,7 +22,19 @@ function init(config){
     outputSampleRate = config.outputSampleRate || outputSampleRate;
 }
 
+function mergeBuffers(recBuffers, recLength){
+	var result = new Float32Array(recLength);
+	var offset = 0;
+	for (var i = 0; i < recBuffers.length; i++){
+		result.set(recBuffers[i], offset);
+		offset += recBuffers[i].length;
+	}
+	return result;
+}
+
 function record(inputBuffer){
+
+	// Sphinx format
     var isSilent = true;
     for (var i = 0 ; i < inputBuffer[0].length ; i++) {
 	recBuffers.push((inputBuffer[0][i] + inputBuffer[1][i]) * 16383.0);
@@ -48,6 +60,7 @@ function record(inputBuffer){
 	var output = {};
 	output.command = 'newBuffer';
 	output.data = result;
+	output.inputBuffer = inputBuffer;
 	if (isSilent) output.error = "silent";
 	this.postMessage(output);
 	recBuffers = recBuffers.slice(indexOut);

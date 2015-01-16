@@ -54,7 +54,7 @@
 	    if (e.data.error && (e.data.error == "silent")) errorCallback("silent");
 	    if ((e.data.command == 'newBuffer') && recording) {
 		myClosure.consumers.forEach(function(consumer, y, z) {
-                    consumer.postMessage({ command: 'process', data: e.data.data });
+                    consumer.postMessage({ command: 'process', data: e.data.data, raw : e.data.inputBuffer });
 		});
 	    }
 	};

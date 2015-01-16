@@ -35,10 +35,9 @@ class Microphone {
 
         // Get user permissions for audio capture
         if (navigator.getUserMedia) {
-            navigator.getUserMedia
-                ({audio: true},
-                (stream) => {this.onInitAudio(stream)},
-                (e) => {console.log("No live audio input in this browser");});
+            navigator.getUserMedia({audio: true},
+                                    (stream) => {this.onInitAudio(stream)},
+                                    (e) => {console.log("No live audio input in this browser");});
         } else {
             throw "No web audio support in this browser";
         }
