@@ -3,9 +3,15 @@
   "version": "0.0.1",
   "description": "A speech therapy game for kids",
   "scripts": {
+    "install_cordova" : "cordova create kimbee_cordova com.nickaaronryan.kimbee KimbeeCordova",
+    "install_android_cordova" : "cd kimbee_cordova && cordova platform add android && cd ..",
+    "cp_cordova" : "cp -R src/* kimbee_cordova/www",
+    "run_android_cordova" : "cd kimbee_cordova && cordova build && cordova run android && cd ..",
+    "android" : "rm -Rf kimbee_cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script run_android_cordova",
     "make": "cd src/js; ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap; cd ../../"
   },
   "dependencies": {
+    "cordova" : "latest",
     "typescript": "latest"
   },
   "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
