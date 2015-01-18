@@ -38,9 +38,10 @@ class SpeechProcessor {
 
     /**
      * Start recording sound. Does nothing if sound is already being recorded.
+     * @param callback The function to call when recording has started
      */
-    public startRecording() : void {
-        this.microphone.start();
+    public startRecording(callback) : void {
+        this.microphone.start(callback);
     }
 
     /**

@@ -157,6 +157,36 @@
          offset="1"
          id="stop4992-2" />
     </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5728-1"
+       id="linearGradient5734-9"
+       x1="-598.99072"
+       y1="191.64342"
+       x2="-532.32068"
+       y2="816.92786"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient5728-1">
+      <stop
+         style="stop-color:#64bad6;stop-opacity:1;"
+         offset="0"
+         id="stop5730-0" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop5732-1" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(1.6,0,0,1.2,-1071.783,297.48506)"
+       y2="816.92786"
+       x2="-532.32068"
+       y1="191.64342"
+       x1="-598.99072"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3585"
+       xlink:href="#linearGradient5728-1"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -166,8 +196,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="-468.31523"
-     inkscape:cy="343.96474"
+     inkscape:cx="-1725.4581"
+     inkscape:cy="1.1075971"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1545,113 +1575,16 @@
     <rect
        style="fill:#1a1a1a;fill-opacity:1;stroke:none"
        id="rect3015-7"
-       width="800"
-       height="600"
+       width="1280"
+       height="720"
        x="-353.591"
-       y="-745.41742"
+       y="-865.41742"
        inkscape:export-filename="/home/aaron/Dropbox/School/CLASSES/2014-2015/WINTER/CSE481/SoundCapstone/src/img/menu-background.png"
        inkscape:export-xdpi="90.000008"
        inkscape:export-ydpi="90.000008" />
-    <g
-       id="g4275-5"
-       transform="matrix(1.6195868,0,0,1.6195868,895.70105,-1196.6044)"
-       inkscape:export-filename="/home/aaron/Dropbox/School/CLASSES/2014-2015/WINTER/CSE481/SoundCapstone/src/img/menu-background.png"
-       inkscape:export-xdpi="90.000008"
-       inkscape:export-ydpi="90.000008">
-      <path
-         transform="matrix(0.93981552,0,0,0.93981552,-919.07358,185.73048)"
-         d="m 601.47124,149.35764 c 0,12.33572 -10.00008,22.3358 -22.3358,22.3358 -12.33573,0 -22.33581,-10.00008 -22.33581,-22.3358 0,-12.33573 10.00008,-22.33581 22.33581,-22.33581 12.33572,0 22.3358,10.00008 22.3358,22.33581 z"
-         sodipodi:ry="22.335802"
-         sodipodi:rx="22.335802"
-         sodipodi:cy="149.35764"
-         sodipodi:cx="579.13544"
-         id="path3518-0"
-         style="fill:#ffcc00;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <path
-         d="m 601.47124,149.35764 c 0,12.33572 -10.00008,22.3358 -22.3358,22.3358 -12.33573,0 -22.33581,-10.00008 -22.33581,-22.3358 0,-12.33573 10.00008,-22.33581 22.33581,-22.33581 12.33572,0 22.3358,10.00008 22.3358,22.33581 z"
-         sodipodi:ry="22.335802"
-         sodipodi:rx="22.335802"
-         sodipodi:cy="149.35764"
-         sodipodi:cx="579.13544"
-         id="path3518-2-4"
-         style="fill:#000000;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="matrix(0.93981552,0,0,0.93981552,-909.32752,187.22989)" />
-      <path
-         d="m 601.47124,149.35764 c 0,12.33572 -10.00008,22.3358 -22.3358,22.3358 -12.33573,0 -22.33581,-10.00008 -22.33581,-22.3358 0,-12.33573 10.00008,-22.33581 22.33581,-22.33581 12.33572,0 22.3358,10.00008 22.3358,22.33581 z"
-         sodipodi:ry="22.335802"
-         sodipodi:rx="22.335802"
-         sodipodi:cy="149.35764"
-         sodipodi:cx="579.13544"
-         id="path3518-6-7"
-         style="fill:#ffcc00;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="matrix(0.93981552,0,0,0.93981552,-901.83056,188.72928)" />
-      <path
-         d="m 601.47124,149.35764 c 0,12.33572 -10.00008,22.3358 -22.3358,22.3358 -12.33573,0 -22.33581,-10.00008 -22.33581,-22.3358 0,-12.33573 10.00008,-22.33581 22.33581,-22.33581 12.33572,0 22.3358,10.00008 22.3358,22.33581 z"
-         sodipodi:ry="22.335802"
-         sodipodi:rx="22.335802"
-         sodipodi:cy="149.35764"
-         sodipodi:cx="579.13544"
-         id="path3518-2-5-4"
-         style="fill:#000000;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="matrix(0.839121,0,0,0.839121,-838.26691,203.76878)" />
-      <path
-         transform="matrix(0.93981552,0,0,0.93981552,-841.10504,102.51405)"
-         d="m 544.03631,237.10544 c 0,4.84618 -3.9286,8.77478 -8.77477,8.77478 -4.84618,0 -8.77478,-3.9286 -8.77478,-8.77478 0,-4.84618 3.9286,-8.77478 8.77478,-8.77478 4.84617,0 8.77477,3.9286 8.77477,8.77478 z"
-         sodipodi:ry="8.7747793"
-         sodipodi:rx="8.7747793"
-         sodipodi:cy="237.10544"
-         sodipodi:cx="535.26154"
-         id="path3585-9"
-         style="fill:#ffffff;fill-opacity:1;stroke:#1a1a1a"
-         sodipodi:type="arc" />
-      <path
-         transform="matrix(0.93981552,0,0,0.93981552,-854.5996,101.76435)"
-         d="m 544.03631,237.10544 c 0,4.84618 -3.9286,8.77478 -8.77477,8.77478 -4.84618,0 -8.77478,-3.9286 -8.77478,-8.77478 0,-4.84618 3.9286,-8.77478 8.77478,-8.77478 4.84617,0 8.77477,3.9286 8.77477,8.77478 z"
-         sodipodi:ry="8.7747793"
-         sodipodi:rx="8.7747793"
-         sodipodi:cy="237.10544"
-         sodipodi:cx="535.26154"
-         id="path3585-0-1"
-         style="fill:#ffffff;fill-opacity:1;stroke:#1a1a1a"
-         sodipodi:type="arc" />
-      <path
-         transform="matrix(0.93981552,0,0,0.93981552,-827.61049,101.76435)"
-         d="m 533.66609,237.50429 c 0,3.30421 -2.67859,5.9828 -5.9828,5.9828 -3.30421,0 -5.98281,-2.67859 -5.98281,-5.9828 0,-3.30421 2.6786,-5.98281 5.98281,-5.98281 3.30421,0 5.9828,2.6786 5.9828,5.98281 z"
-         sodipodi:ry="5.9828038"
-         sodipodi:rx="5.9828038"
-         sodipodi:cy="237.50429"
-         sodipodi:cx="527.68329"
-         id="path3605-0"
-         style="fill:#000000;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <path
-         transform="matrix(0.93981552,0,0,0.93981552,-841.47987,99.89011)"
-         d="m 533.66609,237.50429 c 0,3.30421 -2.67859,5.9828 -5.9828,5.9828 -3.30421,0 -5.98281,-2.67859 -5.98281,-5.9828 0,-3.30421 2.6786,-5.98281 5.98281,-5.98281 3.30421,0 5.9828,2.6786 5.9828,5.98281 z"
-         sodipodi:ry="5.9828038"
-         sodipodi:rx="5.9828038"
-         sodipodi:cy="237.50429"
-         sodipodi:cx="527.68329"
-         id="path3605-9-0"
-         style="fill:#000000;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path3625-5"
-         d="m -365.04705,309.60577 c 0,0 -36.7352,25.48972 -36.7352,6.74728 0,-18.74244 36.7352,-6.74728 36.7352,-6.74728 z"
-         style="fill:#e3dbdb;stroke:#000000;stroke-width:0.93981552px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path3625-4-3"
-         d="m -361.50674,308.81525 c 0,0 -28.24423,-34.66214 -33.43217,-16.652 -5.18794,18.01012 33.43217,16.652 33.43217,16.652 z"
-         style="fill:#e3dbdb;stroke:#000000;stroke-width:0.93981552px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    </g>
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:2.84484124;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2.84484111, 2.84484111;stroke-dashoffset:0"
-       d="m 224.70698,-668.35041 c 0,0 -35.12566,4.29977 -52.7143,3.45193 -13.08569,-0.63079 -26.14795,-9.76609 -38.78978,-6.32851 -9.56216,2.60015 -13.19038,16.89164 -22.876,18.98549 -18.477101,3.99439 -35.880209,-16.70224 -54.703509,-14.95827 -11.37454,1.05384 -19.43962,14.13123 -30.83289,14.95827 -14.56809,1.05749 -27.1953297,-14.13876 -41.77359,-13.23231 -14.20372,0.88316 -24.59266,16.85129 -38.78977,17.83487 -16.58052,1.1487 -31.15316,-15.41645 -47.741251,-14.38296 -17.01014,1.05978 -29.94383,17.85945 -46.74663,20.71144 -16.39658,2.78304 -33.4899,-7.6101 -49.73046,-4.02721 -33.42362,7.3737 -89.35957,50.58117 -89.35957,50.58117"
+       style="fill:none;stroke:#ffffff;stroke-width:4.87468147;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4.87468132, 4.87468132;stroke-dashoffset:0"
+       d="m 636.79614,-739.01864 c 0,0 -60.18839,7.36773 -90.32681,5.91494 -22.42254,-1.08087 -44.80493,-16.73435 -66.46691,-10.844 -16.38492,4.4554 -22.60193,28.9441 -39.1984,32.53194 -31.66081,6.84445 -61.48132,-28.61956 -93.73535,-25.63124 -19.49046,1.80578 -33.3101,24.21409 -52.83265,25.63124 -24.96266,1.81203 -46.59964,-24.22699 -71.57973,-22.67378 -24.3383,1.51331 -42.13992,28.87496 -66.4669,30.56034 -28.41098,1.96832 -53.38144,-26.41633 -81.805399,-24.64543 -29.14715,1.81595 -51.309238,30.60245 -80.1011077,35.48939 -28.0958053,4.76878 -57.3854893,-13.04003 -85.2139493,-6.90069 -57.271914,12.63495 -153.119074,86.67165 -153.119074,86.67165"
        id="path3645-5-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="caaaaaaaaaac"
@@ -2474,8 +2407,8 @@
     <text
        xml:space="preserve"
        style="font-size:69.71154022px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;font-family:FORQUE;-inkscape-font-specification:FORQUE"
-       x="-323.82901"
-       y="-670.34558"
+       x="-326.68616"
+       y="-780.34558"
        id="text4713-2-7"
        sodipodi:linespacing="125%"
        inkscape:export-filename="/home/aaron/Dropbox/School/CLASSES/2014-2015/WINTER/CSE481/SoundCapstone/src/img/menu-background.png"
@@ -2483,8 +2416,8 @@
        inkscape:export-ydpi="90.000008"><tspan
          sodipodi:role="line"
          id="tspan4715-7-8"
-         x="-323.82901"
-         y="-670.34558">kimbee</tspan></text>
+         x="-326.68616"
+         y="-780.34558">kimbee</tspan></text>
     <g
        id="g4890-7"
        transform="matrix(0,-0.38813558,-0.38813558,0,244.53628,822.48061)"
@@ -2754,5 +2687,15 @@
            inkscape:connector-curvature="0" />
       </g>
     </g>
+    <rect
+       style="fill:url(#linearGradient3585);fill-opacity:1;stroke:none"
+       id="rect3015-4-1"
+       width="1280"
+       height="720"
+       x="-2600"
+       y="428.07645"
+       inkscape:export-xdpi="90.000008"
+       inkscape:export-ydpi="90.000008"
+       inkscape:export-filename="/home/aaron/Dropbox/School/CLASSES/2014-2015/WINTER/CSE481/SoundCapstone/src/img/balloons-background.png" />
   </g>
 </svg>

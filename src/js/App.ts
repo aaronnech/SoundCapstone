@@ -20,7 +20,7 @@ import BalloonGameState = require('./balloongame/BalloonGameState');
 class App extends Phaser.Game {
 
     constructor() {
-        super(800, 600, Phaser.AUTO, '', null);
+        super(1280, 720, Phaser.AUTO, '', null);
 
         // Setup states
         this.state.add("BootState", BootState);

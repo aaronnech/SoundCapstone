@@ -28,9 +28,10 @@ class BootState extends Phaser.State {
         //  Phaser will automatically pause if the browser tab the game is in loses focus. Disable this
         this.stage.disableVisibilityChange = true;
 
+        this.scale.pageAlignHorizontally = true;
+
         if (this.game.device.desktop) {
             // Desktop Settings
-            this.scale.pageAlignHorizontally = true;
         } else {
             // Mobile settings
         }

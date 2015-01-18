@@ -14,7 +14,7 @@ class AudioStorageConsumer {
      */
     public getSamples() {
         // Flattened samples
-        return [].concat.apply([], this.samples);
+        return this.samples;
     }
 
     /**
@@ -29,6 +29,7 @@ class AudioStorageConsumer {
      * @param e The message posted
      */
     public postMessage(e : any) {
+        console.log('TO CONSUMERS: ');
         console.log(e);
         switch (e.command) {
             case 'process':

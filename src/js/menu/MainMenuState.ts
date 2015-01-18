@@ -28,7 +28,7 @@ class MainMenuState extends Phaser.State {
     public create() {
         this.currentSelected = 0;
         this.background = this.game.add.sprite(0, 0, 'menuBackground');
-        this.bee = this.game.add.sprite(520, 15, 'beeBig');
+        this.bee = this.game.add.sprite(930, 55, 'beeBig');
 
         this.combContainer = this.game.add.sprite(this.world.centerX - 230, 270, 'combContainer');
 
@@ -43,7 +43,7 @@ class MainMenuState extends Phaser.State {
         // Animate the bee
         var anim = this.bee.animations.add('fly');
         anim.play(10, true);
-        this.game.add.tween(this.bee).to({y:30}, 350, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        this.game.add.tween(this.bee).to({y:75}, 350, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
 
         this.gameIcon = null;

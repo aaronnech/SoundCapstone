@@ -63,10 +63,14 @@ class MicrophoneButton extends Phaser.Button {
                 this.frame = MicrophoneButton.NORMAL_FRAME;
                 this.clientResultCallback(this.speechProcessor.stopRecording());
             } else {
-                this.isActive = true;
-                // Switch visual state and start processing
-                this.frame = MicrophoneButton.ACTIVE_FRAME;
-                this.speechProcessor.startRecording();
+                this.disable();
+                this.speechProcessor.startRecording(() => {
+                    this.isActive = true;
+                    // Switch visual state and start processing
+                    this.frame = MicrophoneButton.ACTIVE_FRAME;
+
+                    this.enable();
+                });
             }
         }
     }

@@ -1,4 +1,5 @@
 import AudioStorageConsumer = require('./AudioStorageConsumer');
+import RecognizerConsumer = require('./RecognizerConsumer');
 
 // Vanilla javascript / audio api declarations for typescript
 declare var AudioContext : any;
@@ -20,7 +21,9 @@ class Microphone {
     private audioContext : any;
     private audioRecorder : any;
     private clientReadyFunction : Function;
+
     private storageConsumer : AudioStorageConsumer;
+    private recognizerConsumer : RecognizerConsumer;
 
     constructor(clientReadyFunction : Function) {
         this.currentlyRecording = false;
@@ -53,24 +56,46 @@ class Microphone {
     }
 
     /**
+     * Spawns a worker at a particular URL
+     * @param workerURL the JS file to spawn a worker for
+     * @param onReady the callback to call when the worker is ready
+     */
+    private spawnWorker(workerURL : string, onReady : Function) {
+        var worker : Worker = new Worker(workerURL);
+        worker.onmessage = function(_) {
+            onReady(worker);
+        };
+        worker.postMessage('');
+    }
+
+    /**
      * Start recording with the device microphone.
      * If the microphone is not yet ready or it is currently recording, it will do nothing.
+     * @param callback The function to call when recording has started
      */
-    public start() : void {
+    public start(callback : Function) : void {
         if (!this.currentlyRecording && this.audioRecorder != null) {
             // A consumer listens to the recording and does something as it records
             // In this case we are simply storing it with a storage consumer.
 
-            // Create a storage consumer and keep a reference to it
-            this.storageConsumer = new AudioStorageConsumer();
+            this.spawnWorker("js/vendor/recognizer.js", (recognizerWorker : Worker) => {
+                // Create a recognizer consumer and keep a reference to it
+                this.recognizerConsumer = new RecognizerConsumer(recognizerWorker);
+                // The recognizer js api needs a special startup script for the worker
+                this.recognizerConsumer.initWorkerData(() => {
+                    // Create a storage consumer and keep a reference to it
+                    this.storageConsumer = new AudioStorageConsumer();
 
-            // TODO: Create and attach additional consumers, most importantly figure out how to generate
-            //       a phoneme detector consumer web worker
-            this.audioRecorder.consumers = [this.storageConsumer];
+                    // Attach consumers to recorder
+                    this.audioRecorder.consumers = [this.storageConsumer, this.recognizerConsumer];
 
-            // Start recording
-            this.currentlyRecording = true;
-            this.audioRecorder.start();
+                    // Start recording
+                    this.currentlyRecording = true;
+                    this.audioRecorder.start();
+
+                    callback();
+                });
+            });
         }
     }
 
@@ -85,8 +110,10 @@ class Microphone {
             this.audioRecorder.stop();
             this.currentlyRecording = false;
 
+            console.log(this.recognizerConsumer.getHypotheses());
+
             // Return storage samples
-            return this.storageConsumer.getSamples();
+            return [this.storageConsumer.getSamples(), this.recognizerConsumer.getHypotheses()];
         }
     }
 
