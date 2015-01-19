@@ -70,14 +70,14 @@ Recognizing the difference between a correct pronunciation and an incorrect one.
 \section{Implementation Plan and Schedule}
 
 \begin{enumerate}
-    \item Application scaffolding (game structure, menu, options) (week 4)
+    \item Application scaffolding (game structure, menu, options) (Week 4)
     \begin{enumerate}
         \item Create phaser.js application
         \item Create game states listed above in this project specification
         \item Setup main menu with game launching capabilities
         \item Create SpeechProcessor singleton and associated speech module classes
     \end{enumerate}
-    \item Simple game screen to connect to speech API for testing (week 4)
+    \item Simple game screen to connect to speech API for testing (Week 4)
     \begin{enumerate}
         \item Create simple game, and hook up to launcher created in (1)
         \item Connect API calls to fetch next available therapy word
@@ -87,23 +87,23 @@ Recognizing the difference between a correct pronunciation and an incorrect one.
         \item Place (a)-(d) in an iterative game loop with some termination amount until game completion
         \item After game completion, move user to completed screen, and allow returning to launch menu defined in (1)
     \end{enumerate}
-    \item Contact therapists and refine project goals / industry need (week 6)
+    \item Contact therapists and refine project goals / industry need (Week 6)
     \begin{enumerate}
         \item Email therapist
         \item Set up meetings to learn about current processes and how to best target our project
     \end{enumerate}
-    \item Web Audio API, Microphone capture, Data pipeline in javascript (week 6)
+    \item Web Audio API, Microphone capture, Data pipeline in javascript (Week 6)
     \begin{enumerate}
         \item Create module/class interfaced by (2) through the API singleton created in (1) to store and manipulate therapy settings
         \item Create module/class interfaced by (2) through the API singleton created in (1) to get next word based on settings defined in (a)
         \item Create module/class interfaced by (2) through the API singleton created in (1) to gather microphone audio feedback and return it
     \end{enumerate}
-    \item Speech, phoneme recognition in javascript with pocketsphinx.js (week 6)
+    \item Speech, phoneme recognition in javascript with pocketsphinx.js (Week 6)
     \begin{enumerate}
         \item Create module/class interfaced by (2) through the API singleton created in (1) to take microphone feedback and compute phoneme translation confidences with pocketsphinx.js and the phoneme translator model
         \item Create module interfaced by (2) through the API singleton created in (1) to process phoneme confidences produced by (d) and return a success or failure based on settings stored in (4a) and defined by the user through the option menu specified in (1)
     \end{enumerate}
-    \item Progress tracking metrics related to confidence data on child performance (week 8)
+    \item Progress tracking metrics related to confidence data on child performance (Week 8)
     \begin{enumerate}
         \item Create ProgressTracker object that will be composited in the SpeechProcessor singleton
         \item Hook up this tracker object to intercept API calls on SpeechProcessor and record progress on metrics determined in (3)
@@ -111,27 +111,27 @@ Recognizing the difference between a correct pronunciation and an incorrect one.
         \item Create web server endpoints to store child data and accessible by therapist (this a further goal)
         \item Further machine learning, predictions, etc on the data as therapist suggests
     \end{enumerate}
-    \item Iterate specific progress tracking implementations with therapist feedback (week 8)
+    \item Iterate specific progress tracking implementations with therapist feedback (Week 8)
     \begin{enumerate}
         \item Stay in contact with therapist and show them how our work progresses
     \end{enumerate}
-    \item More games that utilize javascript speech API defined in the above sections (week 10)
+    \item More games that utilize javascript speech API defined in the above sections (Week 10)
     \begin{enumerate}
         \item Create a maze based game (idea 1)
     \end{enumerate}
-    \item Polish everything, animations, graphics, sound etc. (week 10)
+    \item Polish everything, animations, graphics, sound etc. (Week 10)
     \begin{enumerate}
         \item Check for bugs, issues, screen transition problems
         \item Test speech api extensively until it is smooth
         \item Gather feedback from therapist and maybe children
         \item Spend a lot of effort polishing art work, game tweens, animations, and sound
     \end{enumerate}
-    \item Package up to apps and deliver to app store (week 10)
+    \item Package up to apps and deliver to app store (Week 10)
     \begin{enumerate}
         \item Use phaser.js and phone pipelines that exist
         \item Create app icons, splash screens, and other necessary app store content
     \end{enumerate}
-    \item Write up / Poster (week 11)
+    \item Write up / Poster (Week 11)
 \end{enumerate}
 
 \section{Evaluation}
