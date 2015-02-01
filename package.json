@@ -8,7 +8,9 @@
     "cp_cordova" : "cp -R src/* kimbee_cordova/www",
     "run_android_cordova" : "cd kimbee_cordova && cordova build && cordova run android && cd ..",
     "android" : "rm -Rf kimbee_cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script run_android_cordova",
-    "make": "cd src/js; ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap; cd ../../"
+
+    "make": "cd src/js; ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap; cd ../../",
+    "serve" : "npm run-script make && cd src/ && python -m SimpleHTTPServer"
   },
   "dependencies": {
     "cordova" : "latest",

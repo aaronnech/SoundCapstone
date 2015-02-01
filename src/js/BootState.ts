@@ -39,10 +39,12 @@ class BootState extends Phaser.State {
         }
 
         // Get the singleton instance so that it constructs during this state
-        SpeechProcessor.getInstance();
-
-        // Go to main menu
-        this.game.state.start('MainMenuState', true, false);
+        SpeechProcessor.getInstance(() => {
+            console.log("Application Boot Complete. Starting game.");
+            
+            // Go to main menu
+            this.game.state.start('MainMenuState', true, false);
+        });
     }
 }
 

@@ -4,7 +4,7 @@
 class RecognizerConsumer {
     private worker : Worker;
     private callbackIndex : number;
-    private callbackSequence : Function[];
+    private loadSequence : Function[];
     private stopped : boolean;
 
     private words : any;
@@ -19,8 +19,8 @@ class RecognizerConsumer {
 
         // Prevents advancement of processing by worker thread once audio recording has been terminated
         this.stopped = false;
-
         this.hypotheses = [];
+
         // TODO: make this class take as input to the constructor model, words and grammar to recognize
         // TODO: recompile pocketsphinx with the phoneme model
         this.words = [["ONE", "W AH N"], ["TWO", "T UW"], ["THREE", "TH R IY"], ["FOUR", "F AO R"], ["FIVE", "F AY V"], ["SIX", "S IH K S"], ["SEVEN", "S EH V AH N"], ["EIGHT", "EY T"], ["NINE", "N AY N"], ["ZERO", "Z IH R OW"], ["NEW-YORK", "N UW Y AO R K"], ["NEW-YORK-CITY", "N UW Y AO R K S IH T IY"], ["PARIS", "P AE R IH S"] , ["PARIS(2)", "P EH R IH S"], ["SHANGHAI", "SH AE NG HH AY"], ["SAN-FRANCISCO", "S AE N F R AE N S IH S K OW"], ["LONDON", "L AH N D AH N"], ["BERLIN", "B ER L IH N"], ["SUCKS", "S AH K S"], ["ROCKS", "R AA K S"], ["IS", "IH Z"], ["NOT", "N AA T"], ["GOOD", "G IH D"], ["GOOD(2)", "G UH D"], ["GREAT", "G R EY T"], ["WINDOWS", "W IH N D OW Z"], ["LINUX", "L IH N AH K S"], ["UNIX", "Y UW N IH K S"], ["MAC", "M AE K"], ["AND", "AE N D"], ["AND(2)", "AH N D"], ["O", "OW"], ["S", "EH S"], ["X", "EH K S"]];
@@ -35,7 +35,7 @@ class RecognizerConsumer {
     public initWorkerData(callback : Function) : void {
         this.worker.postMessage({'command' : 'initialize'});
         // Will execute these callbacks in sequence when worker responds to main UI thread after media loading.
-        this.callbackSequence = [this.loadWords, this.loadGrammar, callback];
+        this.loadSequence = [this.loadWords, this.loadGrammar, callback];
         this.callbackIndex = 0;
         this.stopped = false;
     }
@@ -44,15 +44,14 @@ class RecognizerConsumer {
      * Loads the words to recognize
      */
     private loadWords() : void {
-        // load words
-        this.worker.postMessage({'command' : 'addWords', 'data' : this.words});
+        this.postMessage({'command' : 'addWords', 'data' : this.words});
     }
 
     /**
      * Loads the grammar to recognize
      */
     private loadGrammar() : void {
-        this.worker.postMessage({'command' : 'addGrammar', 'data' : this.grammar});
+        this.postMessage({'command' : 'addGrammar', 'data' : this.grammar});
     }
 
     /**
@@ -69,11 +68,12 @@ class RecognizerConsumer {
      */
     private onWorkerMessage(e : any) : void {
         if (!this.stopped) {
-            console.log('FROM RECOGNIZER: ');
+            console.log('FROM RecognizerConsumer: ');
             console.log(e);
             // Recognizer wants to notify us that particular task has a status.
-            if (e.data.hasOwnProperty('id') && this.callbackIndex < this.callbackSequence.length) {
-                this.callbackSequence[this.callbackIndex++].apply(this, []);
+            // This is the load sequence
+            if (e.data.hasOwnProperty('id') && this.callbackIndex < this.loadSequence.length) {
+                this.loadSequence[this.callbackIndex++].apply(this, []);
             }
 
             // Recognizer has a new hypothesis
@@ -88,6 +88,8 @@ class RecognizerConsumer {
      * @param e The message posted to the worker
      */
     public postMessage(e : any) : void {
+        console.log("Sending data to RecognizerConsumer: ");
+        console.log(e);
         this.worker.postMessage(e);
         if (e.command == 'stop') {
             this.stopped = true;

@@ -114,6 +114,7 @@ class Microphone {
             // Start recording
             this.currentlyRecording = true;
             this.audioRecorder.start();
+            callback();
         }
     }
 

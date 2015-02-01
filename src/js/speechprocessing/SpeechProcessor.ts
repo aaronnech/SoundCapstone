@@ -14,22 +14,28 @@ class SpeechProcessor {
     /**
      * Should not be called directly. Use getInstance() instead.
      */
-    constructor() {
+    constructor(callback ?: Function) {
         if (SpeechProcessor.INSTANCE != null) {
             throw 'Singleton already constructed!';
         }
 
         this.settings = new SpeechSettings();
-        this.microphone = new Microphone(() => {console.log('Microphone ready')});
+        this.microphone = new Microphone(() => {
+            console.log('Microphone ready.');
+            if (callback) {
+                callback();
+            }
+        });
     }
 
     /**
      * Gets the singleton instance of the speech processor
+     * @param {Function?} callback The (optional) callback to call when the SpeechProcessor is fully constructed.
      * @returns {SpeechProcessor} the speech processor instance
      */
-    public static getInstance() : SpeechProcessor {
+    public static getInstance(callback ?: Function) : SpeechProcessor {
         if (SpeechProcessor.INSTANCE == null) {
-            return new SpeechProcessor();
+            SpeechProcessor.INSTANCE = new SpeechProcessor(callback);
         }
 
         return SpeechProcessor.INSTANCE;
