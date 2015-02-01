@@ -25,7 +25,6 @@ class SpeechProcessor {
 
     /**
      * Gets the singleton instance of the speech processor
-     *
      * @returns {SpeechProcessor} the speech processor instance
      */
     public static getInstance() : SpeechProcessor {

@@ -52,7 +52,38 @@ class Microphone {
     private onInitAudio(stream : any) {
         var input = this.audioContext.createMediaStreamSource(stream);
         this.audioRecorder = new AudioRecorder(input, {worker : './js/vendor/audioRecorderWorker.js'});
-        this.clientReadyFunction();
+
+        this.spawnConsumers(() => {
+            this.clientReadyFunction();
+        });
+    }
+
+    /**
+     * Spawns the consumers of the audio stream
+     * @param {Function} The callback to execute when finished
+     */
+    private spawnConsumers(callback : Function) {
+        console.log("Spawning Consumer Workers...");
+
+        this.spawnWorker("js/vendor/recognizer.js", (recognizerWorker : Worker) => {
+            // Create a recognizer consumer and keep a reference to it
+            this.recognizerConsumer = new RecognizerConsumer(recognizerWorker);
+
+            // The recognizer js api needs a special startup script for the worker
+            this.recognizerConsumer.initWorkerData(() => {
+                console.log("Recognizer Consumer spawned...");
+
+                // Create a storage consumer and keep a reference to it
+                this.storageConsumer = new AudioStorageConsumer();
+
+                console.log("Storage Consumer spawned...");
+
+                // Attach consumers to recorder
+                this.audioRecorder.consumers = [this.storageConsumer, this.recognizerConsumer];
+
+                callback();
+            });
+        });
     }
 
     /**
@@ -75,27 +106,14 @@ class Microphone {
      */
     public start(callback : Function) : void {
         if (!this.currentlyRecording && this.audioRecorder != null) {
-            // A consumer listens to the recording and does something as it records
-            // In this case we are simply storing it with a storage consumer.
+            if (!this.audioRecorder.consumers || this.audioRecorder.consumers.length == 0) {
+                // No consumers present
+                throw 'Error in starting audio stream: No consumers present';
+            }
 
-            this.spawnWorker("js/vendor/recognizer.js", (recognizerWorker : Worker) => {
-                // Create a recognizer consumer and keep a reference to it
-                this.recognizerConsumer = new RecognizerConsumer(recognizerWorker);
-                // The recognizer js api needs a special startup script for the worker
-                this.recognizerConsumer.initWorkerData(() => {
-                    // Create a storage consumer and keep a reference to it
-                    this.storageConsumer = new AudioStorageConsumer();
-
-                    // Attach consumers to recorder
-                    this.audioRecorder.consumers = [this.storageConsumer, this.recognizerConsumer];
-
-                    // Start recording
-                    this.currentlyRecording = true;
-                    this.audioRecorder.start();
-
-                    callback();
-                });
-            });
+            // Start recording
+            this.currentlyRecording = true;
+            this.audioRecorder.start();
         }
     }
 

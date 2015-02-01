@@ -1,3 +1,5 @@
+import SpeechProcessor = require('./speechprocessing/SpeechProcessor');
+
 /**
  * The boot state of the Application
  * This state is visited briefly before the game loads completely
@@ -17,6 +19,9 @@ class BootState extends Phaser.State {
         this.load.image('beeBasket', 'img/bee-basket.png');
         this.load.image('balloon', 'img/balloon.png');
         this.load.spritesheet('microphoneButton', 'img/microphone-button.png', 110, 110, 3);
+
+        // Get the singleton instance so that it constructs during this state
+        SpeechProcessor.getInstance();
     }
 
     public create() {
