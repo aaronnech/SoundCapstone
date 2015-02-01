@@ -19,9 +19,6 @@ class BootState extends Phaser.State {
         this.load.image('beeBasket', 'img/bee-basket.png');
         this.load.image('balloon', 'img/balloon.png');
         this.load.spritesheet('microphoneButton', 'img/microphone-button.png', 110, 110, 3);
-
-        // Get the singleton instance so that it constructs during this state
-        SpeechProcessor.getInstance();
     }
 
     public create() {
@@ -40,6 +37,9 @@ class BootState extends Phaser.State {
         } else {
             // Mobile settings
         }
+
+        // Get the singleton instance so that it constructs during this state
+        SpeechProcessor.getInstance();
 
         // Go to main menu
         this.game.state.start('MainMenuState', true, false);
