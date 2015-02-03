@@ -84,6 +84,14 @@ class RecognizerConsumer {
     }
 
     /**
+     * Clears this consumers data store
+     */
+    public clear() : void {
+        this.stopped = false;
+        this.hypotheses = [];
+    }
+
+    /**
      * Called by web worker message postings via ducktyping
      * @param e The message posted to the worker
      */

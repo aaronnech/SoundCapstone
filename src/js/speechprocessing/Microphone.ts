@@ -129,12 +129,19 @@ class Microphone {
             this.audioRecorder.stop();
             this.currentlyRecording = false;
 
-            console.log(this.recognizerConsumer.getHypotheses());
+
+
+            var samples = this.storageConsumer.getSamples();
+            var hypothesis = this.recognizerConsumer.getHypotheses();
+
+            this.storageConsumer.clear();
+            this.recognizerConsumer.clear();
 
             // Return storage samples
-            return [this.storageConsumer.getSamples(), this.recognizerConsumer.getHypotheses()];
+            return [samples, hypothesis];
         }
     }
+
 
     /**
      * Find out if the program is currently recording

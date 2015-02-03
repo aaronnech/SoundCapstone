@@ -25,6 +25,13 @@ class AudioStorageConsumer {
     }
 
     /**
+     * Clears this consumers data store
+     */
+    public clear() : void {
+        this.samples = [];
+    }
+
+    /**
      * Called by web worker message postings via ducktyping
      * @param e The message posted
      */
