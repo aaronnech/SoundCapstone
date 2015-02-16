@@ -1,5 +1,6 @@
 import AudioStorageConsumer = require('./AudioStorageConsumer');
 import RecognizerConsumer = require('./RecognizerConsumer');
+import SpeechSettings = require('./SpeechSettings');
 
 // Vanilla javascript / audio api declarations for typescript
 declare var AudioContext : any;
@@ -25,7 +26,10 @@ class Microphone {
     private storageConsumer : AudioStorageConsumer;
     private recognizerConsumer : RecognizerConsumer;
 
-    constructor(clientReadyFunction : Function) {
+    private settings : SpeechSettings;
+
+    constructor(clientReadyFunction : Function, settings : SpeechSettings) {
+        this.settings = settings;
         this.currentlyRecording = false;
         this.audioRecorder = null;
         this.clientReadyFunction = clientReadyFunction;
@@ -67,7 +71,7 @@ class Microphone {
 
         this.spawnWorker("js/vendor/recognizer.js", (recognizerWorker : Worker) => {
             // Create a recognizer consumer and keep a reference to it
-            this.recognizerConsumer = new RecognizerConsumer(recognizerWorker);
+            this.recognizerConsumer = new RecognizerConsumer(recognizerWorker, this.settings);
 
             // The recognizer js api needs a special startup script for the worker
             this.recognizerConsumer.initWorkerData(() => {

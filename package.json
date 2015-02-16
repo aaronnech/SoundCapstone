@@ -18,7 +18,8 @@
   "dependencies": {
     "cordova" : "latest",
     "typescript": "latest",
-    "express" : "latest"
+    "express" : "latest",
+    "mongoose" : "latest"
   },
   "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
   "license": "N/A"

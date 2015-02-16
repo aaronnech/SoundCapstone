@@ -1,5 +1,6 @@
 import SpeechSettings = require('./SpeechSettings');
 import Microphone = require('./Microphone');
+import WordBank = require('./WordBank');
 
 /**
  * The speech processor singleton
@@ -10,6 +11,9 @@ class SpeechProcessor {
 
     private settings : SpeechSettings;
     private microphone : Microphone;
+    private wordBank : WordBank;
+
+    private currentWord : string;
 
     /**
      * Should not be called directly. Use getInstance() instead.
@@ -19,13 +23,18 @@ class SpeechProcessor {
             throw 'Singleton already constructed!';
         }
 
+        this.currentWord = null;
+
         this.settings = new SpeechSettings();
+        this.wordBank = new WordBank();
+        this.wordBank.setWords(this.settings.getWordBank());
+
         this.microphone = new Microphone(() => {
             console.log('Microphone ready.');
             if (callback) {
                 callback();
             }
-        });
+        }, this.settings);
     }
 
     /**
@@ -56,6 +65,25 @@ class SpeechProcessor {
     public stopRecording() : any {
         // TODO: find return type
         return this.microphone.stop();
+    }
+
+    /**
+     * Returns an integer representing correctness in the last word guess
+     * @param result The result of microphone input processing
+     * @return 0 if it was wrong, 1 if it is not quite right, and 2 if it is correct
+     */
+    public getCorrectness(result : any) {
+        var pair = this.wordBank.getCurrentPair();
+        // TODO: Do something with last result and pair
+    }
+
+    /**
+     * Gets the next word in the bank
+     * @returns {string} The word. Null if none available
+     */
+    public getNextWord() : any {
+        this.currentWord = this.wordBank.next();
+        return this.currentWord;
     }
 
     /**

@@ -1,1 +1,1 @@
-cd src/js && ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap && cd ../ && python -m SimpleHTTPServer
+cd src/game && find . -name \"*.ts\" | xargs ../../node_modules/.bin/tsc --module AMD && cd ../.. && cd src/server && node index.js

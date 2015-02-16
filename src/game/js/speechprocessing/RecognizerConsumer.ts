@@ -1,17 +1,20 @@
+import SpeechSettings = require('./SpeechSettings');
+
 /**
  * RecognizerConsumer is a consumer that recognizes hypothesis based on a model.
  */
 class RecognizerConsumer {
+    private settings : SpeechSettings;
     private worker : Worker;
     private callbackIndex : number;
     private callbackSequence : Function[];
     private stopped : boolean;
 
     private words : any;
-    private grammar : any;
+    private grammars : any;
     private hypotheses : any[];
 
-    constructor(worker : Worker) {
+    constructor(worker : Worker, settings : SpeechSettings) {
         this.worker = worker;
         this.worker.onmessage = (e) => {
             this.onWorkerMessage(e);
@@ -21,10 +24,11 @@ class RecognizerConsumer {
         this.stopped = false;
 
         this.hypotheses = [];
-        // TODO: make this class take as input to the constructor model, words and grammar to recognize
-        // TODO: recompile pocketsphinx with the phoneme model
-        this.words = [["GREEN", "G R IY N"], ["GWEEN", "G W IY N"]];
-        this.grammar = {numStates: 2, start: 0, end: 1, transitions: [{from: 0, to: 1, word: "GWEEN"}, {from: 0, to: 1, word: "GREEN"}]};
+
+
+        this.settings = settings;
+        this.words = settings.getSphinxWords();
+        this.grammars = settings.getSphinxGrammars();
     }
 
     /**
@@ -35,7 +39,16 @@ class RecognizerConsumer {
     public initWorkerData(callback : Function) : void {
         this.worker.postMessage({'command' : 'initialize'});
         // Will execute these callbacks in sequence when worker responds to main UI thread after media loading.
-        this.callbackSequence = [this.loadWords, this.loadGrammar, callback];
+        this.callbackSequence = [this.loadWords];
+        for (var i = 0; i < this.grammars.length; i++) {
+            var closure = ((i) => {
+                return () => {
+                    this.loadGrammar(i);
+                };
+            })(i);
+            this.callbackSequence.push(closure);
+        }
+        this.callbackSequence.push(callback);
         this.callbackIndex = 0;
         this.stopped = false;
     }
@@ -49,10 +62,10 @@ class RecognizerConsumer {
     }
 
     /**
-     * Loads the grammar to recognize
+     * Loads the ith grammar to recognize
      */
-    private loadGrammar() : void {
-        this.worker.postMessage({'command' : 'addGrammar', 'data' : this.grammar});
+    private loadGrammar(i : number) : void {
+        this.worker.postMessage({'command' : 'addGrammar', 'data' : this.grammars[i].g});
     }
 
     /**
