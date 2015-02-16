@@ -11,7 +11,7 @@ $(function () {
     };
 
     // Drops down the modal for the user to register a new account
-    function createAccountClick() {asjdhasjdhaks
+    function createAccountClick() {
         $("#modal").modal({backdrop: 'static', keyboard: true});
         $("#modal").modal("show");
     };
