@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var app = express();
 
 var config = require('./config');
@@ -15,6 +16,7 @@ mongoose.connection.on('error', function(err) {
 
 // Express middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/therapist', express.static(__dirname + '/../therapist'));
 app.use('/game', express.static(__dirname + '/../game'));
 
