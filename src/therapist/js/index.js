@@ -22,6 +22,7 @@ $(function () {
         var password = $("#signupPassword").val();
 
         var signup = {email : email, password : password};
+        console.log(signup);
         $.post("/api/user/register", signup, function(data) {
             console.log(data);
         });
@@ -36,6 +37,7 @@ $(function () {
         var password = $("#inputPassword").val();
 
         var login = {email : email, password : password};
+        console.log(login);
         $.post("/api/user/login", login, function(data) {
             console.log(data);
         });
