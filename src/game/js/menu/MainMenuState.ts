@@ -1,3 +1,4 @@
+///<reference path="../def/phaser.d.ts" />
 /**
  * The main menu of the application.
  */

@@ -1,3 +1,4 @@
+///<reference path="../def/phaser.d.ts" />
 import MicrophoneButton = require('../common/MicrophoneButton');
 import SpeechProcessor = require('../speechprocessing/SpeechProcessor');
 
