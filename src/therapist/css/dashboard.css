@@ -1,0 +1,13 @@
+#content {
+    margin-left: 15px;
+}
+
+.tab-pane {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#addStudentContainer {
+    width: 300px;
+}

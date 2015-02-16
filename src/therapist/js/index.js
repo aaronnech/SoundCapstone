@@ -22,13 +22,11 @@ $(function () {
         var password = $("#signupPassword").val();
 
         var signup = {email : email, password : password};
+        $.post("/api/user/register", signup, function(data) {
+            console.log(data);
+        });
 
-        // TODO: Send info to server to register user
-        console.log(signup);
-
-        $("#signupButton").prop("disabled", true);
-
-        onSignupFailure();
+        // $("#signupButton").prop("disabled", true);
         return false;
     };
 
@@ -38,13 +36,11 @@ $(function () {
         var password = $("#inputPassword").val();
 
         var login = {email : email, password : password};
+        $.post("/api/user/login", login, function(data) {
+            console.log(data);
+        });
 
-        // TODO: Authenticate user
-        console.log(login);
-
-        $("#loginButton").prop("disabled", true);
-
-        onLoginFailure();
+        // $("#loginButton").prop("disabled", true);
         return false; // Prevent redirect
     };
 
