@@ -19,7 +19,8 @@
     "cordova" : "latest",
     "typescript": "latest",
     "express" : "latest",
-    "mongoose" : "latest"
+    "mongoose" : "latest",
+    "body-parser" : "latest"
   },
   "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
   "license": "N/A"
