@@ -1,0 +1,1 @@
+cd src/js && ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap && cd ../ && python -m SimpleHTTPServer
