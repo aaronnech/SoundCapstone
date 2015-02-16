@@ -16,7 +16,7 @@
 /kimbee_cordova
 /kimbee_cordova/*
 !src/server/*
-!src/therapist/*
+!src/therapist/js/*.js
 
 
 # Created by https://www.gitignore.io
