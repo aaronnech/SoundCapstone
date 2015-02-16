@@ -1,5 +1,3 @@
-///<reference path="./def/phaser.d.ts" />
-
 import SpeechProcessor = require('./speechprocessing/SpeechProcessor');
 
 // Boot state

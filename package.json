@@ -5,19 +5,20 @@
   "scripts": {
     "install_cordova" : "cordova create kimbee_cordova com.nickaaronryan.kimbee KimbeeCordova",
     "install_android_cordova" : "cd kimbee_cordova && cordova platform add android && cd ..",
-    "cp_cordova" : "cp -R src/client/* kimbee_cordova/www",
+    "cp_cordova" : "cp -R src/game/* kimbee_cordova/www",
     "run_android_cordova" : "cd kimbee_cordova && cordova build && cordova run android && cd ..",
     "android" : "rm -Rf kimbee_cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script run_android_cordova",
 
-    "compile-client-ts": "cd src/client; find . -name \"*.ts\" | xargs ../node_modules/.bin/tsc --module AMD; cd ../..",
+    "compile-game-ts": "cd src/game; find . -name \"*.ts\" | xargs ../../node_modules/.bin/tsc --module AMD; cd ../..",
 
-    "make": "npm run-script compile-client-ts",
+    "make": "npm run-script compile-game-ts",
 
     "serve" : "npm run-script make && cd src/server && node index.js"
   },
   "dependencies": {
     "cordova" : "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "express" : "latest"
   },
   "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
   "license": "N/A"
