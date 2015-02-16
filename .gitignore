@@ -12,9 +12,11 @@
 *.log
 *.js
 *.map
-!src/js/vendor/*
+!src/client/js/vendor/*
 /kimbee_cordova
 /kimbee_cordova/*
+!src/server/*
+!src/therapist/*
 
 
 # Created by https://www.gitignore.io

@@ -9,8 +9,11 @@
     "run_android_cordova" : "cd kimbee_cordova && cordova build && cordova run android && cd ..",
     "android" : "rm -Rf kimbee_cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script run_android_cordova",
 
-    "make": "cd src/client/js; ../../node_modules/.bin/tsc ./bootstrap.ts --module AMD --sourceMap; cd ../../../",
-    "serve-game" : "npm run-script make && cd src/client && python -m SimpleHTTPServer"
+    "compile-client-ts": "cd src/client; find . -name \"*.ts\" | xargs ../node_modules/.bin/tsc --module AMD; cd ../..",
+
+    "make": "npm run-script compile-client-ts",
+
+    "serve" : "npm run-script make && cd src/server && node index.js"
   },
   "dependencies": {
     "cordova" : "latest",
