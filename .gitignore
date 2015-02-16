@@ -12,7 +12,7 @@
 *.log
 *.js
 *.map
-!src/client/js/vendor/*
+!src/game/js/vendor/*
 /kimbee_cordova
 /kimbee_cordova/*
 !src/server/*
