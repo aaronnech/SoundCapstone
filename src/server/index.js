@@ -13,20 +13,23 @@ mongoose.connection.on('error', function(err) {
     process.exit(1);
 });
 
+mongoose.connection.on('open', function (callback) {
+    // Express middleware
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use('/therapist', express.static(__dirname + '/../therapist'));
+    app.use('/game', express.static(__dirname + '/../game'));
 
-// Express middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/therapist', express.static(__dirname + '/../therapist'));
-app.use('/game', express.static(__dirname + '/../game'));
+
+    // Setup routes
+    var users = require('./routes/users');
+
+    app.post('/api/user/register', users.register);
+    app.post('/api/user/login', users.login);
+
+    app.listen(1337);
+
+    console.log('Listening on port 1337...');
+});
 
 
-// Setup routes
-var users = require('./routes/users');
-
-app.post('/api/user/register', users.register);
-app.post('/api/user/login', users.login);
-
-app.listen(1337);
-
-console.log('Listening on port 1337...');
