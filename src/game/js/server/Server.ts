@@ -38,16 +38,24 @@ class Server {
      * Helper returns true if this client can send information to the server
      * @returns {boolean} True if we can send, false otherwise
      */
-    private canSend() {
+    private canSend() : boolean {
         return this.key != null;
     }
 
     /**
      * Sets the client key to connect to the server
-     * @param key
+     * @param {string} key The client key
      */
-    public setKey(key : string) {
+    public setKey(key : string) : void {
         this.key = key;
+    }
+
+    /**
+     * Sends a recording to the server
+     * @param {number[]} rawData The raw data of the recording
+     */
+    public sendRecording(rawData : number[]) : void {
+        if (!this.canSend()) return;
     }
 }
 
