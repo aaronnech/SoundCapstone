@@ -9,13 +9,14 @@ var config = require('./config');
 
 // Connect to database
 mongoose.connect(config.db.url);
+
 mongoose.connection.on('error', function(err) {
     console.log("mongodb error:");
     console.log(err);
     process.exit(1);
 });
 
-mongoose.connection.on('open', function (callback) {
+mongoose.connection.on('open', function () {
     // Express middleware
     app.use(cookieParser());
     app.use(session({
