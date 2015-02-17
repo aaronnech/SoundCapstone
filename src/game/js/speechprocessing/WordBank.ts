@@ -28,6 +28,14 @@ class WordBank {
     }
 
     /**
+     * Gets the current (right/wrong) index
+     * @returns {number} The index
+     */
+    public getCurrentIndex() {
+        return this.current;
+    }
+
+    /**
      * Gets the next word to display, returns null if one is not
      * available.
      * @returns {string} The word

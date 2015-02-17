@@ -15,7 +15,9 @@
 !src/game/js/vendor/*
 /kimbee_cordova
 /kimbee_cordova/*
-!src/server/*
+!src/server/routes/*.js
+!src/server/model/*.js
+!src/server/*.js
 !src/therapist/js/*.js
 
 

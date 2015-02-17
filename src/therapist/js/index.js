@@ -1,5 +1,4 @@
 $(function () {
-
     // Register listeners
     setup();
 
@@ -11,7 +10,7 @@ $(function () {
     };
 
     // Drops down the modal for the user to register a new account
-    function createAccountClick() {asjdhasjdhaks
+    function createAccountClick() {
         $("#modal").modal({backdrop: 'static', keyboard: true});
         $("#modal").modal("show");
     };
@@ -22,13 +21,15 @@ $(function () {
         var password = $("#signupPassword").val();
 
         var signup = {email : email, password : password};
-
-        // TODO: Send info to server to register user
-        console.log(signup);
+        $.post("/api/user/register", signup, function(data) {
+            if (data.success) {
+                onLoginSuccess();
+            } else {
+                onSignupFailure();
+            }
+        });
 
         $("#signupButton").prop("disabled", true);
-
-        onSignupFailure();
         return false;
     };
 
@@ -38,13 +39,15 @@ $(function () {
         var password = $("#inputPassword").val();
 
         var login = {email : email, password : password};
-
-        // TODO: Authenticate user
-        console.log(login);
+        $.post("/api/user/login", login, function(data) {
+            if (data.success) {
+                onLoginSuccess();
+            } else {
+                onLoginFailure();
+            }
+        });
 
         $("#loginButton").prop("disabled", true);
-
-        onLoginFailure();
         return false; // Prevent redirect
     };
 
