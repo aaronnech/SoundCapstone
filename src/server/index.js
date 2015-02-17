@@ -1,5 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
@@ -15,8 +17,16 @@ mongoose.connection.on('error', function(err) {
 
 mongoose.connection.on('open', function (callback) {
     // Express middleware
+    app.use(cookieParser());
+    app.use(session({
+        secret : '!!SUPERSECR3T!!!',
+        saveUninitialized: true,
+        resave: true
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
+
+    // Middleware for static serving
     app.use('/therapist', express.static(__dirname + '/../therapist'));
     app.use('/game', express.static(__dirname + '/../game'));
 
@@ -24,6 +34,7 @@ mongoose.connection.on('open', function (callback) {
     // Setup routes
     var users = require('./routes/users');
 
+    // users.isAuthenticated is a middleware that checks if the user is authenticated
     app.post('/api/user/register', users.register);
     app.post('/api/user/login', users.login);
 

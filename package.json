@@ -20,7 +20,10 @@
     "typescript": "latest",
     "express" : "latest",
     "mongoose" : "latest",
-    "body-parser" : "latest"
+    "body-parser" : "latest",
+    "cookie-parser" : "latest",
+    "MD5" : "latest",
+    "express-session" : "latest"
   },
   "author": "Aaron Nech & Ryan Drapeau & Nick Huynh",
   "license": "N/A"
