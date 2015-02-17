@@ -1,5 +1,4 @@
 $(function () {
-
     // Register listeners
     setup();
 
@@ -22,12 +21,15 @@ $(function () {
         var password = $("#signupPassword").val();
 
         var signup = {email : email, password : password};
-        console.log(signup);
         $.post("/api/user/register", signup, function(data) {
-            console.log(data);
+            if (data.success) {
+                onLoginSuccess();
+            } else {
+                onSignupFailure();
+            }
         });
 
-        // $("#signupButton").prop("disabled", true);
+        $("#signupButton").prop("disabled", true);
         return false;
     };
 
@@ -37,12 +39,15 @@ $(function () {
         var password = $("#inputPassword").val();
 
         var login = {email : email, password : password};
-        console.log(login);
         $.post("/api/user/login", login, function(data) {
-            console.log(data);
+            if (data.success) {
+                onLoginSuccess();
+            } else {
+                onLoginFailure();
+            }
         });
 
-        // $("#loginButton").prop("disabled", true);
+        $("#loginButton").prop("disabled", true);
         return false; // Prevent redirect
     };
 
