@@ -7,7 +7,7 @@ var uuid = require('node-uuid');
 // Adds a child to the current logged in user
 exports.add = function(req, res) {
     console.log('adding child');
-    
+
     users.getLoggedIn(req, function(err, user) {
         if (!err && user) {
             var token = uuid.v1();
