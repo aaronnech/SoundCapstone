@@ -9,13 +9,14 @@ var config = require('./config');
 
 // Connect to database
 mongoose.connect(config.db.url);
+
 mongoose.connection.on('error', function(err) {
     console.log("mongodb error:");
     console.log(err);
     process.exit(1);
 });
 
-mongoose.connection.on('open', function (callback) {
+mongoose.connection.on('open', function () {
     // Express middleware
     app.use(cookieParser());
     app.use(session({
@@ -33,10 +34,15 @@ mongoose.connection.on('open', function (callback) {
 
     // Setup routes
     var users = require('./routes/users');
+    var children = require('./routes/children');
+    var recordings = require('./routes/recordings');
 
-    // users.isAuthenticated is a middleware that checks if the user is authenticated
+    // Route connections
     app.post('/api/user/register', users.register);
     app.post('/api/user/login', users.login);
+    app.post('/api/child/add', users.isAuthenticated, children.add);
+    app.get('/api/child', users.isAuthenticated, children.getMyChildren);
+    app.post('/api/recording/add', recordings.hasChildId, recordings.add);
 
     app.listen(1337);
 

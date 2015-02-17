@@ -136,20 +136,18 @@ function addKeyword(data, clbId) {
 };
 
 function start(id) {
+	console.log("FROM RECOGNIZER: USING GRAMMAR ID " + id);
     if (recognizer) {
-	var output;
-	if (id) {
-	    output = recognizer.switchSearch(parseInt(id));
-	    if (output != Module.ReturnType.SUCCESS) {
-		post({status: "error", command: "switchgrammar", code: output});
-		return;
-	    }
-	}
-	output = recognizer.start();
-	if (output != Module.ReturnType.SUCCESS)
-	    post({status: "error", command: "start", code: output});
+		var output = recognizer.switchSearch(parseInt(id));
+		if (output != Module.ReturnType.SUCCESS) {
+			post({status: "error", command: "switchgrammar", code: output});
+			return;
+		}
+		output = recognizer.start();
+		if (output != Module.ReturnType.SUCCESS)
+			post({status: "error", command: "start", code: output});
     } else {
-	post({status: "error", command: "start", code: "js-no-recognizer"});
+		post({status: "error", command: "start", code: "js-no-recognizer"});
     }
 };
 

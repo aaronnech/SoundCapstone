@@ -120,6 +120,7 @@ class Microphone {
 
             // Start recording
             this.currentlyRecording = true;
+            console.log("STARTING AUDIO WITH GRAMMAR: " + this.wordBank.getCurrentIndex());
             this.audioRecorder.start(this.wordBank.getCurrentIndex());
             callback();
         }

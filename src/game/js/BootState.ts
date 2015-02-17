@@ -1,5 +1,6 @@
 ///<reference path="./def/phaser.d.ts" />
 import SpeechProcessor = require('./speechprocessing/SpeechProcessor');
+import Server = require('./server/Server');
 
 /**
  * The boot state of the Application
@@ -42,7 +43,8 @@ class BootState extends Phaser.State {
             // Mobile settings
         }
 
-        // Get the singleton instance so that it constructs during this state
+        // Get the singleton instances so construction happens during boot
+        Server.getInstance();
         SpeechProcessor.getInstance(() => {
             console.log("Application Boot Complete. Starting game.");
             
