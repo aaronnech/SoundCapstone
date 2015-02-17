@@ -1,10 +1,31 @@
 var User = require('../model/User');
 var md5 = require('MD5');
 
-exports.isAuthenticated = function(req, res) {
-    return req.session.email != undefined;
+// Gets the current logged in user
+exports.getLoggedIn = function(callback) {
+    User.findOne({
+        'email' : req.session.email
+    }, function(err, user) {
+        if (err || !user) {
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(err, user);
+        }
+    });
 };
 
+// Middleware returns true if the user is authenticated
+exports.isAuthenticated = function(req, res) {
+    if (req.session.email != undefined) {
+        return true;
+    } else {
+        res.json({error : "not logged in", notAuth : true});
+        return false;
+    }
+};
+
+// Registers a user
 exports.register = function(req, res) {
     var user = new User({
         'email' : req.body.email,
@@ -22,7 +43,7 @@ exports.register = function(req, res) {
     });
 };
 
-
+// Logs in a user
 exports.login = function(req, res) {
     User.findOne({
         'email' : req.body.email
