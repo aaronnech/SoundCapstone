@@ -1,1 +1,1 @@
-cd src/game && find . -name \"*.ts\" | xargs ../../node_modules/.bin/tsc --module AMD && cd ../.. && cd src/server && node index.js
+cd src/game && find . -name "*.ts" | xargs -i{} ../../node_modules/.bin/tsc {} --module AMD && cd ../.. && cd src/server && node index.js

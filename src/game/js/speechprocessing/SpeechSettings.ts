@@ -12,6 +12,13 @@ class SpeechSettings {
         sphinxWords : [
             ["GREEN", "G R IY N"], ["GWEEN", "G W IY N"],
             ["RABBIT", "R AE B AH T"], ["WABBIT", "W AE B AH T"]
+            /*["AIR", "EH R"], ["AIW", "EH W"]
+            ["ARE", "AA R"], ["AWE", "AA W"]
+            ["BAR", "B AA R"], ["BAW", "B AA W"]
+            ["BEAR", "B EH R"], ["BEAW", "B EH W"]
+            ["BOAR", "B AO R"], ["BOAW", "B AO W"]
+            ["CAR", "K AA R"], ["CAW", "K AA W"]
+            ["CARE", "K EH R"], ["CAWE", "K EH W"]*/
         ],
 
         sphinxGrammars : [

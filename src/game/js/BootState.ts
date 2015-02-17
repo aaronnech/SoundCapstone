@@ -20,6 +20,8 @@ class BootState extends Phaser.State {
         this.load.image('beeBasket', 'img/bee-basket.png');
         this.load.image('balloon', 'img/balloon.png');
         this.load.spritesheet('microphoneButton', 'img/microphone-button.png', 110, 110, 3);
+        this.load.audio('tada', 'sfx/ta-da.mp3');
+        this.load.audio('try-again', 'sfx/try-again.mp3');
     }
 
     public create() {
