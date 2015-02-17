@@ -2,7 +2,7 @@ var User = require('../model/User');
 var md5 = require('MD5');
 
 // Gets the current logged in user
-exports.getLoggedIn = function(callback) {
+exports.getLoggedIn = function(req, callback) {
     User.findOne({
         'email' : req.session.email
     }, function(err, user) {
@@ -16,12 +16,14 @@ exports.getLoggedIn = function(callback) {
 };
 
 // Middleware returns true if the user is authenticated
-exports.isAuthenticated = function(req, res) {
+exports.isAuthenticated = function(req, res, next) {
+    console.log('checking authentication');
     if (req.session.email != undefined) {
-        return true;
+        console.log('passed auth');
+        next();
     } else {
+        console.log('passed failed auth. Sending response');
         res.json({error : "not logged in", notAuth : true});
-        return false;
     }
 };
 

@@ -38,8 +38,8 @@ mongoose.connection.on('open', function (callback) {
     // users.isAuthenticated is a middleware that checks if the user is authenticated
     app.post('/api/user/register', users.register);
     app.post('/api/user/login', users.login);
-
     app.post('/api/child/add', users.isAuthenticated, children.add);
+    app.get('/api/child', users.isAuthenticated, children.getMyChildren);
 
     app.listen(1337);
 
