@@ -35,12 +35,14 @@ mongoose.connection.on('open', function () {
     // Setup routes
     var users = require('./routes/users');
     var children = require('./routes/children');
+    var recordings = require('./routes/recordings');
 
-    // users.isAuthenticated is a middleware that checks if the user is authenticated
+    // Route connections
     app.post('/api/user/register', users.register);
     app.post('/api/user/login', users.login);
     app.post('/api/child/add', users.isAuthenticated, children.add);
     app.get('/api/child', users.isAuthenticated, children.getMyChildren);
+    app.post('/api/recording/add', recordings.hasChildId, recordings.add);
 
     app.listen(1337);
 

@@ -9,6 +9,8 @@ class Server {
 
     private static INSTANCE : Server = null;
 
+    private key : string;
+
     /**
      * Should not be called directly. Use getInstance() instead.
      */
@@ -16,6 +18,8 @@ class Server {
         if (Server.INSTANCE != null) {
             throw 'Singleton already constructed!';
         }
+
+        this.key = null;
     }
 
     /**
@@ -28,6 +32,22 @@ class Server {
         }
 
         return Server.INSTANCE;
+    }
+
+    /**
+     * Helper returns true if this client can send information to the server
+     * @returns {boolean} True if we can send, false otherwise
+     */
+    private canSend() {
+        return this.key != null;
+    }
+
+    /**
+     * Sets the client key to connect to the server
+     * @param key
+     */
+    public setKey(key : string) {
+        this.key = key;
     }
 }
 

@@ -34,14 +34,16 @@ exports.add = function(req, res) {
 exports.getMyChildren = function(req, res) {
     users.getLoggedIn(req, function(err, user) {
         if (!err && user) {
-            Child.find({'_therapist' : user._id}, function(err, children) {
-                if (err) {
-                    console.log(err);
-                    res.json({error : 'Error getting children'});
-                } else {
-                    res.json({children : children, success : true});
-                }
-            });
+            Child.find({'_therapist' : user._id})
+                 .populate('recordings')
+                 .exec(function(err, children) {
+                            if (err) {
+                                console.log(err);
+                                res.json({error : 'Error getting children'});
+                            } else {
+                                res.json({children : children, success : true});
+                            }
+                });
         }
     });
 };
