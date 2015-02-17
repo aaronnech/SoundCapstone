@@ -11,3 +11,8 @@
 #addStudentContainer {
     width: 300px;
 }
+
+#studentIdAlert {
+    display: none;
+    margin-top: 15px;
+}

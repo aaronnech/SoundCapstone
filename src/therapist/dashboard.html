@@ -13,14 +13,11 @@
     <div id="content">
         <h2 id="therapistName"></h2>
         <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-            <li class="active"><a href="#student1" data-toggle="tab">Student Name 1</a></li>
-            <li><a href="#student2" data-toggle="tab">Student Name 2</a></li>
-            <li><a href="#student3" data-toggle="tab">Student Name 3</a></li>
-            <li><a href="#addStudent" data-toggle="tab">Add Students</a></li>
+            <li id="addStudentTab"><a href="#addStudent" data-toggle="tab">Add Students</a></li>
         </ul>
 
-        <div id="my-tab-content" class="tab-content">
-            <div class="tab-pane active" id="student1">
+        <div id="studentTabs" class="tab-content">
+            <!-- <div class="tab-pane active" id="student1">
                 <h1>Student Name 1</h1>
                 <div class="panel-group">
                     <div class="panel panel-default">
@@ -50,15 +47,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="tab-pane" id="student2">
-                <h1>Student Name 2</h1>
-            </div>
-
-            <div class="tab-pane" id="student3">
-                <h1>Student Name 3</h1>
-            </div>
+            </div> -->
 
             <div class="tab-pane" id="addStudent">
                 <!--  Add more students -->
@@ -69,6 +58,10 @@
                     <span class="input-group-btn">
                         <button id="addChildButton" class="btn btn-default" type="button">Add</button>
                     </span>
+                </div>
+                <div id="studentIdAlert" class="alert alert-success">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Student Added!</strong> Please have them enter this ID: <strong><span id="studentId"></span></strong>
                 </div>
             </div>
         </div>
