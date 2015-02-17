@@ -11,14 +11,20 @@ $(function () {
 
     function refreshChildren() {
         $.get('/api/child', {}, function(data) {
-            var addStudentTab =  $("#addStudentTab").detach();
-            var addStudentBody = $("#addStudent").detach();
-            $("#tabs").empty().append(addStudentTab);
-            $("#studentTabs").empty().append(addStudentBody);
-            for (var i = 0; i < data.children.length; i++) {
-                // TODO: Add array of words (each word is an array of links) to child object
-                var child = data.children[i];
-                addChildToDOM(child);
+            console.log(data);
+
+            if (data.success) {
+                var addStudentTab =  $("#addStudentTab").detach();
+                var addStudentBody = $("#addStudent").detach();
+                $("#tabs").empty().append(addStudentTab);
+                $("#studentTabs").empty().append(addStudentBody);
+                for (var i = 0; i < data.children.length; i++) {
+                    // TODO: Add array of words (each word is an array of links) to child object
+                    var child = data.children[i];
+                    addChildToDOM(child);
+                }
+            } else if (data.notAuth) {
+                reAuth();
             }
         });
     };
@@ -27,9 +33,14 @@ $(function () {
         child = {name : $("#childNameInput").val()};
         $.post("/api/child/add", child, function(data) {
             console.log(data);
-            addChildToDOM(data);
-            $("#studentId").text(data.token);
-            $("#studentIdAlert").show();
+
+            if (data.success) {
+                addChildToDOM(data.child);
+                $("#studentId").text(data.child.token);
+                $("#studentIdAlert").show();
+            } else if (data.notAuth) {
+                reAuth();
+            }
         });
     };
 
@@ -50,4 +61,8 @@ $(function () {
             text: child.name
         })).prependTo('#studentTabs');
     }
+
+    function reAuth() {
+        window.location = "index.html";
+    };
 });
