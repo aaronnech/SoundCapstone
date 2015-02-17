@@ -22,11 +22,28 @@ exports.add = function(req, res) {
                     console.log(err);
                     res.json({error : 'Error adding child'});
                 } else {
-                    res.json({childId : token, success : true});
+                    res.json({child : child, success : true});
                 }
             });
         }
     });
+};
+
+// Decorates an array of children with a histogram of word recordings
+var decorateWords = function(children) {
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        child.words = {};
+
+        for (var j = 0; j < child.recordings.length; j++) {
+            var recording = child.recordings[i];
+            if (!child.words[recording.word]) {
+                child.words[recording.word] = [];
+            }
+
+            child.words[recording.word].push(recording);
+        }
+    }
 };
 
 
@@ -41,6 +58,7 @@ exports.getMyChildren = function(req, res) {
                                 console.log(err);
                                 res.json({error : 'Error getting children'});
                             } else {
+                                decorateWords(children);
                                 res.json({children : children, success : true});
                             }
                 });

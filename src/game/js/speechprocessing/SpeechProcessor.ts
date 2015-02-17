@@ -1,4 +1,5 @@
 import SpeechSettings = require('./SpeechSettings');
+import Server = require('../server/Server');
 import Microphone = require('./Microphone');
 import WordBank = require('./WordBank');
 
@@ -63,8 +64,14 @@ class SpeechProcessor {
      * @returns {any} The sound samples recorded
      */
     public stopRecording() : any {
-        // TODO: find return type
-        return this.microphone.stop();
+        var result = this.microphone.stop();
+
+        // Send recording to server
+        var server = Server.getInstance();
+        var pair = this.wordBank.getCurrentPair();
+        server.sendRecording(result[0], pair.right);
+
+        return result;
     }
 
     /**
