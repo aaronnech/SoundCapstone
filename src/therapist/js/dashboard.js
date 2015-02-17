@@ -5,6 +5,6 @@ $(function () {
     $('#tabs').tab();
 
     function setup() {
-        $("#therapistName").text("THERAPIST NAME")
+        $("#therapistName").text("THERAPIST NAME");
     };
 });
