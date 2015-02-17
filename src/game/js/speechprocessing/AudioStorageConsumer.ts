@@ -40,7 +40,7 @@ class AudioStorageConsumer {
         console.log(e);
         switch (e.command) {
             case 'process':
-                this.processData(e.data);
+                this.processData(e.raw);
                 break;
         }
     }
