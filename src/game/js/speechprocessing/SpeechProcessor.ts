@@ -34,7 +34,7 @@ class SpeechProcessor {
             if (callback) {
                 callback();
             }
-        }, this.settings);
+        }, this.settings, this.wordBank);
     }
 
     /**
@@ -74,7 +74,18 @@ class SpeechProcessor {
      */
     public getCorrectness(result : any) {
         var pair = this.wordBank.getCurrentPair();
-        // TODO: Do something with last result and pair
+
+        // TODO: Maybe do something smarter with the cumulative
+        // consensus on the word
+        var length = result[1].length;
+        var lastResult = result[1][length - 1].hyp;
+        if (lastResult == pair.right) {
+            return 2;
+        } else if (lastResult == pair.wrong) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     /**

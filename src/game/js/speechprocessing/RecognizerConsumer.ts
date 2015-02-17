@@ -25,7 +25,6 @@ class RecognizerConsumer {
 
         this.hypotheses = [];
 
-
         this.settings = settings;
         this.words = settings.getSphinxWords();
         this.grammars = settings.getSphinxGrammars();

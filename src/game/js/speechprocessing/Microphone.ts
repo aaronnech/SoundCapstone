@@ -1,6 +1,7 @@
 import AudioStorageConsumer = require('./AudioStorageConsumer');
 import RecognizerConsumer = require('./RecognizerConsumer');
 import SpeechSettings = require('./SpeechSettings');
+import WordBank = require('./WordBank');
 
 // Vanilla javascript / audio api declarations for typescript
 declare var AudioContext : any;
@@ -27,9 +28,11 @@ class Microphone {
     private recognizerConsumer : RecognizerConsumer;
 
     private settings : SpeechSettings;
+    private wordBank : WordBank;
 
-    constructor(clientReadyFunction : Function, settings : SpeechSettings) {
+    constructor(clientReadyFunction : Function, settings : SpeechSettings, wordBank : WordBank) {
         this.settings = settings;
+        this.wordBank = wordBank;
         this.currentlyRecording = false;
         this.audioRecorder = null;
         this.clientReadyFunction = clientReadyFunction;
@@ -117,7 +120,7 @@ class Microphone {
 
             // Start recording
             this.currentlyRecording = true;
-            this.audioRecorder.start();
+            this.audioRecorder.start(this.wordBank.getCurrentIndex());
             callback();
         }
     }
