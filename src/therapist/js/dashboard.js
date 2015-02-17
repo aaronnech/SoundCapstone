@@ -57,8 +57,10 @@ $(function () {
         $('<div>', {
             class: "tab-pane",
             id: child._id
-        }).append( $('<h1>', {
+        }).append($('<h1>', {
             text: child.name
+        })).append($('<h4>', {
+            text: "Token: " + child.token
         })).prependTo('#studentTabs');
     }
 
