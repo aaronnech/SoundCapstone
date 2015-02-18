@@ -1,3 +1,5 @@
+///<reference path="../def/jquery.d.ts" />
+
 /**
  * The server API singleton
  * This acts as the central server API endpoint for the rest of the app
@@ -20,7 +22,8 @@ class Server {
             throw 'Singleton already constructed!';
         }
 
-        this.key = null;
+        // TODO: Hard coded for now
+        this.key = '62233980-b7a5-11e4-8bd3-adc946e88124';
     }
 
     /**
@@ -56,20 +59,19 @@ class Server {
      * @param {number[]} rawData The raw data of the recording
      * @param {string} word The word they are saying
      */
-    public sendRecording(rawData : number[], word : string) : void {
+    public sendRecording(rawData : any, word : string) : void {
         console.log('SENDING CHILD RECORDING DATA: ');
         console.log(rawData);
         console.log('FOR WORD ' + word);
 
         if (!this.canSend()) return;
 
-        var request = new XMLHttpRequest();
-        request.open('POST', Server.URL + '/recording/add', true);
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        request.send({
+        (<any> $).post(Server.URL + 'recording/add', {
             childId : this.key,
             raw : rawData,
             word : word
+        }, function(data) {
+           console.log(data);
         });
     }
 }
