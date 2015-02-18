@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var RecordingSchema = new Schema({
     added : { type: Date, default: Date.now },
-    raw : { type: [Number], required: true},
+    raw : { type: String, required: true},
     word : { type: String, required: true}
 });
 
