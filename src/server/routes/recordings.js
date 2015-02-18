@@ -48,6 +48,8 @@ var mergeBuffers = function(channelBuffer, recordingLength){
 
 var getWav = function(rawBufs) {
     var recordingLength = 4096 * rawBufs.length;
+    console.log(rawBufs.length);
+    console.log(recordingLength);
 
     var leftChannel = rawBufs.map(function(LR) {
         return LR[0];
@@ -57,12 +59,16 @@ var getWav = function(rawBufs) {
         return LR[1];
     });
 
+    console.log("CHANNEL LENGTH: " + leftChannel.length);
+
     // we flat the left and right channels down
     var leftBuffer = mergeBuffers(leftChannel, recordingLength);
     var rightBuffer = mergeBuffers(rightChannel, recordingLength);
 
     // we interleave both channels together
     var interleaved = interleave(leftBuffer, rightBuffer);
+
+    console.log("INTERLEAVED LENGTH: " + interleaved.length);
 
     // create the buffer and view to create the .WAV file
     var buffer = new ArrayBuffer(44 + interleaved.length * 2);

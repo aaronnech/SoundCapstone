@@ -56,9 +56,10 @@ $(function () {
 
             if (data.success) {
                 //TODO: REMOVE LATER (get first child's rabbit map's first element)
-                if (data.recordingMap[0] && data.recordingMap[0]['RABBIT'].length) {
-                    downloadRecording(data.recordingMap[0]['RABBIT'][1]);
-                }
+                //if (data.recordingMap[0] && data.recordingMap[0]['RABBIT'].length) {
+                //    downloadRecording(data.recordingMap[0]['RABBIT'][2]);
+                //}
+                // downloadRecording(data.children[0].recordings[4]);
 
                 var addStudentTab =  $("#addStudentTab").detach();
                 var addStudentBody = $("#addStudent").detach();

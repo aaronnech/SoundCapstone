@@ -37,7 +37,7 @@ var decorateWords = function(children) {
         result[i] = {};
 
         for (var j = 0; j < child.recordings.length; j++) {
-            var recording = child.recordings[i];
+            var recording = child.recordings[j];
             if (!result[i][recording.word]) {
                 result[i][recording.word] = [];
             }
