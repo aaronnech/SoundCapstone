@@ -15,6 +15,18 @@ exports.getLoggedIn = function(req, callback) {
     });
 };
 
+// Respond with the current logged in user
+exports.getUser = function(req, res) {
+    exports.getLoggedIn(req, function(err, user) {
+        if (err || !user) {
+            res.json({error : 'User not found'});
+        } else {
+            delete(user.password);
+            res.json({success : true, user : user});
+        }
+    });
+};
+
 // Middleware returns true if the user is authenticated
 exports.isAuthenticated = function(req, res, next) {
     console.log('checking authentication');

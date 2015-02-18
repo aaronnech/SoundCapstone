@@ -40,6 +40,7 @@ mongoose.connection.on('open', function () {
     // Route connections
     app.post('/api/user/register', users.register);
     app.post('/api/user/login', users.login);
+    app.get('/api/user', users.isAuthenticated, users.getUser);
     app.post('/api/child/add', users.isAuthenticated, children.add);
     app.get('/api/child', users.isAuthenticated, children.getMyChildren);
     app.post('/api/recording/add', recordings.hasChildId, recordings.add);
