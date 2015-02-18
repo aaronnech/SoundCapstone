@@ -4,9 +4,21 @@ $(function () {
 
     function setup() {
         $('#tabs').tab();
-        $("#therapistName").text("THERAPIST NAME");
         $("#addChildButton").click(addChild);
         refreshChildren();
+        getUserInfo();
+    };
+
+    function getUserInfo() {
+        $.get('/api/user', {}, function(data) {
+            console.log(data);
+
+            if (data.success) {
+                $("#therapistName").text(data.user.email);
+            } else if (data.notAuth) {
+                reAuth();
+            }
+        });
     };
 
     function refreshChildren() {
