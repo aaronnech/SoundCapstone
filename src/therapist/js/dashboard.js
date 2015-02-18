@@ -26,11 +26,40 @@ $(function () {
         });
     };
 
+    function toArrayBuffer(buffer) {
+        var ab = new ArrayBuffer(buffer.length);
+        var view = new Uint8Array(ab);
+        for (var i = 0; i < buffer.length; ++i) {
+            view[i] = buffer[i];
+        }
+        return ab;
+    };
+
+    function downloadRecording(recording) {
+        var view = new DataView(toArrayBuffer(recording.raw));
+
+        var blob = new Blob([view], { type : 'audio/wav' });
+
+        // let's save it locally (trick browser into download)
+        var url = (window.URL || window.webkitURL).createObjectURL(blob);
+        var link = window.document.createElement('a');
+        link.href = url;
+        link.download = 'output.wav';
+        var click = document.createEvent("Event");
+        click.initEvent("click", true, true);
+        link.dispatchEvent(click);
+    }
+
     function refreshChildren() {
         $.get('/api/child', {}, function(data) {
             console.log(data);
 
             if (data.success) {
+                //TODO: REMOVE LATER (get first child's rabbit map's first element)
+                if (data.recordingMap[0] && data.recordingMap[0]['RABBIT'].length) {
+                    downloadRecording(data.recordingMap[0]['RABBIT'][1]);
+                }
+
                 var addStudentTab =  $("#addStudentTab").detach();
                 var addStudentBody = $("#addStudent").detach();
                 $("#tabs").empty().append(addStudentTab);
