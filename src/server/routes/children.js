@@ -31,19 +31,22 @@ exports.add = function(req, res) {
 
 // Decorates an array of children with a histogram of word recordings
 var decorateWords = function(children) {
+    var result = new Array(children.length);
     for (var i = 0; i < children.length; i++) {
         var child = children[i];
-        child.words = {};
+        result[i] = {};
 
         for (var j = 0; j < child.recordings.length; j++) {
             var recording = child.recordings[i];
-            if (!child.words[recording.word]) {
-                child.words[recording.word] = [];
+            if (!result[i][recording.word]) {
+                result[i][recording.word] = [];
             }
 
-            child.words[recording.word].push(recording);
+            result[i][recording.word].push(recording);
         }
     }
+
+    return result;
 };
 
 
@@ -58,8 +61,8 @@ exports.getMyChildren = function(req, res) {
                                 console.log(err);
                                 res.json({error : 'Error getting children'});
                             } else {
-                                decorateWords(children);
-                                res.json({children : children, success : true});
+                                recordings = decorateWords(children);
+                                res.json({children : children, recordingMap : recordings, success : true});
                             }
                 });
         }

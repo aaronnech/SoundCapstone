@@ -33,9 +33,9 @@ mongoose.connection.on('open', function () {
 
 
     // Setup routes
-    var users = require('./routes/users');
-    var children = require('./routes/children');
     var recordings = require('./routes/recordings');
+    var children = require('./routes/children');
+    var users = require('./routes/users');
 
     // Route connections
     app.post('/api/user/register', users.register);
