@@ -14,7 +14,7 @@ $(function () {
             console.log(data);
 
             if (data.success) {
-                $("#therapistName").text("THERAPIST NAME");
+                $("#therapistName").text(data.user.email);
             } else if (data.notAuth) {
                 reAuth();
             }
