@@ -7,6 +7,11 @@ $(function () {
         $("#addChildButton").click(addChild);
         refreshChildren();
         getUserInfo();
+
+        $.get('/api/user', {}, function(data) {
+
+        });
+
     };
 
     function getUserInfo() {
