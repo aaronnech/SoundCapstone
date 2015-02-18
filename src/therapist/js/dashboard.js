@@ -64,7 +64,6 @@ $(function () {
             console.log(data);
 
             if (data.success) {
-                //TODO: REMOVE LATER (get first child's rabbit map's first element)
                 // I added a audio tag on the dashboard.html page with id=audio-player
                 playRecording(data.children[0].recordings[4], $("#audio-player").get()[0]);
 
