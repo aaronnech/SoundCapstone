@@ -55,6 +55,10 @@ $(function () {
         audioElement.play();
     }
 
+    function onReceiveRecording(data) {
+        console.log(data);
+    };
+
     function refreshChildren() {
         $.get('/api/child', {}, function(data) {
             console.log(data);
@@ -84,7 +88,6 @@ $(function () {
                     }
 
                     // Yay Hack
-
                     var panels = $("<div>", {class: "panel-group"});
                     for (var word in words) {
                         var recordings = words[word];
@@ -116,10 +119,11 @@ $(function () {
                         });
 
                         for (var j = 0; j < recordings.length; j++) {
+                            var datetime = new Date(recordings[j].date);
                             var recordingEntry = $("<a>", {
-                                class: "list-group-item",
+                                class: "list-group-item recording",
                                 href: "#",
-                                text: recordings[j].date,
+                                text: datetime.toLocaleString(),
                                 id: recordings[j].id
                             });
 
@@ -140,6 +144,11 @@ $(function () {
                     }
 
                     panels.appendTo($("#" + child._id));
+
+                    // Set up the click to download the recording
+                    $(".recording").unbind("click").click(function() {
+                        $.get("/api/recording", {id: self.id}, onReceiveRecording);
+                    });
                 }
             } else if (data.notAuth) {
                 reAuth();
