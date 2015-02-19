@@ -81,7 +81,7 @@ class MainMenuState extends Phaser.State {
     }
 
     private onClickSettings() {
-        console.log('Settings!');
+        this.game.state.start('OptionMenuState', true, false);
     }
 }
 

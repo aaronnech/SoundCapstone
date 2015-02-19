@@ -6,6 +6,7 @@ import BootState = require('./BootState');
 
 // Menu states
 import MainMenuState = require('./menu/MainMenuState');
+import OptionMenuState = require('./menu/OptionMenuState');
 
 // Maze game states
 import MazeGameState = require('./mazegame/MazeGameState');
@@ -24,6 +25,7 @@ class App extends Phaser.Game {
         // Setup states
         this.state.add("BootState", BootState);
         this.state.add("MainMenuState", MainMenuState);
+        this.state.add("OptionMenuState", OptionMenuState);
         this.state.add("BalloonGameState", BalloonGameState);
         this.state.add("MazeGameState", MazeGameState);
 
