@@ -7,11 +7,6 @@ $(function () {
         $("#addChildButton").click(addChild);
         refreshChildren();
         getUserInfo();
-
-        $.get('/api/user', {}, function(data) {
-
-        });
-
     };
 
     function getUserInfo() {
@@ -32,6 +27,7 @@ $(function () {
         for (var i = 0; i < buffer.length; ++i) {
             view[i] = buffer[i];
         }
+
         return ab;
     };
 
@@ -59,22 +55,100 @@ $(function () {
         audioElement.play();
     }
 
+    function onReceiveRecording(data) {
+        console.log(data);
+    };
+
     function refreshChildren() {
         $.get('/api/child', {}, function(data) {
             console.log(data);
 
             if (data.success) {
                 // I added a audio tag on the dashboard.html page with id=audio-player
-                playRecording(data.children[0].recordings[4], $("#audio-player").get()[0]);
+                // playRecording(data.children[0].recordings[4], $("#audio-player").get()[0]);
 
                 var addStudentTab =  $("#addStudentTab").detach();
                 var addStudentBody = $("#addStudent").detach();
                 $("#tabs").empty().append(addStudentTab);
                 $("#studentTabs").empty().append(addStudentBody);
                 for (var i = 0; i < data.children.length; i++) {
-                    // TODO: Add array of words (each word is an array of links) to child object
                     var child = data.children[i];
                     addChildToDOM(child);
+
+                    // Add the recordings into a list group
+                    var words = {};
+                    for (var word in child.recordingMap) {
+                        words[word] = []
+                        for (var j = 0; j < child.recordingMap[word].length; j++) {
+                            var date = child.recordingMap[word][j].added;
+                            var id = child.recordingMap[word][j]._id;
+                            var recording = {date : date, id : id};
+                            words[word].push(recording);
+                        }
+                    }
+
+                    // Yay Hack
+                    var panels = $("<div>", {class: "panel-group"});
+                    for (var word in words) {
+                        var recordings = words[word];
+                        var panelId = child._id + "_" + word;
+
+                        var panel = $("<div>", {
+                            class: "panel panel-default"
+                        });
+
+                        var tag = $("<a>", {
+                            class: "list-group-item",
+                            "data-toggle": "collapse",
+                            href: "#" + panelId,
+                            text: word
+                        });
+
+                        var tagCount = $("<span>", {
+                            class: "badge",
+                            text: recordings.length
+                        });
+
+                        var recordingPanel = $("<div>", {
+                            class: "panel-collapse collapse",
+                            id: panelId
+                        });
+
+                        var recordingPanelBody = $("<div>", {
+                            class: "panel-body"
+                        });
+
+                        for (var j = 0; j < recordings.length; j++) {
+                            var datetime = new Date(recordings[j].date);
+                            var recordingEntry = $("<a>", {
+                                class: "list-group-item recording",
+                                href: "#",
+                                text: datetime.toLocaleString(),
+                                id: recordings[j].id
+                            });
+
+                            // Add the entry to the body
+                            recordingEntry.appendTo(recordingPanelBody);
+                        }
+
+                        // Tags first
+                        tagCount.appendTo(tag);
+                        tag.appendTo(panel);
+
+                        // Then recordings
+                        recordingPanelBody.appendTo(recordingPanel);
+                        recordingPanel.appendTo(panel);
+
+                        // Then attach to page
+                        panel.appendTo(panels);
+                    }
+
+                    panels.appendTo($("#" + child._id));
+
+                    // Set up the click to download the recording
+                    $(".recording").unbind("click").click(function() {
+                        $.get("/api/recording", {id: self.id}, onReceiveRecording);
+                    });
                 }
             } else if (data.notAuth) {
                 reAuth();
@@ -99,22 +173,22 @@ $(function () {
 
     function addChildToDOM(child) {
         // Add the tab header
-        $('<li>', {
-        }).append($('<a>', {
-            href: '#' + child._id,
+        $("<li>", {
+        }).append($("<a>", {
+            href: "#" + child._id,
             "data-toggle": "tab",
             text: child.name
-        })).prependTo('#tabs');
+        })).prependTo("#tabs");
 
         // Add the content of the tab
-        $('<div>', {
+        $("<div>", {
             class: "tab-pane",
             id: child._id
-        }).append($('<h1>', {
+        }).append($("<h1>", {
             text: child.name
-        })).append($('<h4>', {
+        })).append($("<h4>", {
             text: "Token: " + child.token
-        })).prependTo('#studentTabs');
+        })).prependTo("#studentTabs");
     }
 
     function reAuth() {
