@@ -147,7 +147,9 @@ $(function () {
 
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
-                        $.get("/api/recording", {id: self.id}, onReceiveRecording);
+                        var params = {id: this.id};
+                        console.log(params);
+                        $.get("/api/recording", params, onReceiveRecording);
                     });
                 }
             } else if (data.notAuth) {
