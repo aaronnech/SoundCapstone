@@ -118,7 +118,8 @@ var toBuffer = function(ab) {
 // Gets a specific recording
 exports.getRecording = function(req, res) {
     users.getLoggedIn(req, res, function(user) {
-        Recording.findById({_id : req.query.id, _therapist : user._id}, function(err, recording) {
+        console.log(req.query);
+        Recording.findOne({_id : req.query.id, _therapist : user._id}, function(err, recording) {
             if (err || !recording) {
                 console.log(err);
                 res.json({error: 'Error getting recording'});
