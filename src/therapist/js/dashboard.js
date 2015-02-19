@@ -72,29 +72,74 @@ $(function () {
                     addChildToDOM(child);
 
                     // Add the recordings into a list group
-                    var recordings = data.recordingMap[i];
-                    var $panels = $("<div>", {class: "panel-group"});
-                    for (var word in recordings) {
-                        var $wordGroup = $("<div>", {class: "panel panel-default"});
-                        var $panelBody = $("<div>", {class: "panel-collapse collapse", id: word});
-                        var $panelContent = $("<div>", {class: "panel-body"});
-                        for (var j = 0; j < recordings[word].length; j++) {
-                            var $recordingEntry = $("<a>", {class: "list-group-item", href: "#", text: recordings[word][j].added});
-                            $recordingEntry.prependTo($panelContent);
+                    var words = {};
+                    for (var word in child.recordingMap) {
+                        words[word] = []
+                        for (var j = 0; j < child.recordingMap[word].length; j++) {
+                            var date = child.recordingMap[word][j].added;
+                            var id = child.recordingMap[word][j]._id;
+                            var recording = {date : date, id : id};
+                            words[word].push(recording);
                         }
+                    }
 
-                        $("<a>", {
+                    // Yay Hack
+
+                    var panels = $("<div>", {class: "panel-group"});
+                    for (var word in words) {
+                        var recordings = words[word];
+                        var panelId = child._id + "_" + word;
+
+                        var panel = $("<div>", {
+                            class: "panel panel-default"
+                        });
+
+                        var tag = $("<a>", {
                             class: "list-group-item",
                             "data-toggle": "collapse",
-                            href: "#" + word,
+                            href: "#" + panelId,
                             text: word
-                        }).append($("<span>", {class: "badge", text: recordings[word].length})).prependTo($wordGroup);
+                        });
 
-                        $panelContent.prependTo($panelBody);
-                        $panelBody.appendTo($wordGroup);
-                        $wordGroup.appendTo($panels);
+                        var tagCount = $("<span>", {
+                            class: "badge",
+                            text: recordings.length
+                        });
+
+                        var recordingPanel = $("<div>", {
+                            class: "panel-collapse collapse",
+                            id: panelId
+                        });
+
+                        var recordingPanelBody = $("<div>", {
+                            class: "panel-body"
+                        });
+
+                        for (var j = 0; j < recordings.length; j++) {
+                            var recordingEntry = $("<a>", {
+                                class: "list-group-item",
+                                href: "#",
+                                text: recordings[j].date,
+                                id: recordings[j].id
+                            });
+
+                            // Add the entry to the body
+                            recordingEntry.appendTo(recordingPanelBody);
+                        }
+
+                        // Tags first
+                        tagCount.appendTo(tag);
+                        tag.appendTo(panel);
+
+                        // Then recordings
+                        recordingPanelBody.appendTo(recordingPanel);
+                        recordingPanel.appendTo(panel);
+
+                        // Then attach to page
+                        panel.appendTo(panels);
                     }
-                    $panels.appendTo($("#" + child._id));
+
+                    panels.appendTo($("#" + child._id));
                 }
             } else if (data.notAuth) {
                 reAuth();
