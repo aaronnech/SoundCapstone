@@ -44,6 +44,7 @@ mongoose.connection.on('open', function () {
     app.post('/api/child/add', users.isAuthenticated, children.add);
     app.get('/api/child', users.isAuthenticated, children.getMyChildren);
     app.post('/api/recording/add', recordings.hasChildId, recordings.add);
+    app.get('/api/recording', users.isAuthenticated, recordings.getRecording);
 
     app.listen(1337);
 
