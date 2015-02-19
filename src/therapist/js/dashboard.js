@@ -21,44 +21,6 @@ $(function () {
         });
     };
 
-    function toArrayBuffer(buffer) {
-        var ab = new ArrayBuffer(buffer.length);
-        var view = new Uint8Array(ab);
-        for (var i = 0; i < buffer.length; ++i) {
-            view[i] = buffer[i];
-        }
-
-        return ab;
-    };
-
-    function downloadRecording(recording) {
-        var view = new DataView(toArrayBuffer(recording.raw));
-
-        var blob = new Blob([view], { type : 'audio/wav' });
-
-        // let's save it locally (create data url and trick browser into download)
-        var url = (window.URL || window.webkitURL).createObjectURL(blob);
-        var link = window.document.createElement('a');
-        link.href = url;
-        link.download = recording.word + '.wav';
-        var click = document.createEvent("Event");
-        click.initEvent("click", true, true);
-        link.dispatchEvent(click);
-    }
-
-    function playRecording(recording, audioElement) {
-        var view = new DataView(toArrayBuffer(recording.raw));
-        var blob = new Blob([view], { type : 'audio/wav' });
-        var url = (window.URL || window.webkitURL).createObjectURL(blob);
-
-        audioElement.src = url;
-        audioElement.play();
-    }
-
-    function onReceiveRecording(data) {
-        console.log(data);
-    };
-
     function refreshChildren() {
         $.get('/api/child', {}, function(data) {
             console.log(data);
@@ -126,6 +88,12 @@ $(function () {
                                 text: datetime.toLocaleString(),
                                 id: recordings[j].id
                             });
+
+                            // TODO: Delete button
+                            // var deleteButton = $("<button>", {
+                            //     class: "btn btn-danger btn-mini",
+                            //     text: "Delete"
+                            // });
 
                             // Add the entry to the body
                             recordingEntry.appendTo(recordingPanelBody);
@@ -195,5 +163,46 @@ $(function () {
 
     function reAuth() {
         window.location = "index.html";
+    };
+
+    function toArrayBuffer(buffer) {
+        var ab = new ArrayBuffer(buffer.length);
+        var view = new Uint8Array(ab);
+        for (var i = 0; i < buffer.length; ++i) {
+            view[i] = buffer[i];
+        }
+
+        return ab;
+    };
+
+    function downloadRecording(recording) {
+        var view = new DataView(toArrayBuffer(recording.raw));
+        var blob = new Blob([view], { type : 'audio/wav' });
+
+        // let's save it locally (create data url and trick browser into download)
+        var url = (window.URL || window.webkitURL).createObjectURL(blob);
+        var link = window.document.createElement('a');
+        link.href = url;
+        link.download = recording.word + '.wav';
+        var click = document.createEvent("Event");
+        click.initEvent("click", true, true);
+        link.dispatchEvent(click);
+    };
+
+    function playRecording(recording, audioElement) {
+        var view = new DataView(toArrayBuffer(recording.raw));
+        var blob = new Blob([view], { type : 'audio/wav' });
+        var url = (window.URL || window.webkitURL).createObjectURL(blob);
+
+        audioElement.src = url;
+        audioElement.play();
+    };
+
+    function onReceiveRecording(data) {
+        if (data.success) {
+            playRecording(data.recording, $("#audio-player").get()[0]);
+        } else if (data.notAuth) {
+            reAuth();
+        }
     };
 });
