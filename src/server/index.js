@@ -25,7 +25,7 @@ mongoose.connection.on('open', function () {
         resave: true
     }));
     app.use(bodyParser.json({limit: '50mb', parameterLimit: 100000}));
-    app.use(bodyParser.urlencoded({parameterLimit: 100000, limit: '50mb', extended: true }));
+    app.use(bodyParser.urlencoded({parameterLimit: 10000000, limit: '50mb', extended: true }));
 
     // Middleware for static serving
     app.use('/therapist', express.static(__dirname + '/../therapist'));
