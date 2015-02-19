@@ -8,63 +8,56 @@ var uuid = require('node-uuid');
 exports.add = function(req, res) {
     console.log('adding child');
 
-    users.getLoggedIn(req, function(err, user) {
-        if (!err && user) {
-            var token = uuid.v1();
-            var child = new Child({
-                '_therapist' : user._id,
-                'name' : req.body.name,
-                'token' : token
-            });
+    users.getLoggedIn(req, res, function(user) {
+        var token = uuid.v1();
+        var child = new Child({
+            '_therapist' : user._id,
+            'name' : req.body.name,
+            'token' : token
+        });
 
-            child.save(function(err) {
-                if (err) {
-                    console.log(err);
-                    res.json({error : 'Error adding child'});
-                } else {
-                    res.json({child : child, success : true});
-                }
-            });
-        }
+        child.save(function(err) {
+            if (err) {
+                console.log(err);
+                res.json({error : 'Error adding child'});
+            } else {
+                res.json({child : child, success : true});
+            }
+        });
     });
 };
 
 // Decorates an array of children with a histogram of word recordings
-var decorateWords = function(children) {
-    var result = new Array(children.length);
+var appendHistogram = function(children) {
     for (var i = 0; i < children.length; i++) {
         var child = children[i];
-        result[i] = {};
+        child.recordingMap = {};
 
         for (var j = 0; j < child.recordings.length; j++) {
             var recording = child.recordings[j];
-            if (!result[i][recording.word]) {
-                result[i][recording.word] = [];
+            if (!child.recordingMap[recording.word]) {
+                child.recordingMap[recording.word] = [];
             }
 
-            result[i][recording.word].push(recording);
+            child.recordingMap[recording.word].push(recording);
         }
     }
-
-    return result;
 };
 
-
-// Gets the children from current logged in user
+// Gets the children from current logged in user (without recording raw data)
 exports.getMyChildren = function(req, res) {
-    users.getLoggedIn(req, function(err, user) {
-        if (!err && user) {
-            Child.find({'_therapist' : user._id})
-                 .populate('recordings')
-                 .exec(function(err, children) {
-                            if (err) {
-                                console.log(err);
-                                res.json({error : 'Error getting children'});
-                            } else {
-                                recordings = decorateWords(children);
-                                res.json({children : children, recordingMap : recordings, success : true});
-                            }
-                });
-        }
+    users.getLoggedIn(req, res, function(user) {
+        Child.find({'_therapist' : user._id})
+             .populate('recordings', 'word added')
+             .lean()
+             .exec(function(err, children) {
+                        if (err) {
+                            console.log(err);
+                            res.json({error : 'Error getting children'});
+                        } else {
+                            appendHistogram(children);
+                            res.json({children : children, success : true});
+                        }
+             });
     });
 };

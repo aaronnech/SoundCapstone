@@ -1,5 +1,6 @@
 var Child = require('../model/Child');
 var Recording = require('../model/Recording');
+var users = require('./users');
 
 // Middleware that checks for the existence of a childId
 // In the request.
@@ -114,8 +115,18 @@ var toBuffer = function(ab) {
     return buffer;
 };
 
+// Gets a specific recording
 exports.getRecording = function(req, res) {
-
+    users.getLoggedIn(req, res, function(user) {
+        Recording.findById({_id : req.params.id, _therapist : user._id}, function(err, recording) {
+            if (err || !recording) {
+                console.log(err);
+                res.json({error: 'Error getting recording'});
+            } else {
+                res.json({recording : recording, success : true});
+            }
+        });
+    });
 };
 
 // Adds a recording
@@ -129,7 +140,8 @@ exports.add = function(req, res) {
             var buffer = toBuffer(wavFile.buffer);
             var recording = new Recording({
                 'raw' : buffer,
-                'word' : req.body.word
+                'word' : req.body.word,
+                '_therapist' : child._therapist
             });
 
             // Push recording into child and save

@@ -2,28 +2,24 @@ var User = require('../model/User');
 var md5 = require('MD5');
 
 // Gets the current logged in user
-exports.getLoggedIn = function(req, callback) {
+exports.getLoggedIn = function(req, res, callback) {
     User.findOne({
         'email' : req.session.email
-    }, function(err, user) {
+    }).lean().exec(function(err, user) {
         if (err || !user) {
             console.log(err);
-            callback(err, null);
+            res.json({error : "not logged in", notAuth : true});
         } else {
-            callback(err, user);
+            callback(user);
         }
     });
 };
 
 // Respond with the current logged in user
 exports.getUser = function(req, res) {
-    exports.getLoggedIn(req, function(err, user) {
-        if (err || !user) {
-            res.json({error : 'User not found'});
-        } else {
-            delete(user.password);
+    exports.getLoggedIn(req, res, function(user) {
+            delete user.password;
             res.json({success : true, user : user});
-        }
     });
 };
 
