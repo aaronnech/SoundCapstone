@@ -118,6 +118,7 @@ $(function () {
                         var params = {id: this.id};
                         console.log(params);
                         $.get("/api/recording", params, onReceiveRecording);
+                        return false;
                     });
                 }
             } else if (data.notAuth) {
