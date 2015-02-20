@@ -38,10 +38,6 @@ class MicrophoneButton extends Phaser.Button {
      * of recording, the recording will be thrown out.
      */
     public disable() {
-        // Throw any current recordings away.
-        if (this.speechProcessor.isRecording()) {
-            this.speechProcessor.stopRecording((res) => {});
-        }
         this.frame = MicrophoneButton.DISABLED_FRAME;
         this.isDisabled = true;
     }
@@ -61,8 +57,11 @@ class MicrophoneButton extends Phaser.Button {
         if (!this.isDisabled) {
             if (this.isActive) {
                 this.isActive = false;
-                this.frame = MicrophoneButton.NORMAL_FRAME;
-                this.speechProcessor.stopRecording(this.clientResultCallback);
+                this.disable();
+                this.speechProcessor.stopRecording((result) => {
+                    this.clientResultCallback(result);
+                    this.enable();
+                });
             } else {
                 this.disable();
                 this.speechProcessor.startRecording(() => {
