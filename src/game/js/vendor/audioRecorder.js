@@ -7,7 +7,9 @@
 	var inputBufferLength = config.inputBufferLength || 4096;
 	var outputBufferLength = config.outputBufferLength || 4000;
 	this.context = source.context;
-	this.node = this.context.createScriptProcessor(inputBufferLength);
+	this.node = this.context.createScriptProcessor(inputBufferLength, 2, 2);
+	// this.node = this.context.createJavaScriptNode(inputBufferLength, 2, 2);
+
 	var worker = new Worker(config.worker || AUDIO_RECORDER_WORKER);
 	worker.postMessage({
 	    command: 'init',
@@ -53,11 +55,18 @@
 	myClosure = this;
 	worker.onmessage = function(e) {
 	    if (e.data.error && (e.data.error == "silent")) errorCallback("silent");
+
 	    if ((e.data.command == 'newBuffer') && recording) {
-		myClosure.consumers.forEach(function(consumer, y, z) {
-                    consumer.postMessage({ command: 'process', data: e.data.data, raw : e.data.inputBuffer });
-		});
+			myClosure.consumers.forEach(function(consumer, y, z) {
+						consumer.postMessage({ command: 'process', data: e.data.data });
+			});
 	    }
+
+		if ((e.data.command == 'rawData') && recording) {
+			myClosure.consumers.forEach(function(consumer, y, z) {
+				consumer.postMessage({ command: 'rawData', raw: e.data.raw });
+			});
+		}
 	};
 	source.connect(this.node);
 	this.node.connect(this.context.destination);

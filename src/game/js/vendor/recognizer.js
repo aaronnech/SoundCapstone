@@ -136,7 +136,6 @@ function addKeyword(data, clbId) {
 };
 
 function start(id) {
-	console.log("FROM RECOGNIZER: USING GRAMMAR ID " + id);
     if (recognizer) {
 		var output = recognizer.switchSearch(parseInt(id));
 		if (output != Module.ReturnType.SUCCESS) {

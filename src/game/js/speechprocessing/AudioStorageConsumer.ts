@@ -3,9 +3,11 @@
  */
 class AudioStorageConsumer {
     private samples : any;
+    private onStopped : Function;
 
-    constructor() {
+    constructor(onStopped : Function) {
         this.samples = [];
+        this.onStopped = onStopped;
     }
 
     /**
@@ -36,11 +38,12 @@ class AudioStorageConsumer {
      * @param e The message posted
      */
     public postMessage(e : any) {
-        console.log('TO CONSUMERS: ');
-        console.log(e);
         switch (e.command) {
-            case 'process':
+            case 'rawData':
                 this.processData(e.raw);
+                break;
+            case 'stop':
+                this.onStopped();
                 break;
         }
     }

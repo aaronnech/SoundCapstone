@@ -17,6 +17,7 @@ this.onmessage = function(e){
 };
 
 function init(config){
+	recBuffers = [];
     inSampleRate = config.sampleRate;
     outputBufferLength = config.outputBufferLength;
     outputSampleRate = config.outputSampleRate || outputSampleRate;
@@ -25,8 +26,12 @@ function init(config){
 
 function record(inputBuffer){
 	var output = {};
-	// Save input for other consumers
-	output.inputBuffer = [new Float32Array(inputBuffer[0]), new Float32Array(inputBuffer[1])];
+
+	// Save raw input for other consumers
+	var raw = {};
+	raw.raw = [new Float32Array(inputBuffer[0]), new Float32Array(inputBuffer[1])];
+	raw.command = 'rawData';
+	this.postMessage(raw);
 
 	// Sphinx format
     var isSilent = true;

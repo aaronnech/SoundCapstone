@@ -190,8 +190,7 @@ $(function () {
     };
 
     function playRecording(recording, audioElement) {
-        var view = new DataView(toArrayBuffer(recording.raw));
-        var blob = new Blob([view], { type : 'audio/wav' });
+        var blob = new Blob([toArrayBuffer(recording.raw)], { type : 'audio/wav' });
         var url = (window.URL || window.webkitURL).createObjectURL(blob);
 
         audioElement.src = url;

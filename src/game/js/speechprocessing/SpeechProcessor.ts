@@ -61,17 +61,17 @@ class SpeechProcessor {
 
     /**
      * Stop recording sound. Returns the sound recorded
-     * @returns {any} The sound samples recorded
      */
-    public stopRecording() : any {
-        var result = this.microphone.stop();
+    public stopRecording(callback : Function) : any {
+        this.microphone.stop((result) => {
+            // Send recording to server
+            var server = Server.getInstance();
+            var pair = this.wordBank.getCurrentPair();
+            server.sendRecording(result[0], pair.right);
 
-        // Send recording to server
-        var server = Server.getInstance();
-        var pair = this.wordBank.getCurrentPair();
-        server.sendRecording(result[0], pair.right);
-
-        return result;
+            // Continue the callback chain
+            callback(result);
+        });
     }
 
     /**

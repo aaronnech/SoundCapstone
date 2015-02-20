@@ -23,6 +23,9 @@ class Microphone {
     private audioContext : any;
     private audioRecorder : any;
     private clientReadyFunction : Function;
+    private clientResultFunction : Function;
+
+    private numberConsuming : number;
 
     private storageConsumer : AudioStorageConsumer;
     private recognizerConsumer : RecognizerConsumer;
@@ -57,8 +60,10 @@ class Microphone {
      * Called when user grants permission to initialize audio capture
      */
     private onInitAudio(stream : any) {
+        var volume = this.audioContext.createGain();
         var input = this.audioContext.createMediaStreamSource(stream);
-        this.audioRecorder = new AudioRecorder(input, {worker : './js/vendor/audioRecorderWorker.js'});
+        input.connect(volume);
+        this.audioRecorder = new AudioRecorder(input, {volume : volume, worker : './js/vendor/audioRecorderWorker.js'});
 
         this.spawnConsumers(() => {
             this.clientReadyFunction();
@@ -74,14 +79,15 @@ class Microphone {
 
         this.spawnWorker("js/vendor/recognizer.js", (recognizerWorker : Worker) => {
             // Create a recognizer consumer and keep a reference to it
-            this.recognizerConsumer = new RecognizerConsumer(recognizerWorker, this.settings);
+            this.recognizerConsumer =
+                new RecognizerConsumer(recognizerWorker, this.settings, () => { this.onConsumerStop(); });
 
             // The recognizer js api needs a special startup script for the worker
             this.recognizerConsumer.initWorkerData(() => {
                 console.log("Recognizer Consumer spawned...");
 
                 // Create a storage consumer and keep a reference to it
-                this.storageConsumer = new AudioStorageConsumer();
+                this.storageConsumer = new AudioStorageConsumer(() => { this.onConsumerStop(); });
 
                 console.log("Storage Consumer spawned...");
 
@@ -122,31 +128,40 @@ class Microphone {
             this.currentlyRecording = true;
             console.log("STARTING AUDIO WITH GRAMMAR: " + this.wordBank.getCurrentIndex());
             this.audioRecorder.start(this.wordBank.getCurrentIndex());
+            this.numberConsuming = this.audioRecorder.consumers.length;
             callback();
         }
     }
 
     /**
-     * Stop recording with the device microphone
-     * Does nothing if recording has yet to begin, or if the microphone is not yet ready.
-     * @returns the audio samples recorded.
+     * Called when a consumer has stopped
      */
-    public stop() : any {
-        if (this.currentlyRecording && this.audioRecorder != null) {
-            // Stop recording
-            this.audioRecorder.stop();
-            this.currentlyRecording = false;
+    private onConsumerStop() {
+        this.numberConsuming -= 1;
 
-
-
+        // All consumers finished
+        if (this.numberConsuming == 0) {
             var samples = this.storageConsumer.getSamples();
             var hypothesis = this.recognizerConsumer.getHypotheses();
 
             this.storageConsumer.clear();
             this.recognizerConsumer.clear();
 
-            // Return storage samples
-            return [samples, hypothesis];
+            this.clientResultFunction([samples, hypothesis]);
+        }
+    }
+
+    /**
+     * Stop recording with the device microphone
+     * Does nothing if recording has yet to begin, or if the microphone is not yet ready.
+     */
+    public stop(onResult : Function) : any {
+        if (this.currentlyRecording && this.audioRecorder != null) {
+            this.clientResultFunction = onResult;
+
+            // Stop recording
+            this.audioRecorder.stop();
+            this.currentlyRecording = false;
         }
     }
 

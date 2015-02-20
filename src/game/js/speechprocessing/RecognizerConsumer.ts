@@ -8,20 +8,20 @@ class RecognizerConsumer {
     private worker : Worker;
     private callbackIndex : number;
     private callbackSequence : Function[];
-    private stopped : boolean;
+
+    private onStopped : Function;
 
     private words : any;
     private grammars : any;
     private hypotheses : any[];
 
-    constructor(worker : Worker, settings : SpeechSettings) {
+    constructor(worker : Worker, settings : SpeechSettings, onStopped : Function) {
+        this.onStopped = onStopped;
         this.worker = worker;
         this.worker.onmessage = (e) => {
             this.onWorkerMessage(e);
         }
 
-        // Prevents advancement of processing by worker thread once audio recording has been terminated
-        this.stopped = false;
 
         this.hypotheses = [];
 
@@ -49,7 +49,6 @@ class RecognizerConsumer {
         }
         this.callbackSequence.push(callback);
         this.callbackIndex = 0;
-        this.stopped = false;
     }
 
     /**
@@ -80,18 +79,19 @@ class RecognizerConsumer {
      * @param e The message sent to the main thread
      */
     private onWorkerMessage(e : any) : void {
-        if (!this.stopped) {
-            console.log('FROM RECOGNIZER: ');
-            console.log(e);
-            // Recognizer wants to notify us that particular task has a status.
-            if (e.data.hasOwnProperty('id') && this.callbackIndex < this.callbackSequence.length) {
-                this.callbackSequence[this.callbackIndex++].apply(this, []);
-            }
+        // Recognizer wants to notify us that particular task has a status.
+        if (e.data.hasOwnProperty('id') && this.callbackIndex < this.callbackSequence.length) {
+            this.callbackSequence[this.callbackIndex++].apply(this, []);
+        }
 
-            // Recognizer has a new hypothesis
-            if (e.data.hasOwnProperty('hyp')) {
-                this.hypotheses.push(e.data);
-            }
+        // Recognizer has a new hypothesis
+        if (e.data.hasOwnProperty('hyp')) {
+            this.hypotheses.push(e.data);
+        }
+
+        // Recognizer has a new hypothesis
+        if (e.data.hasOwnProperty('final') && e.data.final) {
+            this.onStopped();
         }
     }
 
@@ -99,7 +99,6 @@ class RecognizerConsumer {
      * Clears this consumers data store
      */
     public clear() : void {
-        this.stopped = false;
         this.hypotheses = [];
     }
 
@@ -109,9 +108,6 @@ class RecognizerConsumer {
      */
     public postMessage(e : any) : void {
         this.worker.postMessage(e);
-        if (e.command == 'stop') {
-            this.stopped = true;
-        }
     }
 }
 

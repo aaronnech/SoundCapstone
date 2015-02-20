@@ -60,10 +60,6 @@ class Server {
      * @param {string} word The word they are saying
      */
     public sendRecording(rawData : any, word : string) : void {
-        console.log('SENDING CHILD RECORDING DATA: ');
-        console.log(rawData);
-        console.log('FOR WORD ' + word);
-
         if (!this.canSend()) return;
 
         (<any> $).post(Server.URL + 'recording/add', {
@@ -71,7 +67,8 @@ class Server {
             raw : rawData,
             word : word
         }, function(data) {
-           console.log(data);
+            console.log("Recording saved on server. Response:");
+            console.log(data);
         });
     }
 }
