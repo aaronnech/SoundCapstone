@@ -53,11 +53,15 @@ var getWav = function(rawBufs) {
     console.log(recordingLength);
 
     var leftChannel = rawBufs.map(function(LR) {
-        return LR[0];
+        return LR[0].map(function(str) {
+            return Number(str);
+        });
     });
 
     var rightChannel = rawBufs.map(function(LR) {
-        return LR[1];
+        return LR[1].map(function(str) {
+            return Number(str);
+        });
     });
 
     console.log("CHANNEL LENGTH: " + leftChannel.length);

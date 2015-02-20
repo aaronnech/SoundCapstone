@@ -29,6 +29,7 @@
 	    });
 	};
 	this.start = function(data) {
+		rawInput = [];
 	    this.consumers.forEach(function(consumer, y, z) {
                 consumer.postMessage({ command: 'start', data: data });
 		recording = true;
