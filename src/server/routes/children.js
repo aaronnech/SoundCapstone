@@ -2,18 +2,16 @@ var User = require('../model/User');
 var Child = require('../model/Child');
 
 var users = require('./users');
-var uuid = require('node-uuid');
 
 // Adds a child to the current logged in user
 exports.add = function(req, res) {
     console.log('adding child');
 
     users.getLoggedIn(req, res, function(user) {
-        var token = uuid.v1();
         var child = new Child({
             '_therapist' : user._id,
             'name' : req.body.name,
-            'token' : token
+            'token' : req.body.token
         });
 
         child.save(function(err) {

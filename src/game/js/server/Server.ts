@@ -1,18 +1,17 @@
 ///<reference path="../def/jquery.d.ts" />
+declare var Hashids : any;
 
 /**
  * The server API singleton
  * This acts as the central server API endpoint for the rest of the app
  */
 class Server {
-    // If a heartbeat takes over 10000 milliseconds to complete,
-    // We should go into offline mode
-    private static TIMEOUT : number = 10000
     private static URL : string = "/api/";
 
     private static INSTANCE : Server = null;
 
     private key : string;
+    private enabled : boolean;
 
     /**
      * Should not be called directly. Use getInstance() instead.
@@ -22,8 +21,20 @@ class Server {
             throw 'Singleton already constructed!';
         }
 
-        // TODO: Hard coded for now
-        this.key = '62233980-b7a5-11e4-8bd3-adc946e88124';
+        this.enabled = true;
+
+        // Set the client token to a new generated token if one has not
+        // been generated yet.
+        var token : string = window.localStorage.getItem('token');
+        if (token) {
+            this.key = token;
+        } else {
+            var hash : any = new Hashids(Math.random() * 2147483647 + "");
+            this.key = hash.encode((new Date()).getTime());
+            window.localStorage.setItem('token', this.key);
+        }
+
+        console.log(this.key);
     }
 
     /**
@@ -43,15 +54,15 @@ class Server {
      * @returns {boolean} True if we can send, false otherwise
      */
     private canSend() : boolean {
-        return this.key != null;
+        return this.enabled && this.key != null;
     }
 
     /**
-     * Sets the client key to connect to the server
-     * @param {string} key The client key
+     * Get the client key used by the application
+     * @return {string} The client key
      */
-    public setKey(key : string) : void {
-        this.key = key;
+    public getKey() : string {
+        return this.key;
     }
 
     /**

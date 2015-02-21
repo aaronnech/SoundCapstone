@@ -1,6 +1,5 @@
 var Child = require('../model/Child');
 var Recording = require('../model/Recording');
-var users = require('./users');
 
 // Middleware that checks for the existence of a childId
 // In the request.
@@ -13,6 +12,7 @@ exports.hasChildId = function(req, res, next) {
     }
 };
 
+// Writes UTF character bytes into an array buffer at a particular offset
 var writeUTFBytes = function(view, offset, string){
     var lng = string.length;
     for (var i = 0; i < lng; i++){
@@ -20,6 +20,8 @@ var writeUTFBytes = function(view, offset, string){
     }
 }
 
+// Interleaves left and right microphone channels to produce
+// an interleaved stream
 var interleave = function(leftChannel, rightChannel){
     var length = leftChannel.length + rightChannel.length;
     var result = new Float32Array(length);
@@ -34,6 +36,7 @@ var interleave = function(leftChannel, rightChannel){
     return result;
 };
 
+// Merges a channel buffer from a microphone
 var mergeBuffers = function(channelBuffer, recordingLength){
     var result = new Float32Array(recordingLength);
     var offset = 0;
@@ -46,7 +49,8 @@ var mergeBuffers = function(channelBuffer, recordingLength){
     return result;
 };
 
-
+// Gets an ArrayBuffer representation of a wav file made up from the raw microphone data
+// given
 var getWav = function(rawBufs) {
     var recordingLength = 4096 * rawBufs.length;
     console.log(rawBufs.length);
@@ -110,6 +114,7 @@ var getWav = function(rawBufs) {
     return view;
 };
 
+// Converts an array buffer to a normal binary buffer
 var toBuffer = function(ab) {
     var buffer = new Buffer(ab.byteLength);
     var view = new Uint8Array(ab);
@@ -121,50 +126,64 @@ var toBuffer = function(ab) {
 
 // Gets a specific recording
 exports.getRecording = function(req, res) {
-    users.getLoggedIn(req, res, function(user) {
-        console.log(req.query);
-        Recording.findOne({_id : req.query.id, _therapist : user._id}, function(err, recording) {
-            if (err || !recording) {
-                console.log(err);
-                res.json({error: 'Error getting recording'});
-            } else {
-                res.json({recording : recording, success : true});
-            }
-        });
+    Recording.findById(req.query.id, function(err, recording) {
+        if (err || !recording) {
+            console.log(err);
+            res.json({error: 'Error getting recording'});
+        } else {
+            res.json({recording : recording, success : true});
+        }
     });
 };
 
-// Adds a recording
+// Adds a recording from the game application
 exports.add = function(req, res) {
-    Child.findOne({token : req.body.childId}, function(err, child) {
-        if (err || !child) {
-            console.log(err);
-            res.json({error : 'Error saving recording'});
+    Child.find({token : req.body.token}, function(err, children) {
+        if (err || !children || children.length == 0) {
+            // If there was no child in the database that matches the token,
+            // this means that no therapist is currently actively listening to that
+            // child and therefore we don't need to save this recording.
+            res.json({error : 'Won\'t save recording as no therapist is listening'});
         } else {
+            // We have found at least one therapist listening.
+
+            // Create a wav file from the incoming data
+            // and then pack it into a binary buffer in the
+            // database
             var wavFile = getWav(req.body.raw);
             var buffer = toBuffer(wavFile.buffer);
             var recording = new Recording({
                 'raw' : buffer,
                 'word' : req.body.word,
-                '_therapist' : child._therapist
+                'appToken' : req.body.token
             });
 
-            // Push recording into child and save
-            child.recordings.push(recording);
-            recording.save(function(err) {
-                if (err) {
-                    console.log(err);
-                    res.json({error: 'Error saving recording'});
-                } else {
-                    child.save(function(err) {
-                        if (err) {
-                            console.log(err);
-                            res.json({error: 'Error saving recording'});
-                        } else {
-                            res.json({success : true});
+            // Update all children records matched with this token to have a reference
+            // to this recording
+            var updatedCount = 0;
+            children.forEach(function(child){
+                child.recordings.push(recording);
+                child.save(function(err){
+                    if (err) {
+                        console.log(err);
+                        res.json({error: 'Error saving recording'});
+                    } else {
+                        updatedCount++;
+
+                        // see if we're done updating
+                        if(updatedCount == children.length){
+                            // Save the recording record to the database when all children have been updated
+                            recording.save(function(err) {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({error: 'Error saving recording'});
+                                } else {
+                                    res.json({success : true});
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
             });
         }
     });
