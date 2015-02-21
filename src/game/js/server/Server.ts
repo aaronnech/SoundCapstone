@@ -74,7 +74,7 @@ class Server {
         if (!this.canSend()) return;
 
         (<any> $).post(Server.URL + 'recording/add', {
-            childId : this.key,
+            token : this.key,
             raw : rawData,
             word : word
         }, function(data) {

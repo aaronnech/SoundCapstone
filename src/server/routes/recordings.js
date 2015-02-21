@@ -4,7 +4,7 @@ var Recording = require('../model/Recording');
 // Middleware that checks for the existence of a childId
 // In the request.
 exports.hasChildId = function(req, res, next) {
-    if (req.body.childId) {
+    if (req.body.token) {
         next();
     } else {
         console.log('no child id!');
