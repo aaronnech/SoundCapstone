@@ -155,7 +155,7 @@ exports.add = function(req, res) {
             var recording = new Recording({
                 'raw' : buffer,
                 'word' : req.body.word,
-                'appToken' : req.body.token
+                'token' : req.body.token
             });
 
             // Update all children records matched with this token to have a reference

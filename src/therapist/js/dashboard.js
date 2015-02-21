@@ -128,7 +128,7 @@ $(function () {
     };
 
     function addChild() {
-        child = {name : $("#childNameInput").val()};
+        var child = {name : $("#childNameInput").val(), token : $("#childTokenInput").val()};
         $.post("/api/child/add", child, function(data) {
             console.log(data);
 
