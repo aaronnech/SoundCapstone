@@ -128,12 +128,11 @@ var toBuffer = function(ab) {
 
 // Gets a specific recording
 exports.getRecording = function(req, res) {
-    Recording.findById(req.query.id).lean().exec(function(err, recording) {
+    Recording.findById(req.query.id, function(err, recording) {
         if (err || !recording) {
             console.log(err);
             res.json({error: 'Error getting recording'});
         } else {
-            recording.raw = uncompress(recording.raw);
             res.json({recording : recording, success : true});
         }
     });
@@ -151,10 +150,10 @@ exports.add = function(req, res) {
             // We have found at least one therapist listening.
 
             // Create a wav file from the incoming data
-            // and then pack it into a binary buffer
-            // then compress this for final storage
+            // and then pack it into a binary buffer in the
+            // database
             var wavFile = getWav(req.body.raw);
-            var buffer = compress(toBuffer(wavFile.buffer));
+            var buffer = toBuffer(wavFile.buffer);
             var recording = new Recording({
                 'raw' : buffer,
                 'word' : req.body.word,
