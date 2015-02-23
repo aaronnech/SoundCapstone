@@ -11,7 +11,7 @@ class SpeechSettings {
         */
         sphinxWords : [
             ["GREEN", "G R IY N"], ["GWEEN", "G W IY N"],
-            ["RABBIT", "R AE B AH T"], ["WABBIT", "W AE B AH T"]
+            ["RABBIT", "R AE B AH T"], ["WABBIT", "W AE B AH T"],
             ["AIR", "EH R"], ["AIW", "EH W"],
             ["ARE", "AA R"], ["AWE", "AA W"],
             ["BAR", "B AA R"], ["BAW", "B AA W"],
