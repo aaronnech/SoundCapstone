@@ -8,6 +8,7 @@ import Server = require('./server/Server');
  */
 class BootState extends Phaser.State {
     public preload() {
+        this.load.image('backButton', 'img/back-button.png');
         this.load.image('menuBackground', 'img/menu-background.png');
         this.load.image('balloonsBackground', 'img/balloons-background.png');
         this.load.image('playButton', 'img/play-button.png');
