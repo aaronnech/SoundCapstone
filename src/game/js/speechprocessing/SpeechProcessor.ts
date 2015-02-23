@@ -80,6 +80,8 @@ class SpeechProcessor {
      * @return 0 if it was wrong, 1 if it is not quite right, and 2 if it is correct
      */
     public getCorrectness(result : any) {
+        console.log("getting correctness");
+        console.log(result[1]);
         var pair = this.wordBank.getCurrentPair();
 
         // TODO: Maybe do something smarter with the cumulative
