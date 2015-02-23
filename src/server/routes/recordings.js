@@ -1,7 +1,5 @@
 var Child = require('../model/Child');
 var Recording = require('../model/Recording');
-var compress = require('compress-buffer').compress;
-var uncompress = require('compress-buffer').uncompress;
 
 // Middleware that checks for the existence of a childId
 // In the request.
