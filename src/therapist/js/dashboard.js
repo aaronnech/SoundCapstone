@@ -125,6 +125,7 @@ $(function () {
                             src: "/therapist/img/ajax-loader.gif",
                             alt: "Loading Icon"
                         });
+                        $(".loadingGif").remove();
                         loadingGif.appendTo($(this));
                         if (cachedRecordings[this.id]) {
                             console.log("Loading " + this.id + " from cache");
@@ -153,7 +154,6 @@ $(function () {
 
             if (data.success) {
                 addChildToDOM(data.child);
-                $("#studentId").text(data.child.token);
                 $("#studentIdAlert").show();
             } else if (data.notAuth) {
                 reAuth();
@@ -230,6 +230,10 @@ $(function () {
             });
             $(".playImage").remove();
             playImage.appendTo(loadingGif.parent());
+
+            setTimeout(function() {
+                $(".playImage").remove();
+            }, 10000);
         } else if (data.notAuth) {
             reAuth();
         }
