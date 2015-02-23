@@ -1,5 +1,6 @@
 $(function () {
     // Register listeners
+    getUserInfo();
     setup();
 
     // Register the buttons to fire when clicked or when the form has been submitted
@@ -7,6 +8,16 @@ $(function () {
         $("#createAccount").click(createAccountClick);
         $("#formSignup").submit(signupButtonClick);
         $("#formSignin").submit(loginButtonClick);
+    };
+
+    function getUserInfo() {
+        $.get('/api/user', {}, function(data) {
+            console.log(data);
+
+            if (data.success) {
+                window.location = "dashboard.html";
+            }
+        });
     };
 
     // Drops down the modal for the user to register a new account

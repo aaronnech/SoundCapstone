@@ -6,6 +6,9 @@ $(function () {
     function setup() {
         $('#tabs').tab();
         $("#addChildButton").click(addChild);
+        $("#audio-player").bind('ended', function(){
+            $(".playImage").remove();
+        });
         refreshChildren();
         getUserInfo();
     };
@@ -116,6 +119,13 @@ $(function () {
 
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
+                        // Loading GIF
+                        var loadingGif = $("<img>", {
+                            class: "loadingGif",
+                            src: "/therapist/img/ajax-loader.gif",
+                            alt: "Loading Icon"
+                        });
+                        loadingGif.appendTo($(this));
                         if (cachedRecordings[this.id]) {
                             console.log("Loading " + this.id + " from cache");
                             onReceiveRecording(cachedRecordings[this.id]);
@@ -123,13 +133,7 @@ $(function () {
                             var params = {id: this.id};
                             console.log(params);
 
-                            // Loading GIF
-                            var loadingGif = $("<img>", {
-                                class: "loadingGif",
-                                src: "/therapist/img/ajax-loader.gif",
-                                alt: "Loading Icon"
-                            });
-                            loadingGif.appendTo($(this));
+
                             $.get("/api/recording", params, onReceiveRecording);
                         }
 
@@ -214,12 +218,22 @@ $(function () {
     };
 
     function onReceiveRecording(data) {
-        $(".loadingGif").remove();
+        var loadingGif = $(".loadingGif");
         if (data.success) {
             cachedRecordings[data.recording._id] = data;
             playRecording(data.recording, $("#audio-player").get()[0]);
+
+            var playImage = $("<img>", {
+                class: "playImage",
+                src: "/therapist/img/play.png",
+                alt: "Play Icon"
+            });
+            $(".playImage").remove();
+            playImage.appendTo(loadingGif.parent());
         } else if (data.notAuth) {
             reAuth();
         }
+
+        loadingGif.remove();
     };
 });
