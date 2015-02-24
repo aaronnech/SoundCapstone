@@ -122,7 +122,14 @@ $(function () {
                         } else {
                             var params = {id: this.id};
                             console.log(params);
-                            // TODO show loading gif
+
+                            // Loading GIF
+                            var loadingGif = $("<img>", {
+                                class: "loadingGif",
+                                src: "/therapist/img/ajax-loader.gif",
+                                alt: "Loading Icon"
+                            });
+                            loadingGif.appendTo($(this));
                             $.get("/api/recording", params, onReceiveRecording);
                         }
 
@@ -207,7 +214,7 @@ $(function () {
     };
 
     function onReceiveRecording(data) {
-        // TODO remove loading gif
+        $(".loadingGif").remove();
         if (data.success) {
             cachedRecordings[data.recording._id] = data;
             playRecording(data.recording, $("#audio-player").get()[0]);

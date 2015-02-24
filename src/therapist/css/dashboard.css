@@ -16,3 +16,7 @@
     display: none;
     margin-top: 15px;
 }
+
+.loadingGif {
+    float: right;
+}
