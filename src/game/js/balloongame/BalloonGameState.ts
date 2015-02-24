@@ -18,9 +18,12 @@ class BalloonGameState extends Phaser.State {
     private microphone : MicrophoneButton;
     private speechProcessor : SpeechProcessor;
     private wasp : Phaser.Group;
+    private fairy : Phaser.Group;
     private height : number;
     private width : number;
     private lastX : number;
+    private lost : boolean;
+    private micPause : boolean;
     private gameOver : Phaser.Text;
 
     public preload() {
@@ -32,7 +35,7 @@ class BalloonGameState extends Phaser.State {
         var wordStyle = { font: "45px Cambria", fill: "#333333", align: "center" };
         var gameOverStyle = { font: "80px Cambria", fill: "#000000", align: "center" };
         this.tada = this.game.add.audio('tada');
-        this.tryagain = this.game.add.audio('tryagain');
+        this.tryagain = this.game.add.audio('try-again');
 
         this.height = this.world.height;
         this.width = this.world.width;
@@ -51,6 +54,7 @@ class BalloonGameState extends Phaser.State {
         this.bee.body.velocity.x = 0;
         this.word = this.game.add.text(this.width / 3, this.height / 10, "Now say: " + firstWord, wordStyle);
         this.microphone = new MicrophoneButton(this.game, 20, 20, (res) => { this.onMicrophoneFinish(res);} );
+        this.microphone.visible = false;
 
         this.honey = this.game.add.group();
         this.honey.enableBody = true;
@@ -60,58 +64,111 @@ class BalloonGameState extends Phaser.State {
         this.wasp.enableBody = true;
         this.wasp.physicsBodyType = Phaser.Physics.ARCADE;
 
+        this.fairy = this.game.add.group();
+        this.fairy.enableBody = true;
+        this.fairy.physicsBodyType = Phaser.Physics.ARCADE;
+
         this.gameOver = this.game.add.text(this.width / 3, this.height / 10, "GAME OVER\nClick to Play Again", gameOverStyle);
         this.gameOver.visible = false;
         this.game.time.events.loop(Phaser.Timer.SECOND, this.spawnHoney, this);
         this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.spawnWasp, this);
+        this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.spawnFairy, this);
 
         this.game.paused = false;
+
+        this.lost = false;
+        this.micPause = false;
 
         this.game.input.onDown.add((ev) => { this.reset(ev); }, self);
     }
 
     private onCorrect() {
         this.tada.play();
-        this.bee.body.velocity.x = this.width / 10;
+        var nextWord = this.speechProcessor.getNextWord();
+        this.word.setText("Now say: " + nextWord);
+        this.word.visible = false;
+        this.game.paused = false;
+        this.microphone.visible = false;
+        this.unpause();
     }
 
     private onWrong() {
         this.tryagain.play();
     }
 
-    public honeyCollision(bee : Phaser.Sprite, honey : Phaser.Sprite) {
+    private honeyCollision(bee : Phaser.Sprite, honey : Phaser.Sprite) {
         honey.kill();
     }
 
-    public waspCollision(bee : Phaser.Sprite, wasp : Phaser.Sprite) {
+    private waspCollision(bee : Phaser.Sprite, wasp : Phaser.Sprite) {
         bee.kill();
+        this.lost = true;
         this.game.paused = true;
-        this.word.visible = false;
         this.gameOver.visible = true;
     }
 
+    private fairyCollision(bee : Phaser.Sprite, fairy : Phaser.Sprite) {
+        this.microphone.visible = true;
+        this.word.visible = true;
+        this.pause();
+    }
+
+
+    private spawnFairy() {
+        if(!this.micPause) {
+            var f = this.fairy.create(this.width, this.game.world.randomY, 'fairy');
+            f.setOutOfBoundsKill = true;
+            var anim = f.animations.add('fly');
+            anim.play(10, true);
+            f.body.velocity.x   = this.width / -5;
+        }
+    }
     private spawnWasp() {
-        var w = this.wasp.create(this.width, this.game.world.randomY, 'wasp');
-        w.setOutOfBoundsKill = true;
-        w.body.velocity.x = this.width / -5;
+        if(!this.micPause) {
+            var w = this.wasp.create(this.width, this.game.world.randomY, 'wasp');
+            w.setOutOfBoundsKill = true;
+            w.body.velocity.x = this.width / -5;
+        }
     }
 
     private spawnHoney() {
-        var h = this.honey.create(this.width, this.game.world.randomY, 'honey');
-        h.setOutOfBoundsKill = true;
-        h.body.velocity.x = this.width / -5;
+        if(!this.micPause) {
+            var h = this.honey.create(this.width, this.game.world.randomY, 'honey');
+            h.setOutOfBoundsKill = true;
+            h.body.velocity.x = this.width / -5;
+        }
     }
 
     private reset(event : any) {
-        if(this.game.paused) {
+        if(this.lost) {
             this.honey.removeAll();
             this.wasp.removeAll();
+            this.fairy.removeAll();
             this.bee.revive();
             this.bee.y = this.height / 2;
             this.gameOver.visible = false;
             this.word.visible = true;
             this.game.paused = false;
+            this.lost = false;
         }
+    }
+
+    private pause() {
+        this.micPause = true;
+        this.honey.setAll('body.velocity.x', 0);
+        this.wasp.setAll('body.velocity.x', 0);
+        this.fairy.setAll('body.velocity.x', 0);  
+    }
+
+    private unpause() {
+        this.micPause = false;
+        this.honey.setAll('body.velocity.x', this.width / -5);
+        this.wasp.setAll('body.velocity.x', this.width / -5);
+        this.fairy.setAll('body.velocity.x', this.width / -5);  
+    }
+
+    private freeze(sprite:Phaser.Sprite) {
+        sprite.body.velocity.x = 0;
     }
 
 
@@ -125,13 +182,11 @@ class BalloonGameState extends Phaser.State {
 
         if(correctness == 2) {
             this.onCorrect();
-            var nextWord = this.speechProcessor.getNextWord();
-            this.word.setText("Now say: " + nextWord);
         }
     }
 
     public update() {
-        if (this.game.input.mousePointer.isDown) {
+        if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.y) {
                 this.bee.body.velocity.y = this.height / 3;
             }
@@ -148,6 +203,7 @@ class BalloonGameState extends Phaser.State {
         }
         this.game.physics.arcade.collide(this.bee, this.honey, this.honeyCollision, null, this);
         this.game.physics.arcade.collide(this.bee, this.wasp, this.waspCollision, null, this);
+        this.game.physics.arcade.collide(this.bee, this.fairy, this.fairyCollision, null, this);
     }
 }
 
