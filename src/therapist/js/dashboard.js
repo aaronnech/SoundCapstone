@@ -1,6 +1,7 @@
 $(function () {
     // Register listeners
     setup();
+    var cachedRecordings = {};
 
     function setup() {
         $('#tabs').tab();
@@ -115,9 +116,15 @@ $(function () {
 
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
-                        var params = {id: this.id};
-                        console.log(params);
-                        $.get("/api/recording", params, onReceiveRecording);
+                        if (cachedRecordings[this.id]) {
+                            onReceiveRecording(cachedRecordings[this.id]);
+                        } else {
+                            var params = {id: this.id};
+                            console.log(params);
+                            // TODO show loading gif
+                            $.get("/api/recording", params, onReceiveRecording);
+                        }
+
                         return false;
                     });
                 }
@@ -199,7 +206,9 @@ $(function () {
     };
 
     function onReceiveRecording(data) {
+        // TODO remove loading gif
         if (data.success) {
+            cachedRecordings[data.recording._id] = data;
             playRecording(data.recording, $("#audio-player").get()[0]);
         } else if (data.notAuth) {
             reAuth();
