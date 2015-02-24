@@ -9,7 +9,7 @@
 }
 
 #addStudentContainer {
-    width: 300px;
+    width: 680px;
 }
 
 #studentIdAlert {
@@ -20,3 +20,13 @@
 .loadingGif, .playImage {
     float: right;
 }
+
+#childTokenInput, #childNameInput {
+  width: 200px;
+}
+
+#addChildButton {
+  width: 75px;
+  float: right;
+}
+
