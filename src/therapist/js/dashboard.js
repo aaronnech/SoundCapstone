@@ -228,6 +228,7 @@ $(function () {
                 src: "/therapist/img/play.png",
                 alt: "Play Icon"
             });
+            $(".playImage").remove();
             playImage.appendTo(loadingGif.parent());
         } else if (data.notAuth) {
             reAuth();
