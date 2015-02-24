@@ -156,9 +156,14 @@ $(function () {
                 addChildToDOM(data.child);
                 var name = data.child.name;
                 $("#addedChildName").text(name);
+                $("#studentIdAlertFail").hide();
                 $("#studentIdAlert").show();
             } else if (data.notAuth) {
                 reAuth();
+            } else {
+                $("#studentIdAlert").hide();
+                $("#errorText").text(data.error);
+                $("#studentIdAlertFail").show();
             }
         });
     };
