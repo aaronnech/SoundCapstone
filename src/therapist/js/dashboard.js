@@ -154,6 +154,8 @@ $(function () {
 
             if (data.success) {
                 addChildToDOM(data.child);
+                var name = data.child.name;
+                $("#addedChildName").text(name);
                 $("#studentIdAlert").show();
             } else if (data.notAuth) {
                 reAuth();
