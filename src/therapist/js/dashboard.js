@@ -6,6 +6,9 @@ $(function () {
     function setup() {
         $('#tabs').tab();
         $("#addChildButton").click(addChild);
+        $("#audio-player").bind('ended', function(){
+            $(".playImage").remove();
+        });
         refreshChildren();
         getUserInfo();
     };
@@ -214,12 +217,21 @@ $(function () {
     };
 
     function onReceiveRecording(data) {
-        $(".loadingGif").remove();
+        var loadingGif = $(".loadingGif");
         if (data.success) {
             cachedRecordings[data.recording._id] = data;
             playRecording(data.recording, $("#audio-player").get()[0]);
+
+            var playImage = $("<img>", {
+                class: "playImage",
+                src: "/therapist/img/play.png",
+                alt: "Play Icon"
+            });
+            playImage.appendTo(loadingGif.parent());
         } else if (data.notAuth) {
             reAuth();
         }
+
+        loadingGif.remove();
     };
 });

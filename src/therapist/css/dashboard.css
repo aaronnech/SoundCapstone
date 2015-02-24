@@ -17,6 +17,6 @@
     margin-top: 15px;
 }
 
-.loadingGif {
+.loadingGif, .playImage {
     float: right;
 }
