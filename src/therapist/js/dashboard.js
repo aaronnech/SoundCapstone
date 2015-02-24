@@ -117,6 +117,7 @@ $(function () {
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
                         if (cachedRecordings[this.id]) {
+                            console.log("Loading " + this.id + " from cache");
                             onReceiveRecording(cachedRecordings[this.id]);
                         } else {
                             var params = {id: this.id};
