@@ -8,7 +8,7 @@
     margin-right: auto;
 }
 
-#addStudentContainer {
+#addStudentContainer, #studentIdAlert {
     width: 680px;
 }
 
