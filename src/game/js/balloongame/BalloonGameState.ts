@@ -108,6 +108,7 @@ class BalloonGameState extends Phaser.State {
     }
 
     private fairyCollision(bee : Phaser.Sprite, fairy : Phaser.Sprite) {
+        fairy.kill();
         this.microphone.visible = true;
         this.word.visible = true;
         this.pause();
