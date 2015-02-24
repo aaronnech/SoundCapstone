@@ -119,6 +119,13 @@ $(function () {
 
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
+                        // Loading GIF
+                        var loadingGif = $("<img>", {
+                            class: "loadingGif",
+                            src: "/therapist/img/ajax-loader.gif",
+                            alt: "Loading Icon"
+                        });
+                        loadingGif.appendTo($(this));
                         if (cachedRecordings[this.id]) {
                             console.log("Loading " + this.id + " from cache");
                             onReceiveRecording(cachedRecordings[this.id]);
@@ -126,13 +133,7 @@ $(function () {
                             var params = {id: this.id};
                             console.log(params);
 
-                            // Loading GIF
-                            var loadingGif = $("<img>", {
-                                class: "loadingGif",
-                                src: "/therapist/img/ajax-loader.gif",
-                                alt: "Loading Icon"
-                            });
-                            loadingGif.appendTo($(this));
+
                             $.get("/api/recording", params, onReceiveRecording);
                         }
 
