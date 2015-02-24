@@ -69,6 +69,7 @@ class BalloonGameState extends Phaser.State {
 
     private spawnHoney() {
         var h = this.honey.create(this.width, this.game.world.randomY, 'honey');
+        h.setOutOfBoundsKill = true;
         h.body.velocity.x = this.width / -5;
     }
 
@@ -91,12 +92,12 @@ class BalloonGameState extends Phaser.State {
     public update() {
         if (this.game.input.mousePointer.isDown) {
             if (this.game.input.mousePointer.y > this.bee.body.y) {
-                this.bee.body.velocity.y = this.height / 5;
+                this.bee.body.velocity.y = this.height / 3;
             }
 
             if (this.game.input.mousePointer.y < this.bee.body.y) {
-                this.bee.body.velocity.y = this.height / -5;
-            }  
+                this.bee.body.velocity.y = this.height / -3;
+            }
 
             if (this.game.input.mousePointer.y > this.bee.body.bottom && this.game.input.mousePointer.y < this.bee.body.top) {
                 this.bee.body.velocity.y = 0;
