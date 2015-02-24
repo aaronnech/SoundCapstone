@@ -8,11 +8,11 @@
     margin-right: auto;
 }
 
-#addStudentContainer, #studentIdAlert {
+#addStudentContainer, #studentIdAlert. #studentIdAlertFail {
     width: 680px;
 }
 
-#studentIdAlert {
+#studentIdAlert, #studentIdAlertFail {
     display: none;
     margin-top: 15px;
 }
