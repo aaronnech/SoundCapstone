@@ -2,6 +2,7 @@ $(function () {
     // Register listeners
     setup();
     var cachedRecordings = {};
+    var children = {};
 
     function setup() {
         $('#tabs').tab();
@@ -9,6 +10,7 @@ $(function () {
         $("#audio-player").bind('ended', function(){
             $(".playImage").remove();
         });
+
         refreshChildren();
         getUserInfo();
     };
@@ -33,13 +35,21 @@ $(function () {
                 // I added a audio tag on the dashboard.html page with id=audio-player
                 // playRecording(data.children[0].recordings[4], $("#audio-player").get()[0]);
 
-                var addStudentTab =  $("#addStudentTab").detach();
-                var addStudentBody = $("#addStudent").detach();
-                $("#tabs").empty().append(addStudentTab);
-                $("#studentTabs").empty().append(addStudentBody);
+                // var addStudentTab =  $("#addStudentTab").detach();
+                // var addStudentBody = $("#addStudent").detach();
+                // $("#tabs").empty().append(addStudentTab);
+                // $("#studentTabs").empty().append(addStudentBody);
                 for (var i = 0; i < data.children.length; i++) {
                     var child = data.children[i];
-                    addChildToDOM(child);
+                    var panels;
+                    if (!children[child._id]) {
+                        children[child._id] = {}
+                        addChildToDOM(child);
+                        panels = $("<div>", {class: "panel-group", id: "panelGroup" + child._id});
+                        panels.appendTo($("#" + child._id));
+                    } else {
+                        panels = $("#panelGroup" + child._id);
+                    }
 
                     // Add the recordings into a list group
                     var words = {};
@@ -54,68 +64,84 @@ $(function () {
                     }
 
                     // Yay Hack
-                    var panels = $("<div>", {class: "panel-group"});
+
                     for (var word in words) {
+                        var recordingPanelBody;
                         var recordings = words[word];
-                        var panelId = child._id + "_" + word;
+                        if (!children[child._id][word]) {
+                            children[child._id][word] = [];
+                            var panelId = child._id + "_" + word;
 
-                        var panel = $("<div>", {
-                            class: "panel panel-default"
-                        });
-
-                        var tag = $("<a>", {
-                            class: "list-group-item",
-                            "data-toggle": "collapse",
-                            href: "#" + panelId,
-                            text: word
-                        });
-
-                        var tagCount = $("<span>", {
-                            class: "badge",
-                            text: recordings.length
-                        });
-
-                        var recordingPanel = $("<div>", {
-                            class: "panel-collapse collapse",
-                            id: panelId
-                        });
-
-                        var recordingPanelBody = $("<div>", {
-                            class: "panel-body"
-                        });
-
-                        for (var j = 0; j < recordings.length; j++) {
-                            var datetime = new Date(recordings[j].date);
-                            var recordingEntry = $("<a>", {
-                                class: "list-group-item recording",
-                                href: "#",
-                                text: datetime.toLocaleString(),
-                                id: recordings[j].id
+                            var panel = $("<div>", {
+                                class: "panel panel-default"
                             });
 
-                            // TODO: Delete button
-                            // var deleteButton = $("<button>", {
-                            //     class: "btn btn-danger btn-mini",
-                            //     text: "Delete"
-                            // });
+                            var tag = $("<a>", {
+                                class: "list-group-item",
+                                "data-toggle": "collapse",
+                                href: "#" + panelId,
+                                text: word
+                            });
 
-                            // Add the entry to the body
-                            recordingEntry.appendTo(recordingPanelBody);
+                            var tagCount = $("<span>", {
+                                class: "badge",
+                                text: recordings.length
+                            });
+
+                            var recordingPanel = $("<div>", {
+                                class: "panel-collapse collapse",
+                                id: panelId
+                            });
+
+                            recordingPanelBody = $("<div>", {
+                                class: "panel-body",
+                                id: "panelBody" + word + child._id
+                            });
+
+                            // Tags first
+                            tagCount.appendTo(tag);
+                            tag.appendTo(panel);
+
+                            // Then recordings
+                            recordingPanelBody.appendTo(recordingPanel);
+                            recordingPanel.appendTo(panel);
+
+                            // Then attach to page
+                            panel.appendTo(panels);
+                        } else {
+                            recordingPanelBody = $("#panelBody" + word + child._id);
                         }
 
-                        // Tags first
-                        tagCount.appendTo(tag);
-                        tag.appendTo(panel);
+                        for (var j = 0; j < recordings.length; j++) {
+                            if (!children[child._id][word][recordings[j].id]) {
+                                var datetime = new Date(recordings[j].date);
+                                children[child._id][word][recordings[j].id] = true;
+                                var colorClass;
+                                console.log(recordings[j]);
+                                switch (recordings[j].correctness) {
+                                    case 0:
+                                        colorClass = "incorrect";
+                                        break
+                                    case 1:
+                                        colorClass = "unsure";
+                                        break
+                                    case 2:
+                                        colorClass = "correct";
+                                        break
+                                }
 
-                        // Then recordings
-                        recordingPanelBody.appendTo(recordingPanel);
-                        recordingPanel.appendTo(panel);
+                                var recordingEntry = $("<a>", {
+                                    class: "list-group-item recording " + colorClass,
+                                    href: "#",
+                                    text: datetime.toLocaleString(),
+                                    id: recordings[j].id
+                                });
 
-                        // Then attach to page
-                        panel.appendTo(panels);
+                                // Add the entry to the body
+                                recordingEntry.appendTo(recordingPanelBody);
+                            }
+                        }
                     }
-
-                    panels.appendTo($("#" + child._id));
 
                     // Set up the click to download the recording
                     $(".recording").unbind("click").click(function() {
@@ -144,6 +170,9 @@ $(function () {
             } else if (data.notAuth) {
                 reAuth();
             }
+
+            // Refresh the page
+            setTimeout(refreshChildren, 1000);
         });
     };
 
