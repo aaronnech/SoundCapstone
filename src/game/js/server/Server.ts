@@ -70,13 +70,14 @@ class Server {
      * @param {number[]} rawData The raw data of the recording
      * @param {string} word The word they are saying
      */
-    public sendRecording(rawData : any, word : string) : void {
+    public sendRecording(rawData : any, word : string, correctness : number) : void {
         if (!this.canSend()) return;
 
         (<any> $).post(Server.URL + 'recording/add', {
             token : this.key,
             raw : rawData,
-            word : word
+            word : word,
+            correctness : correctness
         }, function(data) {
             console.log("Recording saved on server. Response:");
             console.log(data);

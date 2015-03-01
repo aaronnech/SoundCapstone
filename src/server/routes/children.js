@@ -46,7 +46,7 @@ var appendHistogram = function(children) {
 exports.getMyChildren = function(req, res) {
     users.getLoggedIn(req, res, function(user) {
         Child.find({'_therapist' : user._id})
-             .populate('recordings', 'word added')
+             .populate('recordings', 'word added correctness')
              .lean()
              .exec(function(err, children) {
                         if (err) {

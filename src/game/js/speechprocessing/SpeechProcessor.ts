@@ -67,7 +67,7 @@ class SpeechProcessor {
             // Send recording to server
             var server = Server.getInstance();
             var pair = this.wordBank.getCurrentPair();
-            server.sendRecording(result[0], pair.right);
+            server.sendRecording(result[0], pair.right, this.getCorrectness(result));
 
             // Continue the callback chain
             callback(result);
@@ -79,7 +79,7 @@ class SpeechProcessor {
      * @param result The result of microphone input processing
      * @return 0 if it was wrong, 1 if it is not quite right, and 2 if it is correct
      */
-    public getCorrectness(result : any) {
+    public getCorrectness(result : any) : number {
         console.log("getting correctness");
         console.log(result[1]);
         var pair = this.wordBank.getCurrentPair();

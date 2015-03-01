@@ -155,6 +155,7 @@ exports.add = function(req, res) {
             var recording = new Recording({
                 'raw' : buffer,
                 'word' : req.body.word,
+                'correctness' : req.body.correctness,
                 'token' : req.body.token
             });
 
