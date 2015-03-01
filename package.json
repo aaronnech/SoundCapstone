@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "description": "A speech therapy game for kids",
   "scripts": {
-    "install_cordova" : "cordova create kimbee_cordova com.nickaaronryan.kimbee KimbeeCordova",
-    "install_android_cordova" : "cd kimbee_cordova && cordova platform add android && cd ..",
-    "cp_cordova" : "cp -R src/game/* kimbee_cordova/www",
-    "run_android_cordova" : "cd kimbee_cordova && cordova build && cordova run android && cd ..",
-    "android" : "rm -Rf kimbee_cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script run_android_cordova",
+    "install_cordova" : "cordova create _cordova com.nickaaronryan.kimbee KimbeeCordova",
+    "install_android_cordova" : "cd _cordova && cordova platform add android && cd ..",
+    "install_microphone" : "cd _cordova && cordova plugin add org.chromium.audiocapture && cd ..",
+    "cp_cordova" : "cp -R src/game/* _cordova/www && cp -R src/cordova_config/* _cordova/",
+    "run_android_cordova" : "cd _cordova && cordova build && cordova run android && cd ..",
+    "android" : "rm -Rf _cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script install_microphone && npm run-script run_android_cordova",
 
     "compile-game-ts": "cd src/game; find . -name \"*.ts\" | xargs ../../node_modules/.bin/tsc --module AMD; cd ../..",
 

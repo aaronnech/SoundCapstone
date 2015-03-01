@@ -31,6 +31,9 @@ class BootState extends Phaser.State {
     }
 
     public create() {
+        var wordStyle = { font: "45px Arial", fill: "#333333", align: "center" };
+        var text = this.game.add.text(this.world.width / 3, this.world.height / 10, "loading...", wordStyle);
+
         // Cause the game to go fullscreen
         this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         // Maximum touches allowed at once

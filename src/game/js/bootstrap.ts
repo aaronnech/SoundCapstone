@@ -5,4 +5,28 @@
 ///<reference path="./def/phaser.d.ts" />
 
 import App = require('./App');
-new App();
+
+declare var cordova : any;
+declare var PhoneGap : any;
+declare var phonegap : any;
+
+/**
+ * Determine whether the file loaded from PhoneGap or not
+ */
+function isPhoneGap() {
+    return (typeof cordova != "undefined"
+         || typeof PhoneGap != "undefined"
+         || typeof phonegap != "undefined")
+        && /^file:\/{3}[^\/]/i.test(window.location.href)
+        && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
+}
+
+function ready() {
+    new App();
+}
+
+if (isPhoneGap()) {
+    document.addEventListener("deviceready", ready, false);
+} else {
+    ready();
+}
