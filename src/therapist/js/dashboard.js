@@ -43,7 +43,6 @@ $(function () {
                     var child = data.children[i];
                     var panels;
                     if (!children[child._id]) {
-                        children[child._id] = {}
                         addChildToDOM(child);
                         panels = $("<div>", {class: "panel-group", id: "panelGroup" + child._id});
                         panels.appendTo($("#" + child._id));
@@ -56,9 +55,10 @@ $(function () {
                     for (var word in child.recordingMap) {
                         words[word] = []
                         for (var j = 0; j < child.recordingMap[word].length; j++) {
+                            var correctness = child.recordingMap[word][j].correctness;
                             var date = child.recordingMap[word][j].added;
                             var id = child.recordingMap[word][j]._id;
-                            var recording = {date : date, id : id};
+                            var recording = {date : date, id : id, correctness : correctness};
                             words[word].push(recording);
                         }
                     }
@@ -67,6 +67,7 @@ $(function () {
 
                     for (var word in words) {
                         var recordingPanelBody;
+                        var tagCount;
                         var recordings = words[word];
                         if (!children[child._id][word]) {
                             children[child._id][word] = [];
@@ -85,7 +86,8 @@ $(function () {
 
                             var tagCount = $("<span>", {
                                 class: "badge",
-                                text: recordings.length
+                                id : "tagCount" + word + child._id,
+                                text: 0
                             });
 
                             var recordingPanel = $("<div>", {
@@ -110,10 +112,12 @@ $(function () {
                             panel.appendTo(panels);
                         } else {
                             recordingPanelBody = $("#panelBody" + word + child._id);
+                            tagCount = $("#tagCount" + word + child._id);
                         }
 
                         for (var j = 0; j < recordings.length; j++) {
                             if (!children[child._id][word][recordings[j].id]) {
+                                tagCount.text(parseInt(tagCount.html()) + 1);
                                 var datetime = new Date(recordings[j].date);
                                 children[child._id][word][recordings[j].id] = true;
                                 var colorClass;
@@ -198,23 +202,26 @@ $(function () {
     };
 
     function addChildToDOM(child) {
-        // Add the tab header
-        $("<li>", {
-        }).append($("<a>", {
-            href: "#" + child._id,
-            "data-toggle": "tab",
-            text: child.name
-        })).prependTo("#tabs");
+        if (!children[child._id]) {
+            children[child._id] = {}
+            // Add the tab header
+            $("<li>", {
+            }).append($("<a>", {
+                href: "#" + child._id,
+                "data-toggle": "tab",
+                text: child.name
+            })).prependTo("#tabs");
 
-        // Add the content of the tab
-        $("<div>", {
-            class: "tab-pane",
-            id: child._id
-        }).append($("<h1>", {
-            text: child.name
-        })).append($("<h4>", {
-            text: "Token: " + child.token
-        })).prependTo("#studentTabs");
+            // Add the content of the tab
+            $("<div>", {
+                class: "tab-pane",
+                id: child._id
+            }).append($("<h1>", {
+                text: child.name
+            })).append($("<h4>", {
+                text: "Token: " + child.token
+            })).prependTo("#studentTabs");
+        }
     }
 
     function reAuth() {
