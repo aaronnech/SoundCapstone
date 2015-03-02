@@ -1,5 +1,6 @@
 ///<reference path="../def/phaser.d.ts" />
 import MicrophoneButton = require('../common/MicrophoneButton');
+import HoneyCounter = require('../common/HoneyCounter');
 import SpeechProcessor = require('../speechprocessing/SpeechProcessor');
 
 
@@ -17,12 +18,15 @@ class BalloonGameState extends Phaser.State {
     private word : Phaser.Text;
     private microphone : MicrophoneButton;
     private speechProcessor : SpeechProcessor;
+    private honeyCounter : HoneyCounter;
     private wasp : Phaser.Group;
     private fairy : Phaser.Group;
     private height : number;
     private width : number;
     private lastX : number;
     private lost : boolean;
+    private lastHoneyX : number;
+    private honeyChain : number;
     private micPause : boolean;
     private gameOver : Phaser.Text;
 
@@ -56,6 +60,8 @@ class BalloonGameState extends Phaser.State {
         this.microphone = new MicrophoneButton(this.game, 20, 20, (res) => { this.onMicrophoneFinish(res);} );
         this.microphone.visible = false;
 
+        this.honeyCounter = new HoneyCounter(this.game, this.width * 4 / 5, 20);
+
         this.honey = this.game.add.group();
         this.honey.enableBody = true;
         this.honey.physicsBodyType = Phaser.Physics.ARCADE;
@@ -70,12 +76,14 @@ class BalloonGameState extends Phaser.State {
 
         this.gameOver = this.game.add.text(this.width / 3, this.height / 10, "GAME OVER\nClick to Play Again", gameOverStyle);
         this.gameOver.visible = false;
-        this.game.time.events.loop(Phaser.Timer.SECOND, this.spawnHoney, this);
+        this.game.time.events.loop(Phaser.Timer.SECOND / 2, this.spawnHoney, this);
         this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.spawnWasp, this);
         this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.spawnFairy, this);
 
         this.game.paused = false;
 
+        this.lastHoneyX = this.game.world.randomY;
+        this.honeyChain = Math.floor(Math.random() * 5);
         this.lost = false;
         this.micPause = false;
 
@@ -89,6 +97,7 @@ class BalloonGameState extends Phaser.State {
         this.word.visible = false;
         this.game.paused = false;
         this.microphone.visible = false;
+        this.honeyCounter.addHoney(20);    
         this.unpause();
     }
 
@@ -98,6 +107,7 @@ class BalloonGameState extends Phaser.State {
 
     private honeyCollision(bee : Phaser.Sprite, honey : Phaser.Sprite) {
         honey.kill();
+        this.honeyCounter.addHoney(1);
     }
 
     private waspCollision(bee : Phaser.Sprite, wasp : Phaser.Sprite) {
@@ -134,9 +144,23 @@ class BalloonGameState extends Phaser.State {
 
     private spawnHoney() {
         if(!this.micPause) {
-            var h = this.honey.create(this.width, this.game.world.randomY, 'honey');
-            h.setOutOfBoundsKill = true;
-            h.body.velocity.x = this.width / -5;
+            if (this.honeyChain < 5) { 
+                var r = Math.floor(Math.random() * 3);
+                if (r == 0) {
+                    this.lastHoneyX = this.lastHoneyX + 75;
+                } else if (r == 1) {
+                    this.lastHoneyX = this.lastHoneyX - 75;
+                }
+                var h = this.honey.create(this.width, this.lastHoneyX, 'honey');
+                h.setOutOfBoundsKill = true;
+                h.body.velocity.x = this.width / -5;
+                this.honeyChain = this.honeyChain + 1;
+            } else {
+                if (Math.floor(Math.random() * 2) == 0) {
+                    this.honeyChain = Math.floor(Math.random() * 5);
+                    this.lastHoneyX = this.game.world.randomY;
+                }
+            }
         }
     }
 
@@ -202,6 +226,7 @@ class BalloonGameState extends Phaser.State {
         } else {
             this.bee.body.velocity.y = 0;
         }
+        
         this.game.physics.arcade.collide(this.bee, this.honey, this.honeyCollision, null, this);
         this.game.physics.arcade.collide(this.bee, this.wasp, this.waspCollision, null, this);
         this.game.physics.arcade.collide(this.bee, this.fairy, this.fairyCollision, null, this);
