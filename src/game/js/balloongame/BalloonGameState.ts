@@ -8,10 +8,9 @@ import SpeechProcessor = require('../speechprocessing/SpeechProcessor');
  * The main balloon game state
  */
 class BalloonGameState extends Phaser.State {
-    private background : Phaser.Sprite;
+    private background : Phaser.TileSprite;
     private bee : Phaser.Sprite;
     private balloon : Phaser.Sprite;
-    private flower : Phaser.Sprite;
     private honey : Phaser.Group;
     private tada : Phaser.Sound;
     private tryagain : Phaser.Sound;
@@ -53,8 +52,7 @@ class BalloonGameState extends Phaser.State {
         this.lastX = this.width / 5;
 
 
-        this.background = this.game.add.sprite(0, 0, 'balloonsBackground');
-        this.flower = this.game.add.sprite(this.width * 4 / 5, this. height / 2, 'flower');
+        this.background = this.game.add.tileSprite(0, 0, this.width, this.height, 'balloonsBackground');
         this.bee = this.game.add.sprite(this.width / 5, this.height / 2, 'beeBig');
         this.bee.scale.x = 0.7;
         this.bee.scale.y = 0.7;
@@ -143,19 +141,21 @@ class BalloonGameState extends Phaser.State {
         if(!this.micPause) {
             if(this.spawnWasp) { 
                 var w = this.wasp.create(this.width, this.game.world.randomY, 'wasp');
-                w.setOutOfBoundsKill = true;
+                w.outOfBoundsKill = true;
+                w.checkWorldBounds = true;
                 w.scale.x = 0.7;
                 w.scale.y = 0.7;
                 var anim = w.animations.add('fly');
                 anim.play(10, true);
-                w.body.velocity.x = this.width / -5;
+                w.body.velocity.x = this.width / (Math.floor(Math.random() * 3) + -5);
                 this.spawnWasp = false;
             } else {
                 var f = this.fairy.create(this.width, this.game.world.randomY, 'fairy');
-                f.setOutOfBoundsKill = true;
+                f.outOfBoundsKill = true;
+                f.checkWorldBounds = true; 
                 var anim = f.animations.add('fly');
                 anim.play(10, true);
-                f.body.velocity.x   = this.width / -5;
+                f.body.velocity.x   = this.width / (Math.floor(Math.random() * 3) + -5);
                 this.spawnWasp = true;
             }
         }
@@ -170,8 +170,10 @@ class BalloonGameState extends Phaser.State {
                 } else if (r == 1) {
                     this.lastHoneyX = this.lastHoneyX - 75;
                 }
+
                 var h = this.honey.create(this.width, this.lastHoneyX, 'honey');
-                h.setOutOfBoundsKill = true;
+                h.outOfBoundsKill = true;
+                h.checkWorldBounds = true;
                 h.body.velocity.x = this.width / -5;
                 this.honeyChain = this.honeyChain + 1;
             } else {
@@ -229,18 +231,20 @@ class BalloonGameState extends Phaser.State {
     }
 
     public update() {
-        var txt =
-        this.fps.setText("GAME OBJ: " + this.game.time.fps);
+        if(!this.micPause) {
+            this.background.tilePosition.x -= 1;
+        }
+        this.fps.setText("GAME OBJ: " + (this.honey.countLiving() + this.wasp.countLiving() + this.fairy.countLiving()));
         if (this.game.input.mousePointer.isDown && !this.micPause) {
-            if (this.game.input.mousePointer.y > this.bee.body.bottom) {
+            if (this.game.input.mousePointer.y > this.bee.body.y - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / 3;
             }
 
-            if (this.game.input.mousePointer.y < this.bee.body.y) {
+            if (this.game.input.mousePointer.y < this.bee.body.y + this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / -3;
             }
 
-            if (this.game.input.mousePointer.y > this.bee.body.y && this.game.input.mousePointer.y < this.bee.body.bottom) {
+            if (this.game.input.mousePointer.y > this.bee.body.y + this.bee.body.height / 4 && this.game.input.mousePointer.y < this.bee.body.bottom - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = 0;
             }
         } else {
