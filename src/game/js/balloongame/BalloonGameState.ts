@@ -170,6 +170,7 @@ class BalloonGameState extends Phaser.State {
                 } else if (r == 1) {
                     this.lastHoneyX = this.lastHoneyX - 75;
                 }
+
                 var h = this.honey.create(this.width, this.lastHoneyX, 'honey');
                 h.setOutOfBoundsKill = true;
                 h.body.velocity.x = this.width / -5;
@@ -232,15 +233,15 @@ class BalloonGameState extends Phaser.State {
         var txt = 
         this.fps.setText("GAME OBJ: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
-            if (this.game.input.mousePointer.y > this.bee.body.bottom) {
+            if (this.game.input.mousePointer.y > this.bee.body.y - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / 3;
             }
 
-            if (this.game.input.mousePointer.y < this.bee.body.y) {
+            if (this.game.input.mousePointer.y < this.bee.body.y + this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / -3;
             }
 
-            if (this.game.input.mousePointer.y > this.bee.body.y && this.game.input.mousePointer.y < this.bee.body.bottom) {
+            if (this.game.input.mousePointer.y > this.bee.body.y + this.bee.body.height / 4 && this.game.input.mousePointer.y < this.bee.body.bottom - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = 0;
             }
         } else {
