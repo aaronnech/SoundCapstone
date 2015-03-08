@@ -239,7 +239,7 @@ class BalloonGameState extends Phaser.State {
                 this.bee.body.velocity.y = this.height / -3;
             }
 
-            if (this.game.input.mousePointer.y > this.bee.body.bottom + 5 && this.game.input.mousePointer.y < this.bee.body.y - 5) {
+            if (this.game.input.mousePointer.y > this.bee.body.y && this.game.input.mousePointer.y < this.bee.body.bottom) {
                 this.bee.body.velocity.y = 0;
             }
         } else {
