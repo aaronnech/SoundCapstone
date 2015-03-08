@@ -46,7 +46,8 @@ class BalloonGameState extends Phaser.State {
         this.tada = this.game.add.audio('tada');
         this.tryagain = this.game.add.audio('try-again');
         this.honeyPickup = this.game.add.audio('honey-pickup');
-
+        Phaser.Physics.Arcade.TILE_BIAS = 40;
+        
         this.height = this.world.height;
         this.width = this.world.width;
         this.lastX = this.width / 5;
@@ -238,7 +239,7 @@ class BalloonGameState extends Phaser.State {
                 this.bee.body.velocity.y = this.height / -3;
             }
 
-            if (this.game.input.mousePointer.y > this.bee.body.bottom && this.game.input.mousePointer.y < this.bee.body.top) {
+            if (this.game.input.mousePointer.y > this.bee.body.bottom + 5 && this.game.input.mousePointer.y < this.bee.body.top) {
                 this.bee.body.velocity.y = 0;
             }
         } else {
