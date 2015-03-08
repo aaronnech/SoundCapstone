@@ -176,7 +176,7 @@ $(function () {
             }
 
             // Refresh the page
-            setTimeout(refreshChildren, 1000);
+            setTimeout(refreshChildren, 500);
         });
     };
 
