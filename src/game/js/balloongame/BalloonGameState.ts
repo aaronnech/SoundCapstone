@@ -42,8 +42,8 @@ class BalloonGameState extends Phaser.State {
 
     public create() {
         var firstWord = this.speechProcessor.getNextWord();
-        var wordStyle = { font: "45px Cambria", fill: "#333333", align: "center" };
-        var gameOverStyle = { font: "80px Cambria", fill: "#000000", align: "center" };
+        var wordStyle = { font: "45px BebasNeue", fill: "#333333", align: "center" };
+        var gameOverStyle = { font: "80px BebasNeue", fill: "#000000", align: "center" };
         this.tada = this.game.add.audio('tada');
         this.tryagain = this.game.add.audio('try-again');
         this.honeyPickup = this.game.add.audio('honey-pickup');
