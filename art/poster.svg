@@ -43,9 +43,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.25"
-     inkscape:cx="2167.3188"
-     inkscape:cy="1595.8303"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="1438.1518"
+     inkscape:cy="1159.4291"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -65,7 +65,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -365,7 +365,7 @@
          sodipodi:role="line"
          x="1194.2935"
          y="-645.15674"
-         id="tspan14454-7">We propose a childrens game to practice speech</tspan><tspan
+         id="tspan14454-7">We propose a children's game to practice speech</tspan><tspan
          sodipodi:role="line"
          x="1194.2935"
          y="-584.76605"
@@ -924,12 +924,12 @@
            id="tspan19056"
            y="429.85324"
            x="123.07816"
-           sodipodi:role="line">Leading many parents to seek additional</tspan><tspan
+           sodipodi:role="line">leading many parents to seek additional</tspan><tspan
            id="tspan19058"
            y="490.2439"
            x="123.07816"
            sodipodi:role="line">therapy in the home setting<tspan
-   style="font-size:65%;baseline-shift:super"
+   style="font-size:65.00091553%;baseline-shift:super"
    id="tspan20157">[2]</tspan>.</tspan><tspan
            id="tspan14458-9-5-1"
            y="550.63458"
