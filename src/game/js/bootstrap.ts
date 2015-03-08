@@ -3,12 +3,12 @@
 // This is that file.
 
 ///<reference path="./def/phaser.d.ts" />
-
 import App = require('./App');
 
 declare var cordova : any;
 declare var PhoneGap : any;
 declare var phonegap : any;
+declare var $ : any;
 
 /**
  * Determine whether the file loaded from PhoneGap or not
@@ -28,5 +28,5 @@ function ready() {
 if (isPhoneGap()) {
     document.addEventListener("deviceready", ready, false);
 } else {
-    ready();
+    (<any> $)(document).ready(ready);
 }
