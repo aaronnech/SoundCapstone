@@ -33,8 +33,8 @@ class MainMenuState extends Phaser.State {
 
         this.combContainer = this.game.add.sprite(this.world.centerX - 230, 370, 'combContainer');
 
-        this.selectUp = this.add.button(this.world.centerX - 200, 300, 'upButton', this.onClickSelectUp, this);
-        this.selectDown = this.add.button(this.world.centerX - 200, 480, 'downButton', this.onClickSelectDown, this);
+        this.selectUp = this.add.button(this.world.centerX - 300, 390, 'upButton', this.onClickSelectUp, this);
+        this.selectDown = this.add.button(this.world.centerX - 100, 390, 'downButton', this.onClickSelectDown, this);
         this.play = this.add.button(
                             this.world.centerX + 50, 370,
                             'playButton', () => { this.onClickPlay(this.game.state); }, this);
