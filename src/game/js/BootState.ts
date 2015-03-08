@@ -45,6 +45,8 @@ class BootState extends Phaser.State {
 
         this.scale.pageAlignHorizontally = true;
 
+        this.game.time.advancedTiming = true;
+
         if (this.game.device.desktop) {
             // Desktop Settings
         } else {
