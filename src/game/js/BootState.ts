@@ -26,6 +26,7 @@ class BootState extends Phaser.State {
         this.load.image('wasp', 'img/buff-wasp.jpg');
         this.load.spritesheet('fairy', 'img/princess.png', 65, 75, 2);
         this.load.spritesheet('microphoneButton', 'img/microphone-button.png', 110, 110, 3);
+        this.load.spritesheet('wasp', 'img/buff-wasp.png', 274 / 2, 109, 2);
         this.load.audio('tada', 'sfx/ta-da.mp3');
         this.load.audio('try-again', 'sfx/try-again.mp3');
         this.load.audio('honey-pickup', 'sfx/Honey_Pickup.wav');

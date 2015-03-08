@@ -141,6 +141,10 @@ class BalloonGameState extends Phaser.State {
             if(this.spawnWasp) { 
                 var w = this.wasp.create(this.width, this.game.world.randomY, 'wasp');
                 w.setOutOfBoundsKill = true;
+                w.scale.x = 0.7;
+                w.scale.y = 0.7;
+                var anim = w.animations.add('fly');
+                anim.play(10, true);
                 w.body.velocity.x = this.width / -5;
                 this.spawnWasp = false;
             } else {
