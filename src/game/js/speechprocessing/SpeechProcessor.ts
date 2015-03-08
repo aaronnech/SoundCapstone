@@ -90,7 +90,7 @@ class SpeechProcessor {
         var lastResult = result[1][length - 1].hyp;
         if (lastResult == pair.right) {
             return 2;
-        } else if (lastResult == pair.wrong) {
+        } else if (pair.wrong.indexOf(lastResult) != -1) {
             return 0;
         } else {
             return 1;
@@ -102,6 +102,7 @@ class SpeechProcessor {
      * @returns {string} The word. Null if none available
      */
     public getNextWord() : any {
+        //TODO: Add levels here
         this.currentWord = this.wordBank.next();
         return this.currentWord;
     }

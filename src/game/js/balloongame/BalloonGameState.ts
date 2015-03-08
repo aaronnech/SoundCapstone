@@ -15,6 +15,7 @@ class BalloonGameState extends Phaser.State {
     private honey : Phaser.Group;
     private tada : Phaser.Sound;
     private tryagain : Phaser.Sound;
+    private honeyPickup : Phaser.Sound;
     private word : Phaser.Text;
     private microphone : MicrophoneButton;
     private speechProcessor : SpeechProcessor;
@@ -43,6 +44,7 @@ class BalloonGameState extends Phaser.State {
         var gameOverStyle = { font: "80px Cambria", fill: "#000000", align: "center" };
         this.tada = this.game.add.audio('tada');
         this.tryagain = this.game.add.audio('try-again');
+        this.honeyPickup = this.game.add.audio('honey-pickup');
 
         this.height = this.world.height;
         this.width = this.world.width;
@@ -115,6 +117,7 @@ class BalloonGameState extends Phaser.State {
 
     private honeyCollision(bee : Phaser.Sprite, honey : Phaser.Sprite) {
         honey.kill();
+        this.honeyPickup.play();
         this.honeyCounter.addHoney(1);
     }
 

@@ -41,6 +41,7 @@ class WordBank {
      * @returns {string} The word
      */
     public next() : string {
+        //TODO: Add levels here
         if (this.words.length == 0) return null;
 
         this.current++;
