@@ -17,6 +17,7 @@ class BalloonGameState extends Phaser.State {
     private tryagain : Phaser.Sound;
     private honeyPickup : Phaser.Sound;
     private word : Phaser.Text;
+    private fps : Phaser.Text;
     private microphone : MicrophoneButton;
     private speechProcessor : SpeechProcessor;
     private honeyCounter : HoneyCounter;
@@ -61,6 +62,7 @@ class BalloonGameState extends Phaser.State {
         this.game.physics.enable(this.bee, Phaser.Physics.ARCADE);
         this.bee.body.immovable = true;
         this.bee.body.velocity.x = 0;
+        this.fps = this.game.add.text(0, 0, "FPS: 60", wordStyle);
         this.word = this.game.add.text(this.width / 3, this.height / 10, "Now say: " + firstWord, wordStyle);
         this.word.visible = false;
         this.microphone = new MicrophoneButton(this.game, 20, 20, (res) => { this.onMicrophoneFinish(res);} );
@@ -226,6 +228,7 @@ class BalloonGameState extends Phaser.State {
     }
 
     public update() {
+        this.fps.setText("FPS: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.y) {
                 this.bee.body.velocity.y = this.height / 3;
