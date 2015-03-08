@@ -24,6 +24,8 @@ class BalloonGameState extends Phaser.State {
     private fairy : Phaser.Group;
     private height : number;
     private width : number;
+    private topBound : number;
+    private bottomBound : number;
     private lastX : number;
     private lost : boolean;
     private lastHoneyX : number;
@@ -50,6 +52,8 @@ class BalloonGameState extends Phaser.State {
         this.height = this.world.height;
         this.width = this.world.width;
         this.lastX = this.width / 5;
+        this.topBound = this.height / 10;
+        this.bottomBound = this.world.height - this.height / 5;
 
 
         this.background = this.game.add.tileSprite(0, 0, this.width, this.height, 'balloonsBackground');
@@ -140,7 +144,11 @@ class BalloonGameState extends Phaser.State {
     private spawnWaspOrFairy() {
         if(!this.micPause) {
             if(this.spawnWasp) { 
-                var w = this.wasp.create(this.width, this.game.world.randomY, 'wasp');
+                var rand = this.game.world.randomY;
+                while(rand > this.bottomBound || rand < this.topBound) {
+                    rand = this.game.world.randomY;
+                }
+                var w = this.wasp.create(this.width, rand, 'wasp');
                 w.outOfBoundsKill = true;
                 w.checkWorldBounds = true;
                 w.scale.x = 0.7;
@@ -150,7 +158,11 @@ class BalloonGameState extends Phaser.State {
                 w.body.velocity.x = this.width / (Math.floor(Math.random() * 3) + -5);
                 this.spawnWasp = false;
             } else {
-                var f = this.fairy.create(this.width, this.game.world.randomY, 'fairy');
+                var rand = this.game.world.randomY;
+                while(rand > this.bottomBound || rand < this.topBound) {
+                    rand = this.game.world.randomY;
+                }
+                var f = this.fairy.create(this.width, rand, 'fairy');
                 f.outOfBoundsKill = true;
                 f.checkWorldBounds = true; 
                 var anim = f.animations.add('fly');
@@ -180,6 +192,9 @@ class BalloonGameState extends Phaser.State {
                 if (Math.floor(Math.random() * 2) == 0) {
                     this.honeyChain = Math.floor(Math.random() * 3);
                     this.lastHoneyX = this.game.world.randomY;
+                    while(this.lastHoneyX > this.bottomBound || this.lastHoneyX < this.topBound) {
+                        this.lastHoneyX = this.game.world.randomY;
+                    }
                 }
             }
         }
