@@ -72,10 +72,10 @@ class Server {
      */
     public sendRecording(rawData : any, word : string, correctness : number) : void {
         if (!this.canSend()) return;
-
+        var data = JSON.stringify(rawData);
         (<any> $).post(Server.URL + 'recording/add', {
             token : this.key,
-            raw : rawData,
+            raw : data,
             word : word,
             correctness : correctness
         }, function(data) {

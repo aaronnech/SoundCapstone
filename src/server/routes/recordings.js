@@ -150,7 +150,7 @@ exports.add = function(req, res) {
             // Create a wav file from the incoming data
             // and then pack it into a binary buffer in the
             // database
-            var wavFile = getWav(req.body.raw);
+            var wavFile = getWav(JSON.parse(req.body.raw));
             var buffer = toBuffer(wavFile.buffer);
             var recording = new Recording({
                 'raw' : buffer,
