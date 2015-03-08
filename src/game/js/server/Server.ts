@@ -71,11 +71,30 @@ class Server {
      * @param {string} word The word they are saying
      */
     public sendRecording(rawData : any, word : string, correctness : number) : void {
+        console.log(rawData);
         if (!this.canSend()) return;
-        var data = JSON.stringify(rawData);
+        if (rawData.length > 18 || rawData.length == 0) return;
+
+        var dataStr = "[";
+        for (var i : number = 0; i < rawData.length; i++) {
+            dataStr += "[";
+            for (var k : number = 0; k < 2; k++) {
+                dataStr += "[";
+                dataStr += rawData[i][k][0];
+                for (var j : number = 1; j < rawData[i][k].length; j++) {
+                    dataStr += "," + rawData[i][k][j];
+                }
+                dataStr += "]";
+                dataStr += ",";
+            }
+            dataStr = dataStr.substr(0, dataStr.length - 1) + "]";
+            dataStr += ",";
+        }
+        dataStr = dataStr.substr(0, dataStr.length - 1) + "]";
+
         (<any> $).post(Server.URL + 'recording/add', {
             token : this.key,
-            raw : data,
+            raw : dataStr,
             word : word,
             correctness : correctness
         }, function(data) {

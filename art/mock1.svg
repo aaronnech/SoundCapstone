@@ -7827,9 +7827,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.2776172"
-     inkscape:cx="-604.60066"
-     inkscape:cy="1124.4532"
+     inkscape:zoom="0.28470215"
+     inkscape:cx="-3619.4938"
+     inkscape:cy="744.26096"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -7852,7 +7852,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -15304,5 +15304,19 @@
          style="fill:#ffeeaa;fill-opacity:1;stroke:none"
          sodipodi:type="star" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:118.08999634000002743px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:#c2ab70;font-family:FORQUE;-inkscape-font-specification:FORQUE;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="-2027.4073"
+       y="466.79224"
+       id="text4713-1-8-8"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/aaron/Dropbox/School/CLASSES/2014-2015/WINTER/CSE481/SoundCapstone/src/img/play-button.png"
+       inkscape:export-xdpi="87.41391"
+       inkscape:export-ydpi="87.41391"><tspan
+         sodipodi:role="line"
+         id="tspan4715-6-5-11"
+         x="-2027.4073"
+         y="466.79224">store</tspan></text>
   </g>
 </svg>

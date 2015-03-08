@@ -1,6 +1,9 @@
 var Child = require('../model/Child');
 var Recording = require('../model/Recording');
 
+var BUFFER_SIZE = 4096;
+
+
 // Middleware that checks for the existence of a childId
 // In the request.
 exports.hasChildId = function(req, res, next) {
@@ -52,20 +55,16 @@ var mergeBuffers = function(channelBuffer, recordingLength){
 // Gets an ArrayBuffer representation of a wav file made up from the raw microphone data
 // given
 var getWav = function(rawBufs) {
-    var recordingLength = 4096 * rawBufs.length;
+    var recordingLength = BUFFER_SIZE * rawBufs.length;
     console.log(rawBufs.length);
     console.log(recordingLength);
 
     var leftChannel = rawBufs.map(function(LR) {
-        return LR[0].map(function(str) {
-            return Number(str);
-        });
+        return LR[0];
     });
 
     var rightChannel = rawBufs.map(function(LR) {
-        return LR[1].map(function(str) {
-            return Number(str);
-        });
+        return LR[1];
     });
 
     console.log("CHANNEL LENGTH: " + leftChannel.length);
@@ -124,6 +123,12 @@ var toBuffer = function(ab) {
     return buffer;
 };
 
+
+// Parses the data string passed by the client
+var parseDataString = function(str) {
+    return eval(str);
+};
+
 // Gets a specific recording
 exports.getRecording = function(req, res) {
     Recording.findById(req.query.id, function(err, recording) {
@@ -150,8 +155,8 @@ exports.add = function(req, res) {
             // Create a wav file from the incoming data
             // and then pack it into a binary buffer in the
             // database
-            console.log(req.body.raw);
-            var wavFile = getWav(JSON.parse(req.body.raw));
+            var data = parseDataString(req.body.raw);
+            var wavFile = getWav(data);
             var buffer = toBuffer(wavFile.buffer);
             var recording = new Recording({
                 'raw' : buffer,
