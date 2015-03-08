@@ -8,7 +8,7 @@ import SpeechProcessor = require('../speechprocessing/SpeechProcessor');
  * The main balloon game state
  */
 class BalloonGameState extends Phaser.State {
-    private background : Phaser.Sprite;
+    private background : Phaser.TileSprite;
     private bee : Phaser.Sprite;
     private balloon : Phaser.Sprite;
     private honey : Phaser.Group;
@@ -52,7 +52,7 @@ class BalloonGameState extends Phaser.State {
         this.lastX = this.width / 5;
 
 
-        this.background = this.game.add.sprite(0, 0, 'balloonsBackground');
+        this.background = this.game.add.tileSprite(0, 0, this.width, this.height, 'balloonsBackground');
         this.bee = this.game.add.sprite(this.width / 5, this.height / 2, 'beeBig');
         this.bee.scale.x = 0.7;
         this.bee.scale.y = 0.7;
@@ -228,7 +228,7 @@ class BalloonGameState extends Phaser.State {
     }
 
     public update() {
-        var txt = 
+        this.background.tilePosition.x -= 1;
         this.fps.setText("GAME OBJ: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.y - this.bee.body.height / 4) {
