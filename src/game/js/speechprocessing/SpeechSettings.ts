@@ -85,6 +85,7 @@ class SpeechSettings {
 
     /**
      * Gets the current bank of words
+     * @param level the word bank level
      * @returns {string[]} The bank of words
      */
     public getWordBank() {

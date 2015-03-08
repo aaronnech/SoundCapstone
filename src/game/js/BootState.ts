@@ -28,6 +28,7 @@ class BootState extends Phaser.State {
         this.load.spritesheet('microphoneButton', 'img/microphone-button.png', 110, 110, 3);
         this.load.audio('tada', 'sfx/ta-da.mp3');
         this.load.audio('try-again', 'sfx/try-again.mp3');
+        this.load.audio('honey-pickup', 'sfx/Honey_Pickup.wav');
     }
 
     public create() {
