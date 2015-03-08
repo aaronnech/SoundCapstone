@@ -11,7 +11,6 @@ class BalloonGameState extends Phaser.State {
     private background : Phaser.Sprite;
     private bee : Phaser.Sprite;
     private balloon : Phaser.Sprite;
-    private flower : Phaser.Sprite;
     private honey : Phaser.Group;
     private tada : Phaser.Sound;
     private tryagain : Phaser.Sound;
@@ -54,7 +53,6 @@ class BalloonGameState extends Phaser.State {
 
 
         this.background = this.game.add.sprite(0, 0, 'balloonsBackground');
-        this.flower = this.game.add.sprite(this.width * 4 / 5, this. height / 2, 'flower');
         this.bee = this.game.add.sprite(this.width / 5, this.height / 2, 'beeBig');
         this.bee.scale.x = 0.7;
         this.bee.scale.y = 0.7;
