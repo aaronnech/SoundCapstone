@@ -229,7 +229,7 @@ class BalloonGameState extends Phaser.State {
     }
 
     public update() {
-        var txt = 
+        var txt =
         this.fps.setText("GAME OBJ: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.bottom) {
