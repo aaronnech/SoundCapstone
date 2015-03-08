@@ -67,7 +67,9 @@ class SpeechProcessor {
             // Send recording to server
             var server = Server.getInstance();
             var pair = this.wordBank.getCurrentPair();
+            console.log("Before server request");
             server.sendRecording(result[0], pair.right, this.getCorrectness(result));
+            console.log("After server request");
 
             // Continue the callback chain
             callback(result);
