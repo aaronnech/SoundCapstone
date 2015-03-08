@@ -234,7 +234,7 @@ class BalloonGameState extends Phaser.State {
         if(!this.micPause) {
             this.background.tilePosition.x -= 1;
         }
-        this.fps.setText("GAME OBJ: " + (this.honey.countLiving() + this.wasp.countLiving() + this.fairy.countLiving()));
+        this.fps.setText("FPS: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.y - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / 3;
