@@ -47,33 +47,38 @@ There has also been work designing an elaborate collaboration between students a
 
 In addition to the work previously listed, there has also been a lot of development for speech therapy applications on Apple's iTunes Store and Android's Google Play Store \cite{Mobile:Apps}. A quick search for speech therapy mobile applications will reveal many results. However, most of these applications fail to incorporate a therapist into the learning model, which we believe is essential for helping the child overcome his or her disorder.
 
-\section{Design}
+\section{Application Design}
 
 We will now introduce our implementation and solution to the problem posed for children's speech therapy. Before we started designing {\em Kimbee}, we met with speech pathologist Richard Kreider to discuss what features would be needed for a system like this to work \cite{Kreider:Intro}. Mr. Kreider has over 25 years of experience working with children to overcome their speech disorders. Mr. Kreider talked about how this application would need to have a way for children to practice at home as additional work as well as a way for him to track the progress of his students over time. As these were the two most important features Mr. Kreider discussed, we designed Kimbee around them as core features.
 
 \begin{figure*}[t]
   \centering
   \includegraphics[keepaspectratio, width=\textwidth]{user_figure.png}
-  \vspace{-26 pt}
-  \caption{\normalfont Left: The flow diagram showing how therapists and children exchange data. Right: The game interface.}
+  \vspace{-22 pt}
+  \caption{\normalfont Left: The game, {\em Kimbee}, where children play the role of a bee trying to collect honey as a resource. Right: The flow diagram showing how therapists and children exchange data through the game and the portal.}
   \label{fig:user}
 \end{figure*}
 
 \subsection{User Flow}
 
-We will first describe the flow a typical user would take when using this application. The flow is split into two parts, one to describe the game the child or user would play and another to describe what the therapist would see after the child has played the game.
+The flow is split into two parts, one to describe the game the child or user would play and another to describe what the therapist would see after the child has played the game. This will follow the example that the therapist has assigned {\em Kimbee} as homework for the child to do at home outside of the session. When the game is launched for the first time, a unique identification string is generated as a token for the child. This token should then be sent to the therapist allowing them to track the progress of the student. It is suggested that this first launch and setup take place in an in-person session with the therapist to alleviate any technical problems that may arise.
 
-\subsubsection{Game (Kimbee)}
+\subsubsection{Gameplay}
 
-[User Flow Game Here]
+The game has a simple interface that is easy for a child to navigate, see Figure \ref{fig:user}. Children simply tap the screen to make their character, a bee, move along the y-axis of the screen. Collecting honey causes their score to increase and colliding with an enemy bee causes the game to end. Interleaved with the enemy bees and honey pots is a special honey pot that will grant a significant amount of honey if a challenge is completed. This challenge consists of having the child speak into the microphone of his or her device and say a designated word or phrase that appears on the screen. The difficulty of the text increases over time to simulate the treatment that the child would receive during a therapist session \cite{Rosenbek:Treatment}. If the system succeeds in verifying that the child spoke the text correctly, then the currency is added to the child's score. If the child fails to correctly pronounce the phrase or if the system fails to recognize the audio, then the child is asked to try again in order to continue. To avoid discouraging the child, {\em Kimbee} will say a positive statement asking him or her to try again to continue playing the game \cite{Kreider:Intro}.
 
-\subsubsection{Therapist Portal}
+After every challenge, the audio spoken by the child is encoded and sent to the central data server, see Figure \ref{fig:user} for a diagram of this. These data can be examined and reviewed in the therapist portal.
+
+\subsubsection{Therapist Review}
 
 [User Flow Therapist Portal Here]
+
+\subsection{Currency}
 
 \begin{figure*}[t]
   \centering
   \includegraphics[keepaspectratio, width=\textwidth]{tech_figure.png}
+  \vspace{-23 pt}
   \caption{\normalfont Left: The Therapist Portal, the user system of the therapist. Middle: The Central Server, hosts the recordings and facilitates interactions. Right: The Kimbee Game, interactive game that allows practice of speech for children. }
   \label{fig:tech}
 \end{figure*}
