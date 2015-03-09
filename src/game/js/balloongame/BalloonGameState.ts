@@ -16,7 +16,6 @@ class BalloonGameState extends Phaser.State {
     private tryagain : Phaser.Sound;
     private honeyPickup : Phaser.Sound;
     private word : Phaser.Text;
-    private fps : Phaser.Text;
     private microphone : MicrophoneButton;
     private speechProcessor : SpeechProcessor;
     private honeyCounter : HoneyCounter;
@@ -35,6 +34,7 @@ class BalloonGameState extends Phaser.State {
     private gameOver : Phaser.Text;
     private level : number;
     private numCorrect : number;
+    private first : boolean;
 
     public preload() {
         this.speechProcessor = SpeechProcessor.getInstance();
@@ -42,8 +42,8 @@ class BalloonGameState extends Phaser.State {
 
     public create() {
         var firstWord = this.speechProcessor.getNextWord();
-        var wordStyle = { font: "45px BebasNeue", fill: "#333333", align: "center" };
-        var gameOverStyle = { font: "80px BebasNeue", fill: "#000000", align: "center" };
+        var wordStyle = { font: "45px Oswald", fill: "#ffcc00", align: "center", stroke: '#af8c00', strokeThickness : 5};
+        var gameOverStyle = { font: "80px Oswald", fill: "#ffcc00", align: "center", stroke: '#af8c00', strokeThickness : 5};
         this.tada = this.game.add.audio('tada');
         this.tryagain = this.game.add.audio('try-again');
         this.honeyPickup = this.game.add.audio('honey-pickup');
@@ -55,6 +55,7 @@ class BalloonGameState extends Phaser.State {
         this.topBound = this.height / 10;
         this.bottomBound = this.world.height - this.height / 5;
 
+        this.first = true;
 
         this.background = this.game.add.tileSprite(0, 0, this.width, this.height, 'balloonsBackground');
         this.bee = this.game.add.sprite(this.width / 5, this.height / 2, 'beeBig');
@@ -65,8 +66,8 @@ class BalloonGameState extends Phaser.State {
         this.game.physics.enable(this.bee, Phaser.Physics.ARCADE);
         this.bee.body.immovable = true;
         this.bee.body.velocity.x = 0;
-        this.fps = this.game.add.text(0, 0, "FPS: 60", wordStyle);
-        this.word = this.game.add.text(this.width / 3, this.height / 10, "Now say: " + firstWord, wordStyle);
+        this.word = this.game.add.text(this.width / 2, this.height / 10, "Now say: " + firstWord, wordStyle);
+        this.word.anchor.x = 0.5;
         this.word.visible = false;
         this.microphone = new MicrophoneButton(this.game, 20, 20, (res) => { this.onMicrophoneFinish(res);} );
         this.microphone.visible = false;
@@ -87,7 +88,8 @@ class BalloonGameState extends Phaser.State {
         this.fairy.enableBody = true;
         this.fairy.physicsBodyType = Phaser.Physics.ARCADE;
 
-        this.gameOver = this.game.add.text(this.width / 3, this.height / 10, "GAME OVER\nClick to Play Again", gameOverStyle);
+        this.gameOver = this.game.add.text(this.width / 2, this.height / 10, "GAME OVER\nClick to Play Again", gameOverStyle);
+        this.gameOver.anchor.x = 0.5;
         this.gameOver.visible = false;
         this.game.time.events.loop(Phaser.Timer.SECOND / 2, this.spawnHoney, this);
         this.game.time.events.loop(Phaser.Timer.SECOND * 2.5, this.spawnWaspOrFairy, this);
@@ -131,12 +133,18 @@ class BalloonGameState extends Phaser.State {
         this.lost = true;
         this.word.visible = false;
         this.game.paused = true;
+        this.gameOver.setText("GAME OVER\nClick to Play Again");
         this.gameOver.visible = true;
     }
 
     private fairyCollision(bee : Phaser.Sprite, fairy : Phaser.Sprite) {
         fairy.kill();
         this.microphone.visible = true;
+        if (this.first) {
+            var firstWord = this.speechProcessor.getNextWord();
+            this.word.setText("Now say: " + firstWord);
+            this.first = false;
+        }
         this.word.visible = true;
         this.pause();
     }
@@ -249,7 +257,6 @@ class BalloonGameState extends Phaser.State {
         if(!this.micPause) {
             this.background.tilePosition.x -= 1;
         }
-        this.fps.setText("FPS: " + this.game.time.fps);
         if (this.game.input.mousePointer.isDown && !this.micPause) {
             if (this.game.input.mousePointer.y > this.bee.body.y - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = this.height / 3;
