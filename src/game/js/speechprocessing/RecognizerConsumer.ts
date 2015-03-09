@@ -56,6 +56,7 @@ class RecognizerConsumer {
      */
     private loadWords() : void {
         // load words
+        console.log("ADDING WORDS");
         this.worker.postMessage({'command' : 'addWords', 'data' : this.words});
     }
 
@@ -63,6 +64,7 @@ class RecognizerConsumer {
      * Loads the ith grammar to recognize
      */
     private loadGrammar(i : number) : void {
+        console.log("ADDING GRAMMAR " + i);
         this.worker.postMessage({'command' : 'addGrammar', 'data' : this.grammars[i].g});
     }
 

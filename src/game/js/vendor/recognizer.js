@@ -38,6 +38,8 @@ startup(function(event) {
 
 var mySelf = this;
 var post = function(message) {
+	console.log('back to main thread:');
+	console.log(message);
     mySelf.postMessage(message);
 };
 
@@ -85,8 +87,10 @@ function addWords(data, clbId) {
 	var words = new Module.VectorWords();
 	for (var i = 0 ; i < data.length ; i++) {
 	    var w = data[i];
+		console.log("ADDING WORD " + w[0]);
 	    if (w.length == 2) words.push_back([w[0], w[1]]);
 	}
+
 	var output = recognizer.addWords(words);
 	if (output != Module.ReturnType.SUCCESS) post({status: "error", command: "addWords", code: output});
 	else post({id: clbId});
