@@ -88,14 +88,28 @@ After every challenge, the audio spoken by the child is encoded and sent to the 
 We will now discuss the implementation details of each of the systems that make up {\em Kimbee}. This project is made up of many components. In particular we will discuss the three main systems: the Server, the Game, and the Therapist Portal. From a high level, the Game and the Therapist Portal are thinly interconnected to the Server via HyperText Transfer Protocol (HTTP).
 
 \subsection{Game ({\secit Kimbee})}
-
-The Game is the system that the children interact with to practice speech. Since this system also performs speech processing to determine speech correctness, there are many interacting components. From a high level, the major sub systems are: the Phaser Game Implementation, the Speech Processing System, and the Server Application Programming Interface (API). We target this project toward web technologies to allow wide distribution and adoption. From a design standpoint, we strived to make each system loosely connected and non-disruptive to gameplay. This required us to explore various new web technologies including Webworkers for multithreading and the UserMedia HTML5 API.
+The Game or Kimbee system, see Figure \ref{fig:tech}, is the system that the children interact with to practice speech. Since this system also performs speech processing to determine speech correctness, there are many interacting components. From a high level, the major sub systems are: the {\em Phaser Game Implementation}, the {\em Speech Processing Component}, and the {\em Server Application Programming Interface (API)}. We target this project toward web technologies to allow wide distribution and adoption. From a design standpoint, we strived to make each system loosely connected and non-disruptive to gameplay. This required us to explore various new web technologies including HTML5 Web Workers for multithreading and the UserMedia HTML5 API.
 
 \subsubsection{Platform choice}
 Since we want this project to work on as many devices as possible, we target emerging web technologies that work seamlessly across all devices with a web browser component. The web technology stack is advanced enough to handle our needs: there is a JavaScript port of the popular speech processing library CMU Sphinx, and we now have access to the user's microphone via UserMedia HTML5 API. After creating our project in the browser, we then can translate it to native applications via Apache Cordova, a web distribution technology based on embeddeding a web component inside a native application container on mobile devices.
 
 \subsubsection{Phaser Game Implementation}
-The Game component of the Kimbee system encompasses the view and control of the application: The main menu, the game play, and rendering. This is what the children interact with to practice speech. The game is implemented with the Phaser Game Framework. Which represents screens of the game into states. States are linked together in meaningful ways. For example, the Main Menu State links to the Option Menu State via a Phaser Framework Button. It also provides image animation, tweening, and collision support. To create our microphone button, we extend the Phaser Framework Button and implement connections to the speech processing component while preserving button functionality through inheritance.
+The {\em Phaser Game Implementation} of the Kimbee system encompasses the view and control of the application: The main menu, the game play, and rendering. This is what the children interact with to practice speech. The game is implemented with the Phaser Game Framework. Which represents screens of the game into states. States are linked together in meaningful ways. For example, the Main Menu State links to the Option Menu State via a Phaser Framework Button. It also provides image animation, tweening, and collision support. To create our microphone button, we extend the Phaser Framework Button and implement connections to the speech processing component while preserving button functionality through inheritance.
+
+\subsubsection{Speech Processing Component}
+The {\em Speech Processing Component} of the Kimbee system handles all audio processing and speech related requests from the {\em Phaser Game Implementation}. Requests are made through an API Singleton that is constructed on game load. These include requests such as getting the next practice word for a particular speech problem, setting which speech problem the child is working on, and harvesting microphone data. Harvesting and processing microphone levels is a multithreaded process implemented with HTML5 Web Workers. When the application is started and the API Singleton is constructed, audio stream {\em consumers} are created to process future audio streams in seperate threads. Once a microphone ``Start'' request is made from the {\em Phaser Game Implementation}, the following steps are executed:
+\begin{enumerate}
+  \item
+    Web Workers are initalized to start processing the audio stream in parallel.
+  \item
+    Each stream buffer is processed by each Web Worker in parallel as the microphone streams raw Left-Right buffers.
+  \item
+    Once a microphone ``Stop'' request is made from the {\em Phaser Game Implementation}, the consumers are queried for final results of their processing.
+\end{enumerate}
+Currently there are two {\em consumers}: an {\em AudioStorageConsumer}, and a {\em RecognizerConsumer}. The {\em AudioStorageConsumer} simply stores the raw microphone levels, while the {\em RecognizerConsumer} communicates with the {\em CMU Sphinx Component} to iterate a best guess for the correctness of the child's speech.
+
+\subsubsection{CMU Sphinx Component}
+
 
 \subsection{Therapist Portal}
 
