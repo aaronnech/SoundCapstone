@@ -47,7 +47,7 @@ There has also been work designing an elaborate collaboration between students a
 
 In addition to the work previously listed, there has also been a lot of development for speech therapy applications on Apple's iTunes Store and Android's Google Play Store \cite{Mobile:Apps}. A quick search for speech therapy mobile applications will reveal many results. However, most of these applications fail to incorporate a therapist into the learning model, which we believe is essential for helping the child overcome his or her disorder.
 
-\section{Implementation}
+\section{Design}
 
 We will now introduce our implementation and solution to the problem posed for children's speech therapy. Before we started designing {\em Kimbee}, we met with speech pathologist Richard Kreider to discuss what features would be needed for a system like this to work \cite{Kreider:Intro}. Mr. Kreider has over 25 years of experience working with children to overcome their speech disorders. Mr. Kreider talked about how this application would need to have a way for children to practice at home as additional work as well as a way for him to track the progress of his students over time. As these were the two most important features Mr. Kreider discussed, we designed Kimbee around them as core features.
 
@@ -78,15 +78,26 @@ We will first describe the flow a typical user would take when using this applic
   \label{fig:tech}
 \end{figure*}
 
-\subsection{Implementation Details}
+\section{Implementation Details}
 
 We will now discuss the implementation details of each of the systems that make up {\em Kimbee}. This project is made up of many components. In particular we will discuss the three main systems: the Server, the Game, and the Therapist Portal. From a high level, the Game and the Therapist Portal are thinly interconnected to the Server via HyperText Transfer Protocol (HTTP).
 
+\subsection{Game ({\secit Kimbee})}
+
+The Game is the system that the children interact with to practice speech. Since this system also performs speech processing to determine speech correctness, there are many interacting components. From a high level, the major sub systems are: the Phaser Game Implementation, the Speech Processing System, and the Server Application Programming Interface (API). We target this project toward web technologies to allow wide distribution and adoption. From a design standpoint, we strived to make each system loosely connected and non-disruptive to gameplay. This required us to explore various new web technologies including Webworkers for multithreading and the UserMedia HTML5 API.
+
+\subsubsection{Platform choice}
+Since we want this project to work on as many devices as possible, we target emerging web technologies that work seamlessly across all devices with a web browser component. The web technology stack is advanced enough to handle our needs: there is a JavaScript port of the popular speech processing library CMU Sphinx, and we now have access to the user's microphone via UserMedia HTML5 API. After creating our project in the browser, we then can translate it to native applications via Apache Cordova, a web distribution technology based on embeddeding a web component inside a native application container on mobile devices.
+
+\subsubsection{Phaser Game Implementation}
+The Game component of the Kimbee system encompasses the view and control of the application: The main menu, the game play, and rendering. This is what the children interact with to practice speech. The game is implemented with the Phaser Game Framework. Which represents screens of the game into states. States are linked together in meaningful ways. For example, the Main Menu State links to the Option Menu State via a Phaser Framework Button. It also provides image animation, tweening, and collision support. To create our microphone button, we extend the Phaser Framework Button and implement connections to the speech processing component while preserving button functionality through inheritance.
+
+\subsection{Therapist Portal}
+
+[High Level Overview of Therapist Portal (tech)]
+
 \subsubsection{Component 1}
 
-\subsubsection{Component 2}
-
-\subsubsection{Component 3}
 
 \section{Results}
 
