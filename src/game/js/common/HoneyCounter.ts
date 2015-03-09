@@ -14,7 +14,7 @@ class HoneyCounter extends Phaser.Sprite {
      */
     constructor(game : Phaser.Game, x : number, y : number) {
         super(game, x, y, 'honey');
-        var wordStyle = { font: "45px Cambria", fill: "#F2DE5A", align: "center" };
+        var wordStyle = { font: "45px Oswald", fill: "#ffcc00", align: "center", stroke: '#af8c00', strokeThickness : 5 };
         this.count = 0;
         this.countText = game.add.text(x + 60, y, "" + this.count, wordStyle);
         this.countText.setText("" + this.count);

@@ -254,6 +254,9 @@ class BalloonGameState extends Phaser.State {
     }
 
     public update() {
+        if(this.first) {
+            this.honeyCounter.addHoney(0);
+        }
         if(!this.micPause) {
             this.background.tilePosition.x -= 1;
         }
