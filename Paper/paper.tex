@@ -100,8 +100,8 @@ Since we want this project to work on as many devices as possible, we target eme
 \subsubsection{Phaser Game Implementation}
 The {\em Phaser Game Implementation} of the Kimbee system encompasses the view and control of the application: The main menu, the game play, and rendering. This is what the children interact with to practice speech. The game is implemented with the Phaser Game Framework. Which represents screens of the game into states. States are linked together in meaningful ways. For example, the Main Menu State links to the Option Menu State via a Phaser Framework Button. It also provides image animation, tweening, and collision support. To create our microphone button, we extend the Phaser Framework Button and implement connections to the speech processing component while preserving button functionality through inheritance.
 
-\subsubsection{Speech Processing Component}
-The {\em Speech Processing Component} of the Kimbee system handles all audio processing and speech related requests from the {\em Phaser Game Implementation}. Requests are made through an API Singleton that is constructed on game load. These include requests such as getting the next practice word for a particular speech problem, setting which speech problem the child is working on, and harvesting microphone data. Harvesting and processing microphone levels is a multithreaded process implemented with HTML5 Web Workers. When the application is started and the API Singleton is constructed, audio stream {\em consumers} are created to process future audio streams in seperate threads. Once a microphone ``Start'' request is made from the {\em Phaser Game Implementation}, the following steps are executed:
+\subsubsection{Speech Processing}
+The {\em Speech Processing} of the Kimbee system handles all audio processing and speech related requests from the {\em Phaser Game Implementation}. Requests are made through an API Singleton that is constructed on game load. These include requests such as getting the next practice word for a particular speech problem, setting which speech problem the child is working on, and harvesting microphone data. Harvesting and processing microphone levels is a multithreaded process implemented with HTML5 Web Workers. When the application is started and the API Singleton is constructed, audio stream {\em consumers} are created to process future audio streams in seperate threads. Once a microphone ``Start'' request is made from the {\em Phaser Game Implementation}, the following steps are executed:
 \begin{enumerate}
   \item
     Web Workers are initalized to start processing the audio stream in parallel.
@@ -110,9 +110,11 @@ The {\em Speech Processing Component} of the Kimbee system handles all audio pro
   \item
     Once a microphone ``Stop'' request is made from the {\em Phaser Game Implementation}, the consumers are queried for final results of their processing.
 \end{enumerate}
-Currently there are two {\em consumers}: an {\em AudioStorageConsumer}, and a {\em RecognizerConsumer}. The {\em AudioStorageConsumer} simply stores the raw microphone levels, while the {\em RecognizerConsumer} communicates with the {\em CMU Sphinx Component} to iterate a best guess for the correctness of the child's speech.
+Currently there are two {\em consumers}: an {\em AudioStorageConsumer}, and a {\em RecognizerConsumer}. The {\em AudioStorageConsumer} simply stores the raw microphone levels, while the {\em RecognizerConsumer} communicates with the {\em CMU Sphinx} to iterate a best guess for the correctness of the child's speech.
 
-\subsubsection{CMU Sphinx Component}
+\subsubsection{CMU Sphinx}
+
+CITATION FOR AARON \cite{CMU:Sphinx}.
 
 
 \subsection{Therapist Portal}
