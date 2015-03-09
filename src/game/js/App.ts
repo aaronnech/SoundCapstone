@@ -14,6 +14,9 @@ import MazeGameState = require('./mazegame/MazeGameState');
 // Balloon game states
 import BalloonGameState = require('./balloongame/BalloonGameState');
 
+// Balloon instruction state
+import BalloonInstructionState = require('./balloongame/BalloonInstructionState')
+
 /**
  * Main Application class
  */
@@ -28,6 +31,7 @@ class App extends Phaser.Game {
         this.state.add("OptionMenuState", OptionMenuState);
         this.state.add("BalloonGameState", BalloonGameState);
         this.state.add("MazeGameState", MazeGameState);
+        this.state.add("BalloonInstructionState", BalloonInstructionState);
 
         // Start application
         this.state.start("BootState");
