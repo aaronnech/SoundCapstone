@@ -80,7 +80,9 @@ After listening to all of the recordings that the child produced for homework, t
 
 \subsection{Currency}
 
-As mentioned in section \ref{sec:related}, many other applications failed to create a captivating game for children. We wanted to have an application that children would see less as homework, and more of a game. This was the underlying motivation for making {\em Kimbee} a game. In order for a game to be immersive, a sense of progression must be present \cite{Ermi:Gameplay}.
+As mentioned in section \ref{sec:related}, many other applications failed to create a captivating game for children. We wanted to have an application that children would see less as homework, and more of a game. This was the underlying motivation for making {\em Kimbee} a game. In order for a game to be immersive, a sense of progression must be present \cite{Ermi:Gameplay}. We were able to create this using the honey collected as a currency. We also added the dynamic scoring of the honey, with the collection of the pots and completion of the challenges.
+
+Many therapists currently use operant conditioning as a reward system \cite{Kreider:Intro}. For example, Mr. Kreider rewards children with small toys after they do well on a set of phrases. A reward system could be implemented where the currency is the honey from {\em Kimbee}. This would encourage students to play the game outside of the therapy sessions and motivate them to improve over time. As this was only a quarter long project, this is left as future work.
 
 \begin{figure*}[t]
   \centering
@@ -105,18 +107,19 @@ The {\em Phaser Game Implementation} of the Kimbee system encompasses the view a
 
 \subsubsection{Speech Processing}
 The {\em Speech Processing} of the Kimbee system handles all audio processing and speech related requests from the {\em Phaser Game Implementation}. Requests are made through an API Singleton that is constructed on game load. These include requests such as getting the next practice word for a particular speech problem, setting which speech problem the child is working on, and harvesting microphone data. Harvesting and processing microphone levels is a multithreaded process implemented with HTML5 Web Workers. When the application is started and the API Singleton is constructed, audio stream {\em consumers} are created to process future audio streams in seperate threads. Once a microphone ``Start'' request is made from the {\em Phaser Game Implementation}, the following steps are executed:
+\vspace{-3 pt}
 \begin{enumerate}
-  \item
-    Web Workers are initalized to start processing the audio stream in parallel.
-  \item
-    Each stream buffer is processed by each Web Worker in parallel as the microphone streams raw Left-Right buffers.
-  \item
-    Once a microphone ``Stop'' request is made from the {\em Phaser Game Implementation}, the consumers are queried for final results of their processing.
+  \item Web Workers are initalized to start processing the audio stream in parallel.
+  \vspace{-6 pt}
+  \item Each stream buffer is processed by each Web Worker in parallel as the microphone streams raw Left-Right buffers.
+  \vspace{-6 pt}
+  \item Once a microphone ``Stop'' request is made from the {\em Phaser Game Implementation}, the consumers are queried for final results of their processing.
 \end{enumerate}
+\vspace{-3 pt}
 Currently there are two {\em consumers}: an {\em AudioStorageConsumer}, and a {\em RecognizerConsumer}. The {\em AudioStorageConsumer} simply stores the raw microphone levels, while the {\em RecognizerConsumer} communicates with the {\em CMU Sphinx} to iterate a best guess for the correctness of the child's speech.
 
 \subsubsection{CMU Sphinx}
-CMU Sphinx\cite{CMU:Sphinx} is a speech processing library. There is a JavaScript port that allows audio recognition in the browser. Our {\em Speech Processing} component utilizes this JavaScript port to do audio recognition in the browser without server assistance. To deduce correct child speech we utilize this library creating target word and invalid word pairs. For example, when targeting `R' sounds, we can use CMU Sphinx to recognize the target word `Rabbit' or a invalid word `Wabbit.' With a large dictionary of words this has been effective in distinguishing replacements caused by speech disorders.
+CMU Sphinx is a speech processing library \cite{CMU:Sphinx}. There is a JavaScript port that allows audio recognition in the browser. Our {\em Speech Processing} component utilizes this JavaScript port to do audio recognition in the browser without server assistance. To deduce correct child speech we utilize this library creating target word and invalid word pairs. For example, when targeting `R' sounds, we can use CMU Sphinx to recognize the target word `Rabbit' or a invalid word `Wabbit.' With a large dictionary of words this has been effective in distinguishing replacements caused by speech disorders.
 
 \subsubsection{Server Application Programming Interface}
 The {\em Server Application Programming Interface} is what connects the Kimbee system to our central recording server. Once audio is processed by the {\em Speech Processing}, it is sent off via POST request in raw microphone form to the central server if a internet connection is present. A unique identifier is computed and stored by the Kimbee System that will uniquely identify recordings in the central server as belonging to a particular child's device. This unique identifier is accessible via the Options Screen in the {\em Phaser Game Implementation}.
@@ -128,9 +131,6 @@ The {\em Server Application Programming Interface} is what connects the Kimbee s
 \subsubsection{Playing of Audio}
 
 \subsubsection{Caching System}
-
-\subsubsection{Component 1}
-
 
 \section{Results}
 
