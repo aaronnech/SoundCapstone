@@ -27,7 +27,7 @@
 
 \begin{abstract}
 
-We have developed an application named {\em Kimbee} that aims to help the process of speech therapy in young children. Speech therapies are often expensive for schools and parents to maintain, especially with younger children who require more time than others. Our application does not replace the speech therapist, rather it supplements the therapy. Instead of being limited to short sessions, therapists can use {\em Kimbee} to have their students work at home as well as in the classroom. The therapist can then monitor the child's progress through our application and use this newly gained information to further tailor the therapy to individual students. This will save both time and money for school districts and parents who are paying for their child's therapy.
+We have developed an application named {\em Kimbee} that aims to help improve the process of speech therapy in young children. Speech therapies are often expensive for schools and parents to maintain, especially with younger children who require more time than others. Our application does not replace the speech therapist, rather it supplements the therapy. Instead of being limited to short sessions, therapists can use {\em Kimbee} to have their students work at home as well as in the classroom. The therapist can then monitor the child's progress through our application and use this newly gained information to further tailor the therapy to individual students. This will save both time and money for school districts and parents who are paying for their child's therapy.
 
 \end{abstract}
 
@@ -63,15 +63,19 @@ We will now introduce our implementation and solution to the problem posed for c
 
 The flow is split into two parts, one to describe the game the child or user would play and another to describe what the therapist would see after the child has played the game. This will follow the example that the therapist has assigned {\em Kimbee} as homework for the child to do at home outside of the session. When the game is launched for the first time, a unique identification string is generated as a token for the child. This token should then be sent to the therapist allowing them to track the progress of the student. It is suggested that this first launch and setup take place in an in-person session with the therapist to alleviate any technical problems that may arise.
 
-\subsubsection{Gameplay}
+\subsubsection{Gameplay\label{sec:gameplay_flow}}
 
-The game has a simple interface that is easy for a child to navigate, see Figure \ref{fig:user}. Children simply tap the screen to make their character, a bee, move along the y-axis of the screen. Collecting honey causes their score to increase and colliding with an enemy bee causes the game to end. Interleaved with the enemy bees and honey pots is a special honey pot that will grant a significant amount of honey if a challenge is completed. This challenge consists of having the child speak into the microphone of his or her device and say a designated word or phrase that appears on the screen. The difficulty of the text increases over time to simulate the treatment that the child would receive during a therapist session \cite{Rosenbek:Treatment}. If the system succeeds in verifying that the child spoke the text correctly, then the currency is added to the child's score. If the child fails to correctly pronounce the phrase or if the system fails to recognize the audio, then the child is asked to try again in order to continue. To avoid discouraging the child, {\em Kimbee} will say a positive statement asking him or her to try again to continue playing the game \cite{Kreider:Intro}.
+The game has a simple interface that is easy for a child to navigate, see Figure \ref{fig:user}. Children simply tap the screen to make their character, a bee, move along the y-axis of the screen. Collecting honey causes their score to increase and colliding with an enemy bee causes the game to end. Interleaved with the enemy bees and honey pots is a special honey pot that will grant a significant amount of honey if a challenge is completed. This challenge consists of having the child speak into the microphone of his or her device and say a designated word or phrase that appears on the screen.
+
+The difficulty of the text increases over time to simulate the treatment that the child would receive during a therapist session \cite{Rosenbek:Treatment}. If the system succeeds in verifying that the child spoke the text correctly, then the currency is added to the child's score. If the child fails to correctly pronounce the phrase or if the system fails to recognize the audio, then the child is asked to try again in order to continue. To avoid discouraging the child, {\em Kimbee} will say a positive statement asking him or her to try again to continue playing the game.
 
 After every challenge, the audio spoken by the child is encoded and sent to the central data server, see Figure \ref{fig:user} for a diagram of this. These data can be examined and reviewed in the therapist portal.
 
 \subsubsection{Therapist Review}
 
-[User Flow Therapist Portal Here]
+The therapist is responsible for tailoring lesson plans for each session with his or her students. Currently, this involves taking detailed notes during every session to document and track the progress of each student over time \cite{Kreider:Intro}. The goal of the Therapist Portal is to improve and simplify this process to increase the quality of treatment given to the student. As described in section \ref{sec:gameplay_flow}, every recording that each child produces will be sent to the central server. These recordings are then sent to Therapist Portal and listed for every student under the therapist. Additional data is sent down with each recording to help the therapist focus on words that the student had trouble speaking. For example, whether the child said the word or phrase correctly is included with the recording allowing the therapist to filter the recordings.
+
+After listening to all of the recordings that the child produced for homework, the therapist will have a good idea for where the student currently is in terms of progress.
 
 \subsection{Currency}
 
