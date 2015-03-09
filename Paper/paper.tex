@@ -113,13 +113,19 @@ The {\em Speech Processing} of the Kimbee system handles all audio processing an
 Currently there are two {\em consumers}: an {\em AudioStorageConsumer}, and a {\em RecognizerConsumer}. The {\em AudioStorageConsumer} simply stores the raw microphone levels, while the {\em RecognizerConsumer} communicates with the {\em CMU Sphinx} to iterate a best guess for the correctness of the child's speech.
 
 \subsubsection{CMU Sphinx}
+CMU Sphinx\cite{CMU:Sphinx} is a speech processing library. There is a JavaScript port that allows audio recognition in the browser. Our {\em Speech Processing} component utilizes this JavaScript port to do audio recognition in the browser without server assistance. To deduce correct child speech we utilize this library creating target word and invalid word pairs. For example, when targeting `R' sounds, we can use CMU Sphinx to recognize the target word `Rabbit' or a invalid word `Wabbit.' With a large dictionary of words this has been effective in distinguishing replacements caused by speech disorders.
 
-CITATION FOR AARON \cite{CMU:Sphinx}.
+\subsubsection{Server Application Programming Interface}
+The {\em Server Application Programming Interface} is what connects the Kimbee system to our central recording server. Once audio is processed by the {\em Speech Processing}, it is sent off via POST request in raw microphone form to the central server if a internet connection is present. A unique identifier is computed and stored by the Kimbee System that will uniquely identify recordings in the central server as belonging to a particular child's device. This unique identifier is accessible via the Options Screen in the {\em Phaser Game Implementation}.
 
 
 \subsection{Therapist Portal}
 
-[High Level Overview of Therapist Portal (tech)]
+\subsubsection{Connection to Child Audio}
+
+\subsubsection{Playing of Audio}
+
+\subsubsection{Caching System}
 
 \subsubsection{Component 1}
 
