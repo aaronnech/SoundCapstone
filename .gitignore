@@ -19,7 +19,8 @@
 !src/server/model/*.js
 !src/server/*.js
 !src/therapist/js/*.js
-
+_cordova
+_cordova/*
 
 # Created by https://www.gitignore.io
 
