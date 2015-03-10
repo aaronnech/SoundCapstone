@@ -44,8 +44,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35355339"
-     inkscape:cx="1438.1518"
-     inkscape:cy="1159.4291"
+     inkscape:cx="1211.8776"
+     inkscape:cy="933.15493"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -65,7 +65,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -595,7 +595,7 @@
          sodipodi:role="line"
          x="2376.7305"
          y="-646.14355"
-         id="tspan8828-7">Overall we have recieved very positive feedback</tspan><tspan
+         id="tspan8828-7">Overall we have received very positive feedback</tspan><tspan
          sodipodi:role="line"
          x="2376.7305"
          y="-585.75287"
