@@ -5,11 +5,13 @@
   "scripts": {
     "install_cordova" : "cordova create _cordova com.nickaaronryan.kimbee KimbeeCordova",
     "install_android_cordova" : "cd _cordova && cordova platform add android && cd ..",
+    "install_apple_cordova" : "cd _cordova && cordova platform add ios && cd ..",
     "cp_cordova" : "cp -R src/game/* _cordova/www && cp -a -R src/cordova_config/* _cordova/ && mkdir -p _cordova/platforms/android/CordovaLib && cp -a -R src/crosswalk/framework/* _cordova/platforms/android/CordovaLib/",
     "run_android_cordova" : "cd _cordova && cordova build android && cd ..",
+    "run_apple_cordova" : "cd _cordova && cordova build ios && cordova run ios && cd ..", 
     "build_crosswalk" : "export ANDROID_HOME=$(dirname $(dirname $(which android))) && cd _cordova/platforms/android/CordovaLib/ && android update project --subprojects --path . --target \"android-19\" && ant debug && cd ../../../..",
     "android" : "rm -Rf _cordova && npm run-script install_cordova && npm run-script install_android_cordova && npm run-script cp_cordova && npm run-script build_crosswalk && npm run-script run_android_cordova",
-
+    "apple" : "rm -Rf _cordova && npm run-script install_cordova && npm run-script install_apple_cordova && npm run-script cp_cordova && npm run-script run_apple_cordova",
     "compile-game-ts": "cd src/game; find . -name \"*.ts\" | xargs ../../node_modules/.bin/tsc --module AMD; cd ../..",
 
     "make": "npm run-script compile-game-ts",
