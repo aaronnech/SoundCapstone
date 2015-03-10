@@ -46,7 +46,7 @@ mongoose.connection.on('open', function () {
     app.post('/api/recording/add', recordings.hasChildId, recordings.add);
     app.get('/api/recording', users.isAuthenticated, recordings.getRecording);
 
-    app.listen(1337);
+    app.listen(process.env.PORT || 1337);
 
     console.log('Listening on port 1337...');
 });
