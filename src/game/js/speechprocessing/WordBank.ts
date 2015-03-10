@@ -40,7 +40,7 @@ class WordBank {
      * available.
      * @returns {string} The word
      */
-    public next() : string {
+    public next(level : number) : string {
         //TODO: Add levels here
         if (this.words.length == 0) return null;
 
@@ -48,6 +48,11 @@ class WordBank {
         this.current %= this.words.length;
 
         var pair = this.words[this.current];
+        while(pair.level != level) {
+            this.current++;
+            this.current %= this.words.length;
+            var pair = this.words[this.current];
+        }
 
         return pair.right;
     }

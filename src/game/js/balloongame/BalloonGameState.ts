@@ -34,6 +34,7 @@ class BalloonGameState extends Phaser.State {
     private gameOver : Phaser.Text;
     private level : number;
     private numCorrect : number;
+    private numWrong : number;
     private first : boolean;
 
     public preload() {
@@ -41,7 +42,7 @@ class BalloonGameState extends Phaser.State {
     }
 
     public create() {
-        var firstWord = this.speechProcessor.getNextWord();
+        var firstWord = this.speechProcessor.getNextWord(1);
         var wordStyle = { font: "45px Oswald", fill: "#ffcc00", align: "center", stroke: '#af8c00', strokeThickness : 5};
         var gameOverStyle = { font: "80px Oswald", fill: "#ffcc00", align: "center", stroke: '#af8c00', strokeThickness : 5};
         this.tada = this.game.add.audio('tada');
@@ -85,7 +86,7 @@ class BalloonGameState extends Phaser.State {
         this.spawnWasp = true;
 
         this.fairy = this.game.add.group();
-        this.fairy.enableBody = true;
+        this.fairy.enableBody = true;       
         this.fairy.physicsBodyType = Phaser.Physics.ARCADE;
 
         this.gameOver = this.game.add.text(this.width / 2, this.height / 10, "GAME OVER\nClick to Play Again", gameOverStyle);
@@ -96,8 +97,9 @@ class BalloonGameState extends Phaser.State {
 
         this.game.paused = false;
 
-        this.level = 0;
+        this.level = 1;
         this.numCorrect = 0;
+        this.numWrong = 0;
 
         this.lastHoneyX = this.game.world.randomY;
         this.honeyChain = Math.floor(Math.random() * 3);
@@ -109,7 +111,16 @@ class BalloonGameState extends Phaser.State {
 
     private onCorrect() {
         this.tada.play();
-        var nextWord = this.speechProcessor.getNextWord();
+        this.numWrong = 0;
+        if(this.numCorrect == 3) {
+            if(this.level != 4) {
+                this.level = this.level + 1;
+            }
+            this.numCorrect = 0;
+        } else {
+            this.numCorrect = this.numCorrect + 1;
+        }
+        var nextWord = this.speechProcessor.getNextWord(this.level);
         this.word.setText("Now say: " + nextWord);
         this.word.visible = false;
         this.game.paused = false;
@@ -119,6 +130,14 @@ class BalloonGameState extends Phaser.State {
     }
 
     private onWrong() {
+        if(this.numCorrect == -3) {
+            if(this.level != 1) {
+                this.level = this.level - 1;
+            }
+            this.numCorrect = 0;
+        } else {
+            this.numCorrect = this.numCorrect - 1;
+        }
         this.tryagain.play();
     }
 
@@ -141,7 +160,7 @@ class BalloonGameState extends Phaser.State {
         fairy.kill();
         this.microphone.visible = true;
         if (this.first) {
-            var firstWord = this.speechProcessor.getNextWord();
+            var firstWord = this.speechProcessor.getNextWord(this.level);
             this.word.setText("Now say: " + firstWord);
             this.first = false;
         }

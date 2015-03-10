@@ -103,9 +103,8 @@ class SpeechProcessor {
      * Gets the next word in the bank
      * @returns {string} The word. Null if none available
      */
-    public getNextWord() : any {
-        //TODO: Add levels here
-        this.currentWord = this.wordBank.next();
+    public getNextWord(level : number) : any {
+        this.currentWord = this.wordBank.next(level);
         return this.currentWord;
     }
 
