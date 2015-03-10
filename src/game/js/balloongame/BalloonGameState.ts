@@ -130,15 +130,26 @@ class BalloonGameState extends Phaser.State {
     }
 
     private onWrong() {
-        if(this.numCorrect == -3) {
-            if(this.level != 1) {
-                this.level = this.level - 1;
-            }
-            this.numCorrect = 0;
-        } else {
+        if(this.numWrong == 2) {
+            if(this.numCorrect == -3) {
+                if(this.level != 1) {
+                    this.level = this.level - 1;
+                }
+                this.numCorrect = 0;
+            } else {
             this.numCorrect = this.numCorrect - 1;
+            }
+            this.numWrong = 0;
+            var nextWord = this.speechProcessor.getNextWord(this.level);
+            this.word.setText("Now say: " + nextWord);
+            this.word.visible = false;
+            this.game.paused = false;
+            this.microphone.visible = false; 
+            this.unpause();
+        } else {
+            this.tryagain.play();
+            this.numWrong = this.numWrong + 1;
         }
-        this.tryagain.play();
     }
 
     private honeyCollision(bee : Phaser.Sprite, honey : Phaser.Sprite) {
@@ -263,7 +274,7 @@ class BalloonGameState extends Phaser.State {
         var correctness = this.speechProcessor.getCorrectness(result);
         console.log('CORRECTNESS: ' + correctness);
 
-        if(correctness == 0) {
+        if(correctness == 0 || correctness == 1) {
             this.onWrong();
         }
 
