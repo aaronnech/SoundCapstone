@@ -6,7 +6,7 @@ declare var Hashids : any;
  * This acts as the central server API endpoint for the rest of the app
  */
 class Server {
-    private static URL : string = "/api/";
+    private static URL : string = "http://kimbee.herokuapp.com/api/";
 
     private static INSTANCE : Server = null;
 
