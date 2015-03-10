@@ -291,6 +291,18 @@ class BalloonGameState extends Phaser.State {
             if (this.game.input.mousePointer.y > this.bee.body.y + this.bee.body.height / 4 && this.game.input.mousePointer.y < this.bee.body.bottom - this.bee.body.height / 4) {
                 this.bee.body.velocity.y = 0;
             }
+        } else if (this.game.input.pointer1.isDown && !this.micPause) {
+            if (this.game.input.pointer1.y > this.bee.body.y - this.bee.body.height / 4) {
+                this.bee.body.velocity.y = this.height / 3;
+            }
+
+            if (this.game.input.pointer1.y < this.bee.body.y + this.bee.body.height / 4) {
+                this.bee.body.velocity.y = this.height / -3;
+            }
+
+            if (this.game.input.pointer1.y > this.bee.body.y + this.bee.body.height / 4 && this.game.input.pointer1.y < this.bee.body.bottom - this.bee.body.height / 4) {
+                this.bee.body.velocity.y = 0;
+            }
         } else {
             this.bee.body.velocity.y = 0;
         }
