@@ -18,7 +18,9 @@
 
     "make": "npm run-script compile-game-ts",
 
-    "serve" : "npm run-script make && cd src/server && node index.js"
+    "serve" : "npm run-script make && cd src/server && node index.js",
+
+    "start" : "npm run-script serve"
   },
   "dependencies": {
     "cordova" : "latest",
